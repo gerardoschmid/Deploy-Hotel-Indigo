@@ -1,0 +1,315 @@
+.reservation-form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Barra de progreso */
+.progress-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ddd;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+  background: #d0a75f;
+  color: white;
+  transform: scale(1.1);
+}
+
+.step span {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+.step.active span {
+  color: #2c3e50;
+}
+
+/* Formulario */
+.form-step {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.form-step h2 {
+  color: #2c3e50;
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 28px;
+}
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section h3 {
+  color: #34495e;
+  margin-bottom: 20px;
+  font-size: 20px;
+  border-bottom: 2px solid #d0a75f;
+  padding-bottom: 10px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #d0a75f;
+  box-shadow: 0 0 0 3px rgba(208, 167, 95, 0.1);
+}
+
+.form-group input.error,
+.form-group select.error,
+.form-group textarea.error {
+  border-color: #e74c3c;
+  background-color: #fdf2f2;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+/* Resumen de reserva */
+.reservation-summary {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 4px solid #d0a75f;
+}
+
+.reservation-summary h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.summary-item .total {
+  font-weight: bold;
+  color: #d0a75f;
+  font-size: 18px;
+}
+
+/* Botones */
+.btn-primary {
+  background: #d0a75f;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #b8924f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(208, 167, 95, 0.3);
+}
+
+.btn-primary:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #d0a75f;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  padding: 5px 0;
+}
+
+.btn-link:hover {
+  color: #b8924f;
+}
+
+/* Sección OTP */
+.otp-section {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.otp-input {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.resend-section {
+  margin-top: 20px;
+  color: #666;
+}
+
+/* Pantalla de éxito */
+.form-step.success {
+  text-align: center;
+  padding: 50px 30px;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: #27ae60;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 40px;
+  color: white;
+  font-weight: bold;
+}
+
+.form-step.success h2 {
+  color: #27ae60;
+  margin-bottom: 15px;
+}
+
+.form-step.success p {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.success-actions {
+  margin-top: 30px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .reservation-form {
+    padding: 10px;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .progress-bar {
+    margin-bottom: 20px;
+  }
+  
+  .step {
+    margin: 0 15px;
+  }
+  
+  .form-step {
+    padding: 20px;
+  }
+  
+  .form-step h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .step span {
+    display: none;
+  }
+  
+  .step {
+    margin: 0 10px;
+  }
+  
+  .form-step {
+    padding: 15px;
+  }
+}

@@ -1,0 +1,93 @@
+{# website/templates/website/empleo.html #}
+
+{# Indica que esta plantilla extiende la plantilla base #}
+{% extends "website/base.html" %}
+{% load static %}
+
+{# Define el título específico de esta página #}
+{% block title %}Trabaja con Nosotros{% endblock %}
+
+{# Define el contenido principal de la página #}
+{% block content %}
+
+<section class="seccion_busqueda hero_home" 
+    style="
+        min-height: 40vh; 
+        position: relative; 
+        overflow: hidden; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        
+        /* 💥 CAMBIOS APLICADOS AQUÍ 💥 */
+        /* 1. Establecer la imagen de fondo */
+        background-image: url('{% static 'images/hotel_indigo_exterior.png' %}');
+        /* 2. Asegurar que la imagen cubra todo el banner */
+        background-size: cover;
+        /* 3. Centrar la imagen */
+        background-position: center center;
+        /* 4. No repetir la imagen */
+        background-repeat: no-repeat;
+    ">
+    
+    <div class="contenedor_busqueda" style="position: relative; z-index: 1; padding: 30px; border-radius: 8px; text-align: center;">
+        <h2 style="color: white; font-size: 2.5rem; margin-bottom: 10px;">Únete a nuestro equipo</h2>
+        <p style="color: #ffffffff; font-size: 1.2rem;">Tu talento se fusiona con la innovación en este vibrante entorno urbano.</p>
+    </div>
+</section>
+
+<div class="after_hero">
+
+    <section class="seccion_habitaciones section-to-animate seccion_empleo" aria-label="Introducción y Cultura del Hotel">
+        <div class="contenedor">
+            <div class="titulo_seccion_home">
+                <h2>Nuestra Cultura</h2>
+                <p>Buscamos profesionales apasionados por el servicio de excelencia.</p>
+            </div>
+
+            <div class="panel_habitaciones" style="display: block;">
+                <article class="habitacion_tarjeta section-to-animate" style="max-width: 800px; margin: 0 auto; padding: 30px; border-left: 5px solid #d4af37; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <div class="contenido_tarjeta">
+                        <h3>Excelencia en el Servicio</h3>
+                        <p>En nuestro hotel, la hospitalidad es un arte. Ofrecemos un ambiente de trabajo dinámico, respetuoso y centrado en el desarrollo profesional. Si tienes vocación de servicio, atención al detalle y deseas crecer en el sector hotelero, te invitamos a formar parte de una familia que valora tu esfuerzo y pasión.</p>
+                        <ul >
+                            <li>Desarrollo Profesional: Programas continuos de capacitación.</li>
+                            <li>Ambiente de Lujo: Trabaja en instalaciones de primera categoría.</li>
+                            <li>Equipo Colaborativo: Fomentamos el trabajo en equipo y el respeto mutuo.</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion_habitaciones section-to-animate seccion_empleo" aria-label="Información de Contacto para Postular">
+        <div class="contenedor">
+            <div class="titulo_seccion_home">
+                <h2>¿Cómo Postularte?</h2>
+                <p>Envíanos tu información y nos pondremos en contacto contigo.</p>
+            </div>
+
+            <div class="panel_habitaciones" style="display: block;">
+                <article class="habitacion_tarjeta section-to-animate" style="max-width: 700px; margin: 0 auto; text-align: center; background: #f9f9f9; padding: 40px;">
+                    <div class="contenido_tarjeta">
+                        <h3 style="color: #d4af37;">Envía tu CV</h3>
+                        <p>Te pedimos que envíes tu currículum vitae (CV) junto con una carta de presentación indicando la vacante a la que aspiras.</p>
+                        
+                        <div style="margin-top: 30px;">
+                            <p style="font-size: 1.1rem; margin-bottom: 5px;">Correo Electrónico para Candidatos:</p>
+                            <a href="mailto:hotelvaryna54@gmail.com" style="font-size: 1.1rem; padding: 12px 25px;">hotelvaryna54@gmail.com</a>
+                        </div>
+                        
+                        <div style="margin-top: 20px;">
+                            <p style="font-size: 0.9rem;">Puedes visitarnos en persona en nuestra recepción de Lunes a Viernes (9am - 4pm).</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+</div>
+    
+{% endblock content %}

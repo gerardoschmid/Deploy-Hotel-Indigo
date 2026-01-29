@@ -1,0 +1,175 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Servicios | Hotel Indigo{% endblock %}
+
+{% block content %}
+
+    <main>
+        <section class="hero_servicios" role="banner">
+            <div class="overlay"></div>
+            <div class="contenedor servicios_hero_inner">
+                <h1>Nuestros Servicios</h1>
+                <p class="servicios_sub">Experiencias excepcionales para tu comodidad</p>
+            </div>
+        </section>
+
+        <section class="servicio-section servicio-restaurante" data-aos="fade-up">
+            <div class="contenedor servicio-content servicio-alternado-1">
+                
+                <div class="servicio-galeria">
+                    <div class="galeria-grid">
+                        <img src="{% static 'images/bar.jpg' %}" alt="Restaurante - Ambiente" class="galeria-img">
+                        <img src="{% static 'images/restauran.jpg' %}" alt="Restaurante - Platos" class="galeria-img">
+                        <img src="{% static 'images/hoteli.png' %}" alt="Restaurante - Servicio" class="galeria-img">
+                    </div>
+                </div>
+
+                <div class="servicio-info">
+                    <h2 class="servicio-titulo">Restaurant Indigo</h2>
+                    <p class="servicio-descripcion">
+                        Disfruta de una experiencia culinaria excepcional en nuestro restaurante de clase mundial. Nuestros chefs preparan platos innovadores utilizando ingredientes frescos y de la más alta calidad.
+                    </p>
+                    <div class="servicio-detalles">
+                        <p><strong>Horario:</strong> 7:00 AM - 10:00 PM</p>
+                        <p><strong>Especialidad:</strong> Cocina internacional y local</p>
+                        <p><strong>Reserva:</strong> <a href="{% url 'reserva_restaurante' %}">Reservar Mesa</a></p>
+                    </div>
+                    {# Usamos botón principal oscuro con clase extra para estilos específicos #}
+                    <a href="{% url 'restaurante_menu' %}" class="boton_principal boton_dark btn-acento">Ver Menú</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="servicio-section servicio-spa" data-aos="fade-up">
+            <div class="contenedor servicio-content servicio-alternado-2">
+                
+                <div class="servicio-info">
+                    <h2 class="servicio-titulo">Spa y Bienestar</h2>
+                    <p class="servicio-descripcion">
+                        Un oasis de tranquilidad. Nuestro spa ofrece una amplia gama de tratamientos relajantes y terapéuticos, incluyendo masajes, faciales y acceso a nuestra zona húmeda.
+                    </p>
+                    <div class="servicio-detalles">
+                        <p><strong>Horario:</strong> 9:00 AM - 9:00 PM</p>
+                        <p><strong>Servicios:</strong> Masajes, sauna, baño turco</p>
+                        <p><strong>Reserva:</strong> <a href="{% url 'servicios' %}">Solicitar Tratamiento</a></p>
+                    </div>
+                    <a href="{% url 'servicios' %}" class="boton_principal boton_dark btn-acento">Proximamente. . .</a>
+                </div>
+
+                <div class="servicio-galeria">
+                    <div class="galeria-grid">
+                        {# Usando imágenes de placeholder #}
+                        <img src="{% static 'images/spa1.jpg'%}" alt="Spa - Masaje" class="galeria-img">
+                        <img src="{% static 'images/spa2.jpg' %}" alt="Spa - Sauna" class="galeria-img">
+                        <img src="{% static 'images/spa3.jpg' %}" alt="Spa - Piscina" class="galeria-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="servicio-section servicio-eventos" data-aos="fade-up">
+            <div class="contenedor servicio-content servicio-alternado-1">
+                <div class="servicio-galeria">
+                    <div class="galeria-grid">
+                        <img src="{% static 'images/proximamente2.png' %}" alt="Salón de Eventos" class="galeria-img">
+                        <img src="{% static 'images/proximamente2.png' %}" alt="Conferencia" class="galeria-img">
+                        <img src="{% static 'images/proximamente2.png' %}" alt="Boda" class="galeria-img">
+                    </div>
+                </div>
+
+                <div class="servicio-info">
+                    <h2 class="servicio-titulo">Salón principal para eventos</h2>
+                    <p class="servicio-descripcion">
+                        Contamos con salones versátiles y una terraza panorámica, perfectos para bodas, conferencias y reuniones corporativas. Nuestro equipo de eventos te ayudará en cada detalle.
+                    </p>
+                    <div class="servicio-detalles">
+                        <p><strong>Capacidad:</strong> Hasta 300 personas</p>
+                        <p><strong>Espacios:</strong> Gran Salón, Sala Ejecutiva, Terraza</p>
+                        <p><strong>Reserva:</strong> <a href="{% url 'reserva_eventos' %}">Cotizar Ahora</a></p>
+                    </div>
+                    <a href="{% url 'eventos' %}" class="boton_principal boton_dark btn-acento">Ver Salón</a>
+                </div>
+            </div>
+        </section>
+
+<section class="servicio-section servicio-fitness" data-aos="fade-up">
+    <div class="contenedor servicio-content servicio-alternado-2">
+        
+        <div class="servicio-info">
+            <h2 class="servicio-titulo">Gimnasio</h2>
+            <p class="servicio-descripcion">
+                Mantente en forma durante tu estancia en nuestro moderno gimnasio. Equipado con maquinaria de última generación para cardio, entrenamiento de fuerza y pesas libres.
+            </p>
+            <div class="servicio-detalles">
+                <p><strong>Horario:</strong> 6:00 AM - 10:00 PM</p>
+                <p><strong>Servicios:</strong> Máquinas de cardio, pesas libres</p>
+                
+            </div>
+            <a href="{% url 'servicios' %}" class="boton_principal boton_dark btn-acento">Proximamente. . .</a>
+        </div>
+
+        <div class="servicio-galeria">
+            <div class="galeria-grid">
+                {# Usando imágenes de placeholder para gimnasio #}
+                <img src="{% static 'images/pesas.jpeg'%}" alt="Gimnasio - Zona de Pesas" class="galeria-img">
+                <img src="{% static 'images/cardio.webp' %}" alt="Gimnasio - Máquinas de Cardio" class="galeria-img">
+                <img src="{% static 'images/clases.jpg' %}" alt="Gimnasio - Clases Grupales" class="galeria-img">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="seccion_barinas section-to-animate" aria-label="Lugares turísticos de Barinas">
+    <div class="contenedor_servicios">
+        <div class="titulo_seccion_home">
+            <h2>Descubre nuestra linda Barinas</h2>
+            <p>Conoce los tesoros naturales y culturales que rodean nuestro hotel.</p>
+        </div>
+
+        <div class="contenedor_servicios">
+            <div class="menu-carousel" data-category="barinas"> 
+                
+                <button class="carousel-btn carousel-btn-left" aria-label="Lugar anterior">‹</button>
+                
+                <div class="carousel-track"> 
+                    
+                    {# 1. PARQUE NACIONAL SIERRRA NEVADA (Páramos y Montaña) #}
+                    <div class="service_item" role="listitem">
+                        <img src="{% static 'images/sierra_nevada.jpg' %}" alt="Páramos de Barinas" />
+                        <span class="titulo_servicios">SIERRA NEVADA</span>
+                        <p class="servicios_descripcion">Aunque Barinas es llanera, una parte colinda con los Andes. Explora la majestuosidad de los páramos y disfruta de senderismo en la Cordillera de Mérida. Un escape fresco y natural a solo unas horas. Perfecto para los amantes de la aventura y la fotografía de paisajes altos.</p>
+                    </div>
+                    
+                    {# 2. RÍO SANTO DOMINGO (Deportes Acuáticos) #}
+                    <div class="service_item" role="listitem">
+                        <img src="{% static 'images/rio_santo_domingo.png' %}" alt="Río Santo Domingo" />
+                        <span class="titulo_servicios">RÍO SANTO DOMINGO</span>
+                        <p class="servicios_descripcion">El Río Santo Domingo es el río más importante del estado, ideal para hacer una pausa y conectar con la naturaleza. Siempre es buen momento para acercarse a sus orillas, refrescarse en sus aguas y disfrutar de la rica biodiversidad del llano. Y bien dice la tradición: el que se baña en el Río Santo Domingo, se queda en Barinas.</p>
+                    </div>
+    
+                    {# 3. RESERVA DE CAPARO (Fauna y Sabana) #}
+                    <div class="service_item" role="listitem">
+                        <img src="{% static 'images/reserva_caparo.png' %}" alt="Reserva Forestal de Caparo" /> 
+                        <span class="titulo_servicios">RESERVA DE CAPARO</span>
+                        <p class="servicios_descripcion">Un vasto ecosistema de sabana y bosque. Es un destino privilegiado para el ecoturismo y la observación de fauna silvestre, incluyendo venados, chigüire y diversas especies de aves tropicales. Vive la experiencia de los Llanos en su máxima expresión.</p>
+                    </div>
+                    
+                    {# 4. CENTRO HISTÓRICO DE BARINAS #}
+                    <div class="service_item" role="listitem">
+                        <img src="{% static 'images/cataratas2.png' %}" alt="Casco Histórico de Barinas" /> 
+                        <span class="titulo_servicios">CATARATAS</span>
+                        <p class="servicios_descripcion">Descubre la imponente belleza natural en las cascadas cercanas a Barinas. Un escape perfecto para el senderismo y la fotografía. Disfruta del sonido relajante del agua y de la vegetación exuberante que crea un ambiente fresco y sereno. Ideal para una excursión de un día y conectar con el lado más salvaje de los llanos andinos.</p>
+                    </div>
+    
+                </div>
+                
+                <button class="carousel-btn carousel-btn-right" aria-label="Siguiente lugar">›</button>
+
+            </div> 
+        </div>
+    </div>
+</section>
+
+        
+    </main>
+
+{% endblock content %}

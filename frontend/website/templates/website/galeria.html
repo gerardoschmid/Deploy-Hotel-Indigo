@@ -1,0 +1,61 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Galería de Fotos | Hotel Indigo{% endblock %}
+
+{% block content %}
+
+<section class="galeria">
+    <div class="contenedor">
+        <h2 class="section-title">Galería</h2>
+        <p class="section-subtitle">
+            Explora nuestras imágenes de restaurantes, áreas comunes y habitaciones.
+        </p>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="habitaciones">Habitaciones</button>
+            <button class="filter-btn" data-filter="restaurantes">Restaurante</button>
+            <button class="filter-btn" data-filter="areas-comunes">Áreas Comunes</button>
+        </div>
+
+        <div class="gallery-grid">
+
+            <!-- Habitaciones - 3 imágenes -->
+            <div class="gallery-item habitaciones">
+                <img src="{% static 'images/habitacion_king.png' %}" alt="Habitación King" />
+            </div>
+            <div class="gallery-item habitaciones">
+                <img src="{% static 'images/habitacion2.jpg' %}" alt="Habitación Queen" />
+            </div>
+            <div class="gallery-item habitaciones">
+                <img src="{% static 'images/hotel_fondo.png' %}" alt="Habitación Vista 3" />
+            </div>
+
+            <!-- Restaurante - 3 imágenes -->
+            <div class="gallery-item restaurantes">
+                <img src="{% static 'images/bar.jpg' %}" alt="Bar Lounge" />
+            </div>
+            <div class="gallery-item restaurantes">
+                <img src="{% static 'images/restaurante3.png' %}" alt="Restaurante" />
+            </div>
+            <div class="gallery-item restaurantes">
+                <img src="{% static 'images/restaurante.jpg' %}" alt="Restaurante" />
+            </div> 
+            
+            <!-- Áreas Comunes - 3 imágenes -->
+            <div class="gallery-item areas-comunes">
+                <img src="{% static 'images/lobby.png' %}" alt="Lobby" />
+            </div>
+            <div class="gallery-item areas-comunes">
+                <img src="{% static 'images/lobby1.jpg' %}" alt="Lobby" />
+            </div>
+            <div class="gallery-item areas-comunes">
+                <img src="{% static 'images/lobby2.jpg' %}" alt="Lobby" />
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{# El JavaScript para el filtrado ya está incluido en app.js que cargamos en base.html #}

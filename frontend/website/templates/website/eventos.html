@@ -1,0 +1,66 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Salones de Eventos | Hotel Indigo{% endblock %}
+
+{% block content %}
+
+<section class="seccion_busqueda hero_eventos" role="banner">
+    <div class="contenedor_busqueda">
+        <h1>Salones y Espacios para Eventos</h1>
+        <p class="subtitulo">El escenario perfecto para conferencias, bodas y celebraciones.</p>
+    </div>
+</section>
+
+<section class="seccion_habitaciones">
+    <div class="contenedor">
+        <div class="titulo_seccion_home">
+            <h2>Nuestros Salones Disponibles</h2>
+            <p>Espacios versátiles con capacidad adaptable y equipamiento de última generación.</p>
+        </div>
+        
+        <div class="eventos-grid">
+            
+           
+            <div class="salon-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="salon-image">
+                    <img src="{% static 'images/proximamente.jpg' %}" alt="Sala Ejecutiva" loading="lazy">
+                    <div class="salon-badge salon-badge-light">Reuniones</div>
+                </div>
+                <div class="salon-content">
+                     <H3>Salón principal</h3>
+                    <p class="salon-description">
+                        Este salón es el entorno ideal para llevar a cabo reuniones de negocios cruciales, sesiones de brainstorming estratégicas y talleres de formación privados.
+Ofrece una atmósfera cuidadosamente diseñada para fomentar la concentración total y un profesionalismo impecable. El espacio combina una estética moderna y discreta con una iluminación funcional, asegurando que cada presentación o discusión se desarrolle sin distracciones.
+                    </p>
+                    <div class="salon-features" style="display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-start;">
+                        <h4 style="width:100%;margin:0 0 0.5rem 0; text-align: center;">INFORMACIÓN SALÓN</h4>
+
+                        <div class="feature" style="flex:1 1 200px;text-align:center;">
+                            <div class="feature-icon" style="font-size:2.2rem;margin-bottom:0.5rem;color:inherit;">
+                                <i class="fas fa-users" aria-hidden="true"></i>
+                            </div>
+                            <div class="feature-title" style="font-weight:600;margin-bottom:0.25rem;">Capacidad</div>
+                            <div class="feature-desc" style="font-size:.95rem;color:#555;">25 personas (Reunión)</div>
+                        </div>
+
+                        <div class="feature" style="flex:1 1 200px;text-align:center;">
+                            <div class="feature-icon" style="font-size:2.2rem;margin-bottom:0.5rem;color:inherit;">
+                                <i class="fas fa-wifi" aria-hidden="true"></i>
+                            </div>
+                            <div class="feature-title" style="font-weight:600;margin-bottom:0.25rem;">Comodidades</div>
+                            <div class="feature-desc" style="font-size:.95rem;color:#555;">Pizarra digital, videoconf. y fibra óptica</div>
+                        </div>
+                    </div>
+                    <div class="salon_footer">
+    
+    <div class="salon_botones"> 
+        <a href="{% url 'reserva_eventos' %}" class="boton_principal boton_gold">COTIZAR EVENTO</a>
+    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

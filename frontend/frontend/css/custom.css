@@ -1,0 +1,3673 @@
+
+
+.halo-only {
+    border: none !important;
+    background: linear-gradient(180deg, #fbfaf8 0%, #f3efe9 100%);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+    position: relative;
+}
+
+.halo-only::before {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    z-index: -1;
+    border-radius: 16px;
+    background: linear-gradient(90deg, rgba(208,169,87,0.12), rgba(255,255,255,0));
+    filter: blur(10px);
+    pointer-events: none;
+}
+
+@media (max-width: 700px) {
+    .halo-only::before { display: none; }
+}
+
+/* Títulos en negro solo dentro del formulario Reservar Mesa (halo-only) */
+.halo-only .form_title,
+.halo-only .section_title {
+    color: #000000 !important;
+}
+
+
+:root {
+    --input-bg: var(--color-fondo-claro);
+    --input-focus-border: var(--color-acento);
+}
+
+.color-acento {
+    color: var(--color-acento);
+}
+
+.color-oscuro {
+    color: var(--color-principal-oscuro);
+}
+
+@media (max-width: 500px) {
+    .nombre_hotel {
+        font-size: 0.9rem;
+    }
+    .logo_hotel img {
+        width: 40px;
+        height: 40px;
+    }
+    .logo_hotel a {
+        flex-direction: column;
+        align-items: center;
+        gap: 0px;
+    }
+}
+
+/* 10 - Inicio */
+
+/* ELIMINA: .video_fondo { ... } */
+
+/* MODIFICA ESTA CLASE */
+.hero_home {
+    position: relative; 
+    overflow: hidden; 
+    /* AJUSTA LA ALTURA DEL BANNER AQUÍ */
+    height: 60vh; 
+    z-index: 10;
+}
+
+@media (max-width: 600px) {
+    .hero_home {
+        /* Reducir la altura a un valor que funcione bien en móvil */
+        height: 50vh; 
+        /* O un valor fijo si lo prefieres, ej: 350px */
+    }
+}
+
+/* AÑADE ESTAS CLASES NUEVAS */
+.carousel-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+    overflow: hidden; 
+}
+
+.carousel {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease-in-out; 
+}
+
+.carousel-slide {
+    min-width: 100%; 
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.formulario_flex {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: var(--espaciado-large);
+}
+
+.campo_select {
+    flex: 1;
+}
+
+.campo_huesped {
+    flex: 0 0 150px;
+}
+
+.huesped_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.huesped_item input[type="number"] {
+    width: 60px;
+    text-align: center;
+    border: 1px solid var(--input-border-color);
+}
+
+.huesped_item input[type="number"]:focus {
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 5px rgb(208 167 95 / 30%);
+}
+
+.campo_buscar {
+    flex: 0 0 100px;
+}
+
+.formulario_busqueda .boton_principal {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+    /* Asumiendo que el botón es <button> o tiene una clase .btn-reserva */
+    .btn-reserva { 
+        /* Reducir el margen superior para acercarlo a los inputs */
+        margin-top: 15px; 
+        /* Reducir el padding interno para que sea menos alto */
+        padding: 12px 25px; 
+    }
+}
+
+.seccion_habitaciones {
+    padding: var(--espaciado-large) 0;
+}
+
+.titulo_seccion_home {
+    text-align: center;
+    margin-bottom: var(--espaciado-large);
+}
+
+.titulo_seccion_home h2 {
+    color: var(--color-principal-oscuro);
+    margin-bottom: 5px;
+}
+
+.titulo_seccion_home p {
+    font-size: 1.1rem;
+    color: var(--color-acento);
+    font-weight: 600;
+    
+}
+
+/* Reduce el padding superior e inferior de las secciones de Empleo */
+.seccion_empleo {
+    padding-top: var(--espaciado-xsmall); /* Reduce el espacio superior */
+    padding-bottom: var(--espaciado-xsmall); /* Reduce el espacio inferior */
+}
+
+/* Modifica el margen del título en las secciones de Empleo */
+.seccion_empleo .titulo_seccion_home {
+    /* Reduce el margen inferior del título para acercar el contenido siguiente */
+    margin-bottom: var(--espaciado-xsmall); 
+}
+
+.panel_habitaciones {
+    /* La regla 'auto-fit' y 'minmax' es el responsive automático.
+       Cuando el espacio disponible es menor que 300px, las columnas se apilan. */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--espaciado-large); /* Espacio entre las tarjetas */
+}
+.habitacion_tarjeta {
+    background-color: var(--color-texto-claro);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 5%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.habitacion_tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgb(0 0 0 / 10%);
+}
+
+.imagen_habitacion {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.contenido_tarjeta {
+    padding: var(--espaciado-medium);
+}
+
+.contenido_tarjeta h3 {
+    margin-bottom: var(--espaciado-small);
+    color: var(--color-principal-oscuro);
+    font-size: 1.5rem;
+}
+
+.precio_noche {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-acento);
+    margin-bottom: var(--espaciado-medium);
+}
+
+.botones_tarjeta {
+    display: flex;
+    gap: var(--espaciado-small);
+    margin-top: var(--espaciado-medium);
+}
+
+.boton-detalles {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.9rem;
+}
+
+.boton-reservar {
+    flex: 1;
+    padding: 2px;
+    font-size: 0.65rem;
+}
+
+/* 11 - Responsive - Inicio */
+
+@media (max-width: 800px) {
+    .formulario_flex {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .campo_select,
+    .campo_huesped,
+    .campo_buscar {
+        flex: auto;
+    }
+
+    .formulario_busqueda .boton_principal {
+        margin-top: 0;
+    }
+}
+
+/* 12 - Nosotros */
+
+.hero_nosotros {
+    background-image: url('../images/fachada.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.contenedor_busqueda .subtitulo {
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+.panel_contenido_historia {
+    margin: 24px auto; 
+    max-width: 980px;
+    padding: 6px 10px 18px;
+}
+
+.historia-cols {
+    display: flex; 
+    gap: 20px; 
+    justify-content: space-between;
+    flex-wrap: wrap; 
+}
+
+.historia-col-item {
+    flex: 1; 
+    text-align: center; 
+    padding: 12px;
+}
+
+.historia-col-item:nth-child(2) {
+    border-left: 2px dashed var(--color-acento); 
+    border-right: 2px dashed var(--color-acento);
+}
+
+.historia-col-imagen {
+    width: 100%; 
+    height: 110px;
+    object-fit: cover; 
+    border-radius: 8px; 
+    margin-top: 10px;
+}
+
+.historia-cita {
+    margin: 26px auto; 
+    text-align: center; 
+    color: var(--color-acento); 
+    font-weight: 700; 
+    font-size: 1.25rem;
+}
+
+.titulo-secundario-centrado {
+    text-align: center; 
+    margin-top: 18px;
+}
+
+.mision-vision-contenedor {
+    display: flex; 
+    gap: 24px; 
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.mision-vision-item {
+    flex: 1; 
+    padding: 12px; 
+    text-align: center;
+}
+
+.mision-vision-item:nth-child(2) {
+    border-left: 2px dotted var(--color-acento);
+  
+}
+
+.instalaciones-contenedor {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.instalacion-imagen {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    border-radius: 8px;
+    object-fit: cover;
+    height: 180px;
+}
+
+.instalaciones-frase {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--color-principal-oscuro);
+    margin: 8px 0 12px;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .historia-cols, 
+    .mision-vision-contenedor, 
+    .instalaciones-contenedor {
+        flex-direction: column;
+    }
+
+    .historia-col-item:nth-child(2),
+    .mision-vision-item:nth-child(2) {
+         border-left: none;
+         border-right: none;
+         border-top: 2px dashed var(--color-acento);
+         border-bottom: 2px dashed var(--color-acento);
+    }
+
+    .instalacion-imagen {
+        width: 100%;
+    }
+}
+
+/* Header */
+
+.contenedor_header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    padding: 8px 15px;
+    gap: 20px;
+}
+
+.logo_hotel a {
+    color: var(--color-texto-claro);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.logo_hotel img {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.logo_hotel {
+    flex-shrink: 0;
+    order: -1;
+}
+
+.lista_nav {
+    gap: 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.lista_nav .item_nav a {
+    color: var(--color-texto-claro);
+    
+    font-size: 14px;
+    letter-spacing: 0.4px;
+}
+
+.header_top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    justify-content: center;
+}
+
+.header_navbar {
+    flex: 0 1 auto;
+    text-align: center;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.idioma {
+    color: rgb(208 167 95 / 100%);
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.idioma_text {
+    /* Asegura la alineación del texto a la izquierda dentro del span */
+    text-align: left;
+    
+    /* Asegura que el texto ocupe el espacio necesario, si es un bloque. 
+       Aunque por defecto es inline, ayuda a consistencia si cambia su display. */
+    width: 100%; 
+    display: block; 
+    font-size: 20px;
+}
+
+.header_principal {
+    border-bottom: 1px solid #2e1503;
+    z-index: 10;
+}
+
+/* Hero */
+
+.seccion_busqueda.hero_home {
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.seccion_busqueda .contenedor_busqueda {
+    max-width: 820px;
+    text-align: center;
+    position: relative;
+    z-index: 2; /* Asegura que el texto quede sobre el carrusel */
+}
+
+.seccion_busqueda .contenedor_busqueda h2 {
+    
+    font-size: 48px;
+    color: #fff;
+    margin-bottom: 12px;
+    text-shadow: 0 3px 8px rgb(0 0 0 / 60%);
+}
+
+.seccion_busqueda .contenedor_busqueda .subtitulo {
+    color: rgb(255 255 255 / 90%);
+    margin-bottom: 18px;
+}
+
+/* Formulario del hero */
+.formulario_busqueda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: auto;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    gap: 15px;
+}
+
+/* Contenedor flexible de campos */
+.seccion_busqueda .formulario_flex {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: center;
+    width: auto;
+    background: rgb(255 255 255 / 97%);
+    padding: 6px 12px;
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 25%);
+}
+
+/* Estilos de los campos del formulario */
+.campo_formulario {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 100%);
+    border: 2px solid var(--color-acento);
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.campo_formulario label {
+    display: inline-block;
+    
+    color: var(--color-principal-oscuro);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.campo_formulario input[type="date"],
+.campo_formulario select,
+.huesped_item input[type="number"] {
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-principal-oscuro);
+    
+    font-size: 15px;
+    flex: 0 1 auto;
+    min-width: 70px;
+}
+
+.campo_formulario input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+}
+
+.campo_formulario.campo_select {
+    flex: 0 1 auto;
+}
+
+.campo_formulario.campo_huesped {
+    flex: 0 1 auto;
+}
+
+.campo_formulario.campo_buscar {
+    flex: 0 1 auto;
+}
+
+/* Botón principal (Reserva Ahora) */
+.boton_principal.boton_gold {
+    display: inline-block;
+    width: auto;
+    text-align: center;
+    color: #fff;
+    background: var(--color-acento);
+    border-radius: 12px;
+    padding: 25px 58px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 25%);
+    border: 2px solid var(--color-acento);
+    cursor: pointer;
+    
+    font-size: 25px;
+    font-weight: 700;
+    margin: 0;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.boton_principal.boton_gold:hover {
+    background: #B88E4B;
+    border-color: #B88E4B;
+    transform: translateY(-2px);
+}
+
+/* Responsive: pantallas pequeñas */
+@media (max-width: 900px) {
+    .formulario_busqueda {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    .seccion_busqueda .formulario_flex {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .campo_formulario {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 180px;
+    }
+
+    .formulario_busqueda .boton_principal.boton_gold {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .formulario_busqueda {
+        padding: 12px 15px;         
+    }
+
+    .campo_formulario {
+        flex: 1 1 100%;
+        min-width: auto;
+    }
+
+    .formulario_busqueda .boton_principal.boton_gold {
+        width: 100%;
+    }
+}
+
+/* Página: Acceso administradores */
+
+.hero_acceso {
+    position: relative;
+    background-image: url('../images/fachada.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.hero_acceso .overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgb(0 0 0 / 45%) 0%, rgb(0 0 0 / 65%) 70%);
+    backdrop-filter: blur(3px);
+    z-index: 0;
+}
+
+.contenedor_acceso {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 920px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    justify-items: center;
+}
+
+.hero_acceso .contenedor_acceso {
+    max-width: 820px;
+    padding: 60px 0 40px;
+}
+
+.logo_big {
+    text-align: center;
+    color: var(--color-acento);
+}
+
+.logo_big img {
+    width: 78px;
+    height: auto;
+    display: block;
+    margin: 0 auto 6px;
+}
+
+.logo_big h1 {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 26px;
+    color: var(--color-acento);
+}
+
+.hero_acceso .logo_big h1 {
+    text-shadow: 0 3px 8px rgb(0 0 0 / 60%);
+    margin-bottom: 12px;
+}
+
+.login_card {
+    width: 420px;
+    background: linear-gradient(180deg, rgb(255 255 255 / 6%), rgb(255 255 255 / 2%));
+    border: 2px solid rgb(255 255 255 / 35%);
+    border-radius: 10px;
+    padding: 22px 26px 28px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 45%);
+    color: #fff;
+    text-align: center;
+}
+
+.login_card h2 {
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin: 6px 0 18px;
+    font-weight: 700;
+    color: var(--color-acento);
+}
+
+.form_acceso {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.form_acceso input[type="text"],
+.form_acceso input[type="password"] {
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1px solid rgb(255 255 255 / 60%);
+    background: rgb(255 255 255 / 95%);
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.form_acceso input::placeholder { 
+    color: #666; 
+}
+
+.form_acceso input:focus {
+    outline: none;
+    box-shadow: 0 6px 16px rgb(208 167 95 / 18%);
+    border-color: rgb(208 167 95 / 90%);
+}
+
+.boton_oro {
+    margin-top: 6px;
+    background: linear-gradient(#c79a5f, #b38237);
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgb(179 130 55 / 28%);
+}
+
+.boton_oro:hover {
+    transform: translateY(-1px);
+}
+
+.olvido {
+    display: inline-block;
+    margin-top: 12px;
+    color: rgb(255 255 255 / 85%);
+    font-size: 0.9rem;
+    text-decoration: underline;
+}
+
+@media (max-width: 520px) {
+    .login_card {
+        width: 92%;
+        padding: 18px;
+    }
+
+    .logo_big h1 {
+        font-size: 20px;
+    }
+
+    .hero_acceso {
+        min-height: 600px;
+    }
+}
+
+/* Tarjetas: estilos para las habitaciones */
+
+.panel_habitaciones .habitacion_tarjeta {
+    border-radius: 22px;
+    padding-bottom: 12px;
+    overflow: visible;
+    background: linear-gradient(180deg,#fff,#f7f7f7);
+}
+
+.panel_habitaciones .habitacion_tarjeta .imagen_habitacion {
+    border-radius: 8px;
+    /* Corregida sintaxis del margin */
+    height: 300px; 
+    object-fit: cover;
+    margin: 18px auto 18px; /* Aplicar margin al fondo */
+    display: block; /* Necesario para que el margin auto funcione */
+    width: calc(100% - 36px); /* Para que la imagen respete el padding de 18px a los lados */
+}
+
+.panel_habitaciones .contenido_tarjeta {
+    padding: 0 18px; /* Aplicar padding solo lateral, si se desea */
+}
+
+.panel_habitaciones .botones_tarjeta {
+    display: flex;
+    justify-content: space-between; /* Distribuye Ver Detalles y Reservar Ahora */
+    gap: 12px;
+    margin-top: 15px;
+    padding: 0 18px 18px; 
+}
+
+.panel_habitaciones .boton-detalles {
+    flex: 1; 
+    padding: 12px 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-principal-oscuro);
+    background: #e9e9ea; 
+    border: 2px solid #e9e9ea;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    text-align: center; /* Asegura que el texto esté centrado en el botón */
+}
+
+.panel_habitaciones .boton-detalles:hover {
+    background: #d4d4d4;
+    border-color: #d4d4d4;
+}
+
+.panel_habitaciones .boton-reservar {
+    flex: 1; 
+    padding: 12px 10px; 
+    font-size: 0.95rem; 
+    font-weight: 700;
+    color: var(--color-principal-oscuro);
+    background-color: var(--color-acento);
+    border: 2px solid var(--color-acento);
+    border-radius: 10px; 
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.panel_habitaciones .boton-reservar:hover {
+    background-color: hsl(37, 43%, 51%); 
+    border-color: rgb(184, 142, 75);
+}
+
+.seccion_habitaciones .panel_habitaciones {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    padding: 20px 0 60px;
+}
+
+/* Servicios: lista y miniaturas */
+
+.seccion_servicios {
+    padding: 18px 0 6px;
+}
+
+.contenedor_servicios {
+    max-width: fit-content;
+    margin: 0 auto;
+    padding: 8px 12px;
+}
+
+.services_scroll {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    justify-content: fill content;
+    background: rgba(214, 214, 214, 0.96);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgb(0 0 0 / 12%);
+    overflow: hidden;
+}
+
+.service_item {
+    /* Mantén las reglas de diseño */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    
+
+    /* REGLAS CLAVE DEL CARRUSEL: Forzar Ancho Fijo */
+    flex: 0 0 600px; /* Ya no se estira, tiene un ancho fijo. */
+    min-width: 600px;
+    max-width: 6700px; /* Opcional, pero asegúrate que min-width sea el importante */
+    scroll-snap-align: start; /* Añadido para el efecto de ajuste de scroll */
+}
+
+/* También debes eliminar la regla .services_scroll, ya que ahora usarás .carousel-track */
+
+.carousel-track { /* reglas definidas en otra sección; regla vacía eliminada */ }
+.service_item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
+    border: 1px solid rgb(0 0 0 / 6%);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 8%);
+}
+
+.titulo_servicios{
+
+    /* Hace el texto grande (ajusta el valor a tu gusto, '2em' es el doble del tamaño base) */
+    font-size: 2em; 
+    
+    /* Pone el texto en negrita */
+    font-weight: bold;
+
+}
+
+
+.servicios_descripcion {
+    text-align: justify;
+    /* --- Contorno (Borde) --- */
+    /* Sintaxis: border: grosor estilo color; */
+    border: 2px solid rgb(184, 142, 75); 
+    
+    /* Opcional: Para dar un poco de espacio entre el texto y el borde */
+    padding: 15px;
+    
+    /* Opcional: Para esquinas redondeadas */
+    border-radius: 8px;
+
+
+
+}
+
+.service_item span {
+    display: block;
+    
+    font-weight: 700;
+    color: var(--color-principal-oscuro);
+    margin-top: 6px;
+}
+
+@media (max-width: 900px) {
+    .services_scroll {
+        overflow-x: auto;
+        padding-bottom: 6px;
+    }
+
+    .service_item {
+        min-width: 320px;
+        max-width: 260px;
+        flex: 0 0 auto;
+    }
+}
+
+/* Footer: columnas, redes y copyright */
+
+.site_footer {
+    background: linear-gradient(180deg, rgb(10 10 10 / 100%), rgb(22 22 22 / 100%));
+    color: var(--color-texto-claro);
+    padding: 36px 0 0;
+}
+
+.footer_inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.footer_col {
+    flex: 1 1 220px;
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.footer_col h5 {
+    color: var(--color-acento);
+    margin-bottom: 10px;
+}
+
+.site_footer .footer_col h5 {
+    /* Forzamos color dorado para los títulos del footer.
+       Evitamos usar `!important` cuando sea posible para mantener prioridad clara.
+       Si aparece un override inesperado, documentarlo en el equipo. */
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.footer_col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.footer_col ul li a {
+    color: rgb(255 255 255 / 90%);
+    text-decoration: none;
+    display: inline-block;
+    padding: 6px 0;
+}
+
+.footer_logo_wrapper {
+    margin-bottom: 8px;
+}
+
+.footer_logo_img {
+    max-width: 140px;
+    display: block;
+    margin: 0 auto;
+}
+
+.social_icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.footer_social .social_icons {
+    justify-content: center;
+    margin-top: 6px;
+}
+
+.social_icon_img {
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+
+.footer_bottom {
+    background: linear-gradient(180deg, rgb(0 0 0 / 0%), rgb(0 0 0 / 6%));
+    color: rgb(255 255 255 / 70%);
+    text-align: center;
+    padding: 12px 0 18px;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 800px) {
+    .footer_inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer_inner .footer_col {
+        width: 100%;
+        max-width: 480px;
+    }
+
+    .social_icons {
+        justify-content: center;
+    }
+}
+
+/* Responsive general: ajustes por tamaño */
+
+@media (max-width: 900px) {
+    .seccion_busqueda .contenedor_busqueda h2 { 
+        font-size: 36px; 
+    }
+    
+.panel_habitaciones {
+        /* CAMBIO CLAVE: Usa 1fr para una columna */
+        grid-template-columns: 1fr;
+        gap: var(--espaciado-medium);
+}
+}
+
+/* Página: Habitaciones */
+.hero_habitaciones {
+    /* Puedes cambiar la imagen si quieres una específica para habitaciones */
+    background-image: url('../images/hotel_fondo.png'); 
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA LA PÁGINA DE EVENTOS --- */
+
+/* Hero de Eventos */
+.hero_eventos {
+    /* Puedes cambiar la imagen para diferenciarlo del hero_home */
+    background-image: url('../images/restaurante3.png'); 
+    background-size: cover;
+    background-position: center;
+}
+
+/* Contenedor del Grid de Salones (eventos-grid) */
+.eventos-grid {
+    display: grid;
+    /* 3 columnas en escritorio, adaptable */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+    gap: 32px;
+    padding: 20px 0 60px;
+}
+
+/* Tarjeta de Salón (salon_tarjeta) */
+.salon_tarjeta {
+    background-color: var(--color-texto-claro);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 8%);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.salon_tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgb(0 0 0 / 15%);
+}
+
+.salon_imagen {
+    position: relative;
+}
+
+.salon_imagen img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.salon_badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--color-acento);
+    color: var(--color-principal-oscuro);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+
+}
+
+.salon_contenido {
+    padding: 20px;
+}
+
+
+
+.salon_contenido h3 {
+    color: var(--color-principal-oscuro);
+    margin-bottom: 10px;
+}
+
+.salon-features span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.salon-features i {
+    margin-right: 8px;
+    color: var(--color-acento);
+}
+
+.salon_footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px 20px;
+    border-top: 1px solid var(--color-fondo-gris);
+    margin-top: 15px;
+}
+
+.salon_footer .precio_noche {
+    margin: 0;
+}
+
+.salon_footer .boton_principal {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+}
+
+/* Responsive para Eventos */
+@media (max-width: 768px) {
+    .eventos-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 24px;
+    }
+}
+
+/* ========================================================= */
+/* 13 - REFINAMIENTO GENERAL DE COMPONENTES Y RESPONSIVE */
+/* ========================================================= */
+
+/* 13.1 Refinamiento de Tarjetas de Habitación (habitación.html) */
+
+.habitacion_tarjeta {
+    /* Aseguramos que la tarjeta sea más elegante */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
+}
+
+.habitacion_tarjeta:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.contenido_tarjeta {
+    padding: var(--espaciado-medium);
+}
+
+.precio_noche {
+    display: block; /* Asegura que el precio esté en su propia línea */
+    padding-top: var(--espaciado-small);
+  
+}
+
+.botones_tarjeta {
+    /* Mejora la alineación de los botones */
+    margin-top: var(--espaciado-large);
+    justify-content: space-between;
+    gap: var(--espaciado-medium);
+
+}
+
+/* 13.2 Estilos de Botones (Coherencia Visual) */
+
+.boton_principal {
+    border-radius: 50px; /* Estilo más moderno y suave */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.boton_dark {
+    background-color: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+    border: 2px solid var(--color-principal-oscuro);
+}
+
+.boton_dark:hover {
+    background-color: transparent;
+    color: var(--color-principal-oscuro);
+}
+
+.boton_gold {
+    background-color: var(--color-acento);
+    color: var(--color-principal-oscuro);
+    border: 2px solid var(--color-acento);
+}
+
+.boton_gold:hover {
+    background-color: #B88E4B; 
+    border-color: #B88E4B;
+}
+
+/* ========================================================= */
+/* 14 - DETALLE DE HABITACIÓN (detalle_habitacion.html) */
+/* ========================================================= */
+
+.hero_detalle_habitacion {
+    background-image: url('../images/hotel_fondo.png'); 
+    background-size: cover;
+    background-position: center 30%;
+    min-height: 250px; /* Hero más pequeño */
+}
+
+/* Contenedor Flex para el layout de 2 columnas */
+.contenedor_detalle {
+    /* Usamos el contenedor ya existente y refinamos el flex */
+    display: flex;
+    gap: 40px;
+    padding: var(--espaciado-large) 0; /* Ajustamos padding si ya hay padding en .contenedor */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.detalle_columna_principal {
+    flex: 3; /* Ocupa 3/4 del espacio */
+    min-width: 0;
+}
+
+.detalle_columna_reserva {
+    flex: 1; /* Ocupa 1/4 del espacio */
+    min-width: 300px;
+}
+
+/* Galería de Fotos */
+.imagen_principal_detalle {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Listados de Características (Arreglando la disposición desordenada de la imagen 2) */
+.detalle_servicios h3 {
+    color: var(--color-principal-oscuro);
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--color-fondo-gris);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+.lista_caracteristicas, 
+.lista_servicios_adicionales {
+    /* Convierte la lista desordenada en una cuadrícula limpia */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.lista_caracteristicas li, 
+.lista_servicios_adicionales li {
+    font-size: 1rem;
+    color: var(--color-principal-oscuro);
+    padding: 10px;
+    border-left: 3px solid var(--color-acento);
+    background-color: var(--color-fondo-claro);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.lista_caracteristicas li:hover,
+.lista_servicios_adicionales li:hover {
+    transform: translateY(-2px);
+}
+
+.lista_caracteristicas li i, 
+.lista_servicios_adicionales li i {
+    margin-right: 10px;
+    color: var(--color-acento);
+}
+
+/* CAJA DE RESERVA (SIDEBAR) - Arreglando Overflow y Alineación */
+.caja_reserva {
+    background-color: var(--color-texto-claro);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 30px;
+}
+
+.caja_reserva h2 {
+    font-size: 1.6rem;
+    color: var(--color-principal-oscuro);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.precio_actual {
+    text-align: center;
+    padding: 15px 0;
+    margin-bottom: 15px;
+}
+
+.monto_grande {
+    font-size: 3rem; /* Tamaño grande para el precio */
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+}
+
+.periodo_noche {
+    font-size: 1rem;
+    color: #666;
+    display: block;
+    margin-top: 5px;
+}
+
+.lista_detalles_rapidos {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 25px;
+    border-top: 1px solid var(--color-fondo-gris);
+}
+
+.lista_detalles_rapidos li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-fondo-gris);
+}
+
+/* Botones en el sidebar (full width) */
+.boton_fullwidth {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.boton_principal.boton_gold.boton_fullwidth {
+    /* Ya hereda el radio de 50px, solo aseguramos que el color de texto sea oscuro */
+    color: var(--color-principal-oscuro) !important; 
+    background-color: var(--color-acento) !important;
+    border: 2px solid var(--color-acento);
+    font-size: 1.1rem;
+    padding: 15px;
+}
+
+.boton_principal.boton_gold.boton_fullwidth:hover {
+    background-color: #B88E4B !important; 
+    border-color: #B88E4B !important;
+}
+
+
+/* BOTÓN SECUNDARIO (VER OTRAS HABITACIONES) */
+.boton_principal.boton_dark.boton_fullwidth {
+    /* Hacemos este botón blanco con borde oscuro para que no compita con el dorado */
+    background-color: transparent !important;
+    color: var(--color-principal-oscuro) !important;
+    border: 2px solid var(--color-principal-oscuro);
+    padding: 15px;
+    font-size: 1.1rem;
+}
+
+.boton_principal.boton_dark.boton_fullwidth:hover {
+    background-color: var(--color-principal-oscuro) !important;
+    color: var(--color-texto-claro) !important;
+}
+
+/* ========================================================= */
+/* 15 - RESPONSIVE AJUSTES ESPECÍFICOS */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+    /* Detalle de Habitación a columna única */
+    .contenedor_detalle {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .detalle_columna_reserva {
+        order: -1; /* Mueve la caja de reserva arriba en móvil */
+        min-width: 100%;
+    }
+
+    .caja_reserva {
+        position: static;
+    }
+
+    .imagen_principal_detalle {
+        height: 300px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .lista_caracteristicas, 
+    .lista_servicios_adicionales {
+        /* Fuerza una sola columna para las listas de comodidades en móviles */
+        grid-template-columns: 1fr;
+    }
+
+    .monto_grande {
+        font-size: 2.2rem;
+    }
+}
+
+/* Soporte CSS para la Animación de Fade-In (animations.js) */
+
+/* El JS aplica inicialmente opacity: 0 y transform: translateY(30px) */
+.habitacion_tarjeta, 
+.seccion_habitaciones,
+.contenedor_detalle > *,
+.subtitulo {
+    /* La duración de la transición debe coincidir con el JS (0.6s) */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out !important; 
+}
+
+/* El JS añade estilos a elementos específicos; esta clase de ejemplo ayuda a mantener la consistencia */
+.section-to-animate {
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* ========================================================= */
+/* 16 - ESTILOS PARA MENÚS DESPLEGABLES (DROPDOWNS) */
+/* ========================================================= */
+
+.menu_dropdown {
+    position: relative;
+}
+
+.menu_dropdown > a {
+    /* Estilo del link principal que contiene el icono */
+    display: flex !important; 
+    align-items: center;
+    gap: 5px;
+}
+
+.menu_dropdown > a i {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+/* 16.1 Contenedor del Desplegable */
+.dropdown_menu {
+    position: absolute;
+    top: 100%; /* Coloca el menú justo debajo del enlace padre */
+    left: 0;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    min-width: 180px;
+    background-color: var(--color-principal-oscuro); /* Fondo del header */
+    border: 1px solid #454753;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 100;
+    
+    /* Estado inicial: OCULTO */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.dropdown_menu li a {
+    /* Estilo de los links internos */
+    color: var(--color-texto-claro);
+    padding: 8px 15px;
+    display: block;
+    text-transform: none; /* Quitamos mayúsculas para los submenús */
+    font-weight: 400;
+    border-bottom: none !important;
+}
+
+.dropdown_menu li a:hover {
+    background-color: #454753; /* Resaltado en el submenú */
+    color: var(--color-acento);
+}
+
+/* 16.2 Efecto Hover (Mostrar Desplegable) */
+.menu_dropdown:hover > .dropdown_menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu_dropdown:hover > a i {
+    /* Rota la flecha hacia arriba al hacer hover */
+    transform: rotate(180deg);
+}
+
+
+/* 16.3 RESPONSIVE: En móvil, el menú desplegable debe ser siempre visible/funcional */
+@media (max-width: 900px) {
+    /* Sobreescribe los estilos del móvil */
+    .lista_nav {
+        text-align: left;
+        align-items: left;
+    }
+    
+    .dropdown_menu {
+        /* El menú se muestra anclado al lado del link, no absoluto */
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        margin: 0;
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+        min-width: auto;
+        padding-left: 20px; /* Indentación para submenú */
+    }
+
+    .dropdown_menu li a {
+        padding: 5px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .menu_dropdown:hover > a i {
+        transform: none; /* Evita la rotación de la flecha en móvil */
+    }
+}
+
+/* ========================================================= */
+/* 17 - ESTILOS BOTÓN HAMBURGUESA Y MENÚ MÓVIL */
+/* ========================================================= */
+
+/* Botón de Hamburguesa (Oculto por defecto en Desktop) */
+.menu-toggle {
+    display: none; 
+    background: none;
+    border: none;
+    color: var(--color-acento);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle i {
+    transition: transform 0.3s ease;
+}
+
+/* Ocultar el Acceso de escritorio en móvil y mostrar el de móvil */
+.item_acceso_movil {
+    display: none;
+}
+
+/* 17.1 MÓVIL (<= 900px) */
+@media (max-width: 900px) {
+    
+    /* Mostrar la hamburguesa */
+    .menu-toggle {
+        display: block;
+        order: 2; /* Asegura que la hamburguesa esté a la derecha del todo en el .header_derecha */
+    }
+
+    /* Ocultar la navegación de escritorio y preparar la de móvil */
+    .header_navbar {
+        /* Desactivamos el display: none de la regla anterior en base.css */
+        display: block; 
+    }
+    
+    /* Contenedor del menú para el despliegue */
+.nav-wrapper {
+    position: fixed; 
+        /* AJUSTA ESTE VALOR: Debe ser la altura exacta de tu header en móvil */
+    top: 60px;/* AJUSTE CLAVE: Asumimos una altura de header de 60px */
+    left: 0;
+    width: 100%;
+    background-color: var(--color-principal-oscuro);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 90;
+    
+    /* ESTADO INICIAL: OCULTO */
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s ease-out;
+}
+    
+    /* Estado ABIERTO (manejado por JS) */
+    .nav-wrapper.is-open {
+        height: auto; /* El JS calculará la altura correcta */
+        max-height: 80vh; 
+        overflow-y: auto; /* Permite scroll si el menú es muy largo */
+    }
+
+    /* Lista de navegación a columna */
+.lista_nav {
+    flex-direction: column;
+    align-items: flex-start; /* CAMBIO CLAVE: Asegura que los ítems inicien a la izquierda */
+    padding: 15px 0;
+}
+    .item_nav {
+        width: 100%;
+        margin: 0;
+        border-bottom: 1px solid #454753;
+    }
+    
+    .item_nav a {
+        padding: 15px 20px;
+        font-size: 1rem;
+        width: 100%;
+    }
+    
+    /* Arreglos específicos para los submenús */
+    .menu_dropdown .dropdown_menu {
+        position: static;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        padding: 0 0 10px 20px; /* Sangría para submenú */
+        visibility: visible; /* Asegura que no se oculte por defecto en móvil */
+        opacity: 1;
+        transform: none;
+        height: 0; /* Lo ocultamos con altura para el JS */
+        overflow: hidden;
+        transition: height 0.3s ease-out;
+        
+    }
+
+    .menu_dropdown.is-open .dropdown_menu {
+        height: auto; /* JS establecerá la altura de despliegue */
+    }
+    
+    .dropdown_menu li a {
+        padding: 8px 0;
+    }
+    
+    /* Visibilidad del Botón de Acceso Móvil */
+    .item_acceso_movil {
+        display: list-item;
+    }
+}
+
+/* ========================================================= */
+/* 18 - ESTILOS PARA RESERVA DE HABITACIONES (Formulario Multi-Paso) */
+/* ========================================================= */
+
+.hero_reserva {
+    /* IMPORTANTE: Desactivar la imagen de fondo estática */
+    background-image: url('../images/hotel_fondo.jpg');
+
+    
+    min-height: 200px;
+    
+    /* Necesario para posicionar el video */
+    position: relative; 
+    overflow: hidden;
+}
+
+.hero_reservar {
+    /* IMPORTANTE: Desactivar la imagen de fondo estática */
+    background-image: url('../images/restauran.jpg');
+
+    
+    min-height: 200px;
+    
+    /* Necesario para posicionar el video */
+    position: relative; 
+    overflow: hidden;
+}
+
+.seccion_reserva {
+    padding: var(--espaciado-large) 0;
+    background-color: var(--color-fondo-claro);
+}
+
+.contenedor_reserva {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--espaciado-small, 15px);
+}
+
+/* 18.1 Indicadores de Paso (Top Bar) */
+
+.pasos_indicador {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    padding: 10px;
+    border-bottom: 2px solid var(--color-fondo-gris);
+}
+
+.paso_item {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #999;
+    padding-bottom: 8px;
+    position: relative;
+    cursor: default;
+    transition: color 0.3s ease;
+}
+
+.paso_item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+}
+
+.paso_item.activo {
+    color: var(--color-principal-oscuro);
+}
+
+.paso_item.activo::after {
+    background-color: var(--color-acento);
+}
+
+/* 18.2 Layout de 2 Columnas (Resumen | Formulario) */
+
+.panel_reserva_contenido {
+    display: inline-flex;    /* Shrink-wrap: el contenedor ajusta su ancho al contenido */
+    gap: 50px;
+    align-items: flex-start;
+    width: auto;
+    max-width: 100%;
+     transform: translateZ(0);
+      z-index: 999;
+   
+}
+
+.resumen_tarjeta {
+    flex: 0 0 350px; /* Tamaño fijo para la columna de resumen */
+    background-color: var(--color-texto-claro);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 30px; /* Fija la tarjeta al hacer scroll */
+}
+
+.formulario_reserva {
+    flex: 1;
+    background-color: var(--color-texto-claro);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* 18.3 Estilos del Resumen */
+
+.resumen_tarjeta h2 {
+    font-size: 1.5rem;
+    color: var(--color-principal-oscuro);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-fondo-gris);
+    padding-bottom: 10px;
+}
+
+.resumen_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 1rem;
+}
+
+.resumen_item strong {
+    font-weight: 700;
+    color: var(--color-principal-oscuro);
+}
+
+.resumen_total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding-top: 15px;
+}
+
+.resumen_tarjeta hr {
+    margin: 15px 0;
+    border-color: var(--color-fondo-gris);
+}
+
+/* 18.4 Estilos del Formulario Multi-Paso */
+
+.form__section {
+    border: 1px solid var(--color-fondo-gris);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.form__section legend {
+    color: var(--color-acento);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0 10px;
+}
+
+.formulario_grid {
+    display: grid;
+    /* Ajustado el mínimo para que los campos más pequeños no forcen overflow */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+    align-items: start;
+    box-sizing: border-box; /* asegurar cálculo consistente de tamaños */
+}
+
+/* Etiqueta */
+.campo_reserva label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--color-principal-oscuro);
+    font-size: 0.95rem;
+}
+
+/* Evitar que el campo se salga del grid */
+.campo_reserva {
+    min-width: 0; /* clave para que las columnas flex/ grid puedan encoger correctamente */
+    box-sizing: border-box;
+    overflow: hidden; /* evita overflow visual si el contenido es largo */
+}
+
+/* Inputs/selects/textarea llenan el ancho disponible y no provocan overflow */
+.campo_reserva input[type="text"],
+.campo_reserva input[type="email"],
+.campo_reserva input[type="tel"],
+.campo_reserva input[type="number"],
+.campo_reserva input[type="date"],
+.campo_reserva select,
+.campo_reserva textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-width: 0; /* evita que controles internos obliguen a crecer la columna */
+}
+
+/* Opcional: en pantallas muy pequeñas forzar una sola columna */
+@media (max-width: 480px) {
+    .formulario_grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Usa los estilos de input/select ya definidos en base.css */
+
+.acciones_formulario {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--color-fondo-gris);
+}
+
+.acciones_pago {
+    justify-content: space-between;
+}
+
+/* Ocultar pasos inactivos */
+.paso_formulario {
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.paso_formulario.activo {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 18.5 RESPONSIVE para Reserva */
+
+@media (max-width: 1100px) {
+    .resumen_tarjeta {
+        flex: 0 0 300px;
+    }
+}
+
+@media (max-width: 800px) {
+    .panel_reserva_contenido {
+        flex-direction: column;
+    }
+    
+    .resumen_tarjeta {
+        order: -1; /* Mueve el resumen arriba en móvil */
+        position: static;
+        min-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .formulario_reserva {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 450px) {
+    /* Aquí forzamos que los dos botones se apilen cuando la pantalla es muy pequeña */
+    .panel_habitaciones .botones_tarjeta {
+        flex-direction: column; 
+    }
+    /* Se quita el width: 100% y margin-top redundante ya que flex-direction: column
+       y flex: 1 se encargan de esto, pero lo mantenemos si es estrictamente necesario 
+       por la cascada de estilos de tu proyecto */
+    .panel_habitaciones .boton-reservar,
+    .panel_habitaciones .boton-detalles {
+         width: 100%; /* Asegura que cada botón ocupe todo el ancho */
+         margin-top: 8px;
+    }
+}
+/* ========================================================= */
+/* 19 - ESTILOS PÁGINA DE SERVICIOS */
+/* ========================================================= */
+
+.hero_servicios {
+    background-image: url('../images/hotel_fondo.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+}
+
+.servicio-section {
+    padding: 60px 0;
+    border-bottom: 1px solid var(--color-fondo-gris);
+}
+
+.servicio-section:nth-child(even) {
+    background-color: #F8F8F8; /* Un color ligeramente diferente para la alternancia */
+}
+
+.servicio-content {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.servicio-info {
+    flex: 1;
+}
+
+.servicio-info .servicio-titulo {
+    color: var(--color-principal-oscuro);
+    font-size: 2rem;
+}
+
+.servicio-info .servicio-detalles p {
+    font-size: 1rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Diseño de Galería de 3 imágenes */
+.servicio-galeria {
+    flex: 1;
+}
+
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+    grid-template-rows: auto auto;
+    gap: 10px;
+}
+
+.galeria-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.galeria-grid .galeria-img:nth-child(1) {
+    /* La primera imagen es más grande */
+    grid-row: span 2; 
+    height: 100%;
+}
+
+/* Alternancia de Columnas */
+
+.servicio-alternado-1 {
+    flex-direction: row; /* Imagen izquierda, Texto derecha */
+}
+
+.servicio-alternado-2 {
+    flex-direction: row-reverse; /* Imagen derecha, Texto izquierda */
+}
+
+/* Responsive para Móvil */
+@media (max-width: 800px) {
+    .servicio-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .servicio-alternado-1,
+    .servicio-alternado-2 {
+        flex-direction: column; /* Apila siempre en móvil */
+    }
+
+    .servicio-galeria {
+        order: -1; /* Mueve la imagen arriba del texto en móvil */
+    }
+
+    .galeria-grid {
+        grid-template-columns: 1fr; /* Columna única para las imágenes */
+        grid-template-rows: auto;
+    }
+    
+    .galeria-grid .galeria-img:nth-child(1) {
+        grid-row: auto;
+    }
+}
+
+/* custom.css - al final del archivo */
+.formulario_reserva_mesa {
+    max-width: 800px; /* Ancho máximo para que no se vea demasiado estirado */
+    margin: 0 auto;
+}
+
+/* Si usaste el layout de dos columnas en la sección (panel_reserva_contenido), 
+   ajusta el contenedor para este formulario específico */
+.contenedor_reserva {
+    display: flex;
+    justify-content: center;
+}
+
+/* ========================================================= */
+/* 19 - ESTILOS PÁGINA DE SERVICIOS (Layout Alterno y Galería) */
+/* ========================================================= */
+
+.hero_servicios {
+    position: relative;
+    background-image: url('../images/hotel_fondo.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: var(--color-texto-claro);
+    min-height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero_servicios .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(0 0 0 / 45%), rgb(0 0 0 / 55%));
+    z-index: 1;
+}
+
+.servicios_hero_inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    padding: 60px 20px;
+}
+
+.servicios_title {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 64px;
+    margin: 0 0 12px;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 3px 8px rgb(0 0 0 / 40%);
+}
+
+.servicio-section {
+    padding: 80px 0;
+    border-bottom: 1px solid rgb(0 0 0 / 8%);
+}
+
+/* Alternar colores de fondo para mejor visualización */
+.servicio-section:nth-child(even) {
+    background: rgb(245 245 245 / 100%);
+}
+
+.servicio-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+/* Alternancia: Invertir orden en la segunda columna */
+.servicio-alternado-2 .servicio-galeria {
+    order: 2;
+}
+.servicio-alternado-2 .servicio-info {
+    order: 1;
+}
+
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.galeria-img {
+    height: 260px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.galeria-grid img:first-child {
+    grid-row: span 2;
+    height: 100%;
+}
+
+.servicio-titulo {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2.5rem;
+    color: var(--color-principal-oscuro);
+    font-weight: 700;
+}
+
+.servicio-detalles {
+    background: rgb(0 0 0 / 3%);
+    padding: 20px;
+    border-left: 4px solid var(--color-acento);
+    border-radius: 8px;
+}
+
+.servicio-detalles strong {
+    color: var(--color-acento);
+    font-weight: 700;
+}
+
+.btn-acento {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--color-acento), #b38a2f);
+    color: var(--color-principal-oscuro) !important;
+    padding: 16px 48px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgb(195 154 61 / 30%);
+}
+
+/* ========================================================= */
+/* 20 - ESTILOS PÁGINA DE HABITACIONES (rooms-grid) */
+/* ========================================================= */
+
+.hero--rooms {
+    background-image: url('../images/camarosa.jpeg');
+    min-height: 400px;
+}
+
+.video_fondo {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Centra el video en el contenedor */
+    transform: translate(-50%, -50%);
+    /* Asegura que el video siempre cubra todo el espacio del contenedor */
+    min-width: 100%;
+    min-height: 100%;
+    /* Envía el video al fondo (detrás del formulario) */
+
+    z-index: 1;
+    /* Esto garantiza que el video no se vea cortado por su aspecto original */
+    object-fit: cover;
+
+}
+
+
+.rooms-grid {
+    display: grid;
+    /* En pantallas pequeñas, usa 1 columna por defecto */
+    grid-template-columns: 1fr; 
+    gap: 30px;
+    padding-bottom: 60px;
+}
+
+@media (min-width: 768px) {
+    .rooms-grid {
+        /* En pantallas grandes, fuerza 2 columnas */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.card--room {
+    background: var(--color-texto-claro);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 8%);
+    transition: transform 0.3s ease;
+}
+
+.card--room:hover .card__image img {
+    /* Al pasar el ratón sobre la tarjeta, la imagen hace un pequeño zoom */
+    transform: scale(1.05);
+}
+.card__image {
+    position: relative;
+    height: 250px;
+    
+    /* MEJORA 1: SOMBRA sutil para que la imagen destaque */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+    
+    /* MEJORA 2: Asegura que la imagen tenga el mismo radio de borde superior que la tarjeta */
+    border-radius: 12px 12px 0 0; 
+}
+.card__image img {
+    width: 100%;
+    height: 100%;
+    /* Mantiene object-fit: cover */
+    object-fit: cover;
+    
+    /* MEJORA 3: Asegurar la transición suave al hacer zoom o hover (si tienes JS) */
+    transition: transform 0.4s ease;
+}
+
+.card__badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--color-acento);
+    color: var(--color-principal-oscuro);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.card__content {
+    padding: 20px;
+}
+
+.card__title {
+    font-family: Georgia, serif;
+    font-size: 1.6rem;
+    color: var(--color-principal-oscuro);
+    margin-bottom: 10px;
+}
+
+.card__features {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.card__features span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.card__price .amount {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-acento);
+    display: block;
+}
+
+.card__buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.card__button--book {
+    /* Estilo del botón dorado principal */
+    flex: 1;
+    background-color: var(--color-acento);
+    color: var(--color-principal-oscuro);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-align: center;
+}
+.card__button--details {
+    /* Estilo del botón secundario oscuro */
+    flex: 1;
+    background-color: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* ========================================================= */
+/* 21 - ESTILOS PÁGINA DE EVENTOS (eventos.html) */
+/* ========================================================= */
+
+
+.eventos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    padding-bottom: 60px;
+}
+
+.salon-card {
+    background: var(--color-texto-claro);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgb(0 0 0 / 8%);
+}
+
+.salon-image {
+    height: 280px;
+    position: relative;
+}
+.salon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 600px) {
+    /* 1. ELIMINA la altura fija en móvil para que el contenedor se adapte a la imagen */
+    .salon-image {
+        height: auto; /* Permite que el contenedor se comprima a la altura de la imagen */
+    }
+    
+    /* 2. Mantiene la imagen ajustada */
+    .salon-image img {
+        object-fit: contain;
+        width: 100%;
+        height: auto; /* Se adapta a la altura escalada */
+        display: block;
+    }
+}
+
+.salon-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+    padding: 8px 15px;
+    border-top-right-radius: 12px;
+    font-weight: 600;
+}
+
+.salon-content {
+    padding: 20px;
+}
+
+/* Ajusta el tamaño del botón para que no sea tan pequeño */
+.salon_footer .boton_principal {
+    padding: 12px 20px; /* Un poco más de padding */
+    font-size: 0.95rem;
+}
+
+/* ========================================================= */
+/* 22 - ESTILOS DE GALERÍA (galeria.html) */
+/* ========================================================= */
+
+.galeria {
+    padding: 60px 0;
+    text-align: center;
+    background-color: #f9fafb;
+}
+
+.galeria .section-title {
+    font-family: Georgia, serif;
+    font-size: 32px;
+    color: var(--color-principal-oscuro);
+    border-bottom: 2px solid var(--color-acento);
+    padding-bottom: 5px;
+}
+
+.filter-buttons {
+    margin: 30px 0;
+}
+
+.filter-btn {
+    background: transparent;
+    border: 2px solid var(--color-acento);
+    color: var(--color-principal-oscuro);
+    font-weight: 600;
+    padding: 10px 20px;
+    margin: 0 5px 10px 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background-color: var(--color-acento);
+    color: #fff;
+    border-color: var(--color-acento);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 0 20px 40px;
+}
+
+.gallery-item {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+    height: 240px;
+    width: 100%;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-item:hover {
+    box-shadow: 0 8px 18px rgb(0 0 0 / 0.2);
+    transform: translateY(-4px);
+}
+
+/* ========================================================= */
+/* 23 - RESPONSIVE PARA SERVICIOS, HABITACIONES Y EVENTOS */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+    /* Servicios */
+    .servicio-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .servicio-alternado-2 .servicio-galeria {
+        order: -1;
+    }
+    .servicio-alternado-2 .servicio-info {
+        order: 2;
+    }
+    .galeria-grid img:first-child {
+        grid-row: auto;
+        height: 260px;
+    }
+
+    /* Habitaciones y Eventos */
+    .rooms-grid, .eventos-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px 40px;
+    }
+}
+
+/* custom.css - Sección 15: Fix Final para el Carousel del Menú */
+
+.menu-carousels {
+    padding-bottom: 20px;
+}
+
+.menu-carousel {
+    position: relative;
+    margin: 24px 0;
+}
+
+.carousel-track {
+    display: flex !important;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 12px 40px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.menu-card {
+    flex: 0 0 300px !important;
+    min-width: 300px;
+    max-width: 380px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background: var(--color-texto-claro, #fff);
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgb(0 0 0 / 8%);
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.card-image-wrapper {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-track::-webkit-scrollbar {
+    height: 8px;
+}
+.carousel-track::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.12);
+    border-radius: 8px;
+}
+
+/* ========================================================= */
+/* 25 - ESTILOS PÁGINA MENÚ (RE-IMPLEMENTACIÓN) */
+/* ========================================================= */
+
+.hero_menu {
+    /* 💥 CAMBIO CLAVE: Establece la nueva imagen de fondo 💥 */
+    background-image: url('../images/a_hotel_indigo_empty_restaurant_table_6434901.png'); 
+    
+    /* Propiedades necesarias para que la imagen cubra todo el banner */
+    background-size: cover;          /* Asegura que la imagen cubra todo el área */
+    background-position: center center; /* Centra la imagen */
+    background-repeat: no-repeat;    /* Evita la repetición */
+    
+    /* Mantiene las propiedades existentes */
+    position: relative; 
+    overflow: hidden; 
+    min-height: 400px; 
+}
+
+.hero_menu .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45); /* Color oscuro para contraste */
+    /* El overlay debe estar sobre el video (1) y bajo el contenido (3) */
+    z-index: 2; 
+}
+
+.menu_nav {
+    background-color: var(--color-principal-oscuro) !important;
+}
+
+.menu_tabs {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 16px 0;
+    margin: 0;
+    /* Evita que los items se rompan por defecto */
+    flex-wrap: nowrap;
+}
+
+/* En pantallas medianas/pequeñas: convertir en carrusel horizontal */
+@media (max-width: 900px) {
+    .menu_tabs {
+        justify-content: flex-start;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 18px;
+        padding: 12px 16px;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+    }
+
+    .menu_tabs li {
+        flex: 0 0 auto; /* ancho fijo por item para mantener consistencia */
+        scroll-snap-align: start;
+    }
+
+    /* Asegura que los botones no se quiebren y tengan buen padding */
+    .menu_tabs li .menu-tab-btn {
+        white-space: nowrap;
+        padding: 8px 12px;
+        display: inline-block;
+    }
+}
+
+/* Ajustes para móviles muy pequeños */
+@media (max-width: 480px) {
+    .menu_tabs {
+        gap: 12px;
+        padding: 10px 12px;
+    }
+
+    .menu_tabs li .menu-tab-btn {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+}
+
+/* En pantallas entre desktop pequeño y mediano, permitir que los tabs hagan wrap centrado */
+@media (min-width: 901px) and (max-width: 1100px) {
+    .menu_tabs {
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+}
+
+/* Scrollbar sutil para webkit */
+.menu_tabs::-webkit-scrollbar {
+    height: 8px;
+}
+.menu_tabs::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.12);
+    border-radius: 8px;
+}
+
+.menu-tab-btn {
+    color: var(--color-texto-claro);
+    padding: 8px 0;
+    cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    width: auto;
+}
+
+.menu-tab-btn.active {
+    color: var(--color-acento) !important;
+    border-bottom: 3px solid var(--color-acento) !important;
+}
+
+/* Mostrar dos filas de menú en responsive */
+@media (max-width: 900px) {
+    /* Permite que los items hagan wrap en dos filas y desactiva el scroll horizontal */
+    .menu_tabs {
+        overflow-x: visible !important;
+        scroll-snap-type: none !important;
+        -webkit-overflow-scrolling: auto !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        padding: 8px 12px;
+    }
+
+    /* Cada item ocupa la mitad del ancho para formar 2 columnas (2 filas si hay muchas) */
+    .menu_tabs li {
+        flex: 0 0 50%;
+        max-width: 50%;
+        box-sizing: border-box;
+    }
+
+    .menu_tabs li .menu-tab-btn {
+        display: block;
+        padding: 10px 12px;
+        white-space: normal;
+    }
+
+    /* Ajuste para pantallas muy pequeñas: si 50% es demasiado, usar 100% */
+    @media (max-width: 420px) {
+        .menu_tabs li {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+}
+
+/* ========================================================= */
+/* 25 - ESTILOS PÁGINA MENÚ (RE-IMPLEMENTACIÓN) */
+/* ========================================================= */
+
+/* ... (Estilos de hero_menu y menu_tabs omitidos por brevedad) ... */
+
+/* ------------------------------------------------------------------
+    CARRUSEL (Layout y Tarjetas) - REFINADO
+    ------------------------------------------------------------------ */
+
+.menu-carousel {
+    position: relative;
+    margin: 24px 0;
+}
+
+.carousel-track {
+    /* CLAVE: Forzar FLEX y Scroll */
+    display: flex !important;
+    gap: 20px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    padding: 20px 40px;
+    scroll-snap-type: x mandatory;
+}
+
+.menu-card {
+    /* CLAVE: Ancho fijo para el deslizamiento */
+    flex: 0 0 300px !important;
+    min-width: 300px !important;
+
+    /* Diseño */
+    display: flex;
+    flex-direction: column;
+    background: var(--color-texto-claro, #fff);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 10%);
+    overflow: hidden;
+    scroll-snap-align: start;
+    transition: transform 0.4s ease, box-shadow 0.4s ease; /* Aumenta la transición */
+}
+
+.menu-card:hover {
+    transform: translateY(-8px); /* Efecto de elevación más notable */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); /* Sombra más elegante */
+}
+
+.card-image-wrapper {
+    /* Contenedor de imagen */
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    /* Redondeamos solo arriba para que coincida con el borde de la tarjeta */
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil bajo la imagen */
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease; /* Transición para el zoom al pasar el ratón */
+}
+
+.menu-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-details {
+    padding: 15px 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* CLAVE: Empuja el botón al final */
+    text-align: left; /* Asegura la alineación del texto */
+}
+
+.card-details h3 {
+    font-size: 1.4rem; /* Un poco más grande para el título */
+    margin-bottom: 5px;
+    color: var(--color-principal-oscuro);
+    font-weight: 700;
+}
+
+.card-details p {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* ------------------------------------------------------------------
+    ESTILOS DEL PRECIO Y BOTÓN
+    ------------------------------------------------------------------ */
+
+.card-price-group {
+    /* Contenedor para el precio y el botón, que va en la parte inferior */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    margin-top: auto; /* CLAVE: Empuja este grupo al fondo si la descripción es corta */
+    border-top: 1px solid var(--color-fondo-gris); /* Separación visual */
+}
+
+.card-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-acento); /* Color dorado/acento */
+}
+
+.card-price .currency {
+    font-size: 0.9em;
+}
+
+.btn-details {
+    /* Estilo para el botón "Detalles" */
+    display: inline-block;
+    padding: 10px 10px; /* Más padding para que se vea como un botón */
+    background: transparent;
+    color: var(--color-acento);
+    border: 2px solid var(--color-acento); /* Borde acentuado (dorado) */
+    border-radius: 8px; /* Borde más cuadrado que el de habitaciones */
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    flex-shrink: 0; /* Evita que se encoja */
+    text-align: center;
+    color: var(--color-principal);
+    background: var(--color-acento);
+}
+.btn-details:hover {
+    background: var(--color-acento);
+    color: var(--color-principal-oscuro); /* El color del texto es oscuro sobre dorado */
+    box-shadow: 0 4px 8px rgb(208 167 95 / 30%);
+}
+
+/* ... (Estilos de flechas de carrusel y modal omitidos por brevedad) ... */
+
+/* Flechas del Carousel */
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.8;
+}
+
+.carousel-btn-left {
+    left: 10px;
+}
+
+.carousel-btn-right {
+    right: 10px;
+}
+
+/* Ocultar flechas en móvil si el espacio es limitado */
+@media (max-width: 768px) {
+    .carousel-btn {
+        display: none;
+    }
+}
+
+/* ========================================================= */
+/* 26 - ESTILOS MODAL DE DETALLES DEL PLATO (Menu.html) */
+/* ========================================================= */
+
+.modal-overlay {
+    /* CLAVE: Fija el modal a toda la ventana */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semi-transparente oscuro */
+    z-index: 1000; /* Asegura que esté por encima de todo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto; /* Permite scroll si el contenido es muy alto */
+    padding: 20px;
+    
+    /* Estado de OCULTO */
+    visibility: visible; /* Se cambia a hidden cuando se añade la clase .hidden */
+    opacity: 1; /* Se cambia a 0 cuando se añade la clase .hidden */
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    /* CLAVE: Esta clase lo oculta */
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none; /* Ignora clics cuando está oculto */
+}
+.modal-content {
+    background-color: var(--color-texto-claro);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 800px; /* Tamaño máximo del modal */
+    /*height: 100vh;
+    max-height: 100vh;*/ 
+    padding: 30px;
+    position: relative;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+    overflow-y: auto; /* Permite scroll interno si el contenido excede la altura */
+    box-sizing: border-box; /* Incluye padding en el cálculo de la altura */
+}
+
+.modal-overlay.hidden .modal-content {
+    /* Pequeña animación para que no aparezca de golpe */
+    transform: scale(0.95); 
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--color-principal-oscuro);
+}
+
+.modal-body {
+    display: flex;
+    gap: 30px;
+}
+
+.modal-image {
+    flex: 3;
+}
+
+.modal-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+   
+}
+
+.modal-details {
+    flex: 2;
+    text-align: left;
+}
+
+.detail-title {
+    color: var(--color-acento);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.detail-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-principal-oscuro);
+    margin-bottom: 15px;
+}
+
+.detail-ingredients-title {
+    font-size: 1.1rem;
+    color: var(--color-principal-oscuro);
+    margin-top: 15px;
+}
+
+.modal-actions {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.btn-cancel {
+    background: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Fix para el scroll de fondo */
+body.modal-open {
+    overflow: hidden;
+}
+
+@media (max-width: 600px) {
+    .modal-body {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .modal-image {
+        order: -1;
+    }
+    .modal-content {
+        height: 100vh;
+        max-height: 100vh;
+        width: 100%; /* Opcional: si quieres que ocupe todo el ancho en móvil */
+        /* Ajuste para el padding en móvil si lo deseas más pequeño */
+        padding: 15px;
+    }
+}
+
+/* ========================================================= */
+/* 27 - ESTILOS FORMULARIO RESERVA DE MESA/SALÓN (Dark Card Style) */
+/* ========================================================= */
+
+.reservar_form_section {
+    padding: 60px 0;
+    background-color: var(--color-fondo-claro);
+}
+
+.reservar_form_container {
+    max-width: 900px; /* Ancho máximo para el formulario de mesa */
+}
+
+/* 27.1 Tarjeta Oscura Contenedora */
+.form_card {
+    background: var(--color-principal-claro); /* Fondo Marrón Oscuro */
+    color: var(--color-texto-claro);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgb(0 0 0 / 25%);
+    /* Borde acentuado (dorado) para el estilo premium */
+    border: 3px solid var(--color-acento);
+}
+
+.form_card .form_title {
+    color: var(--color-acento);
+    font-size: 2rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Encabezados internos (Detalles de la Reserva, Contacto, Observaciones) */
+.form_section .section_title {
+    /* CLAVE: Corregir el color de los h3/section_title dentro de la tarjeta oscura */
+    color: var(--color-acento); 
+    font-size: 1.5rem;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* 27.2 Estructura de Filas y Columnas */
+.form_row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form_group {
+    flex: 1;
+}
+
+.form_group label {
+    color: var(--color-principal-oscuro); /* Etiquetas blancas */
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* 27.3 Input con Ícono (El estilo de los formularios rotos) */
+.input_wrapper {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid var(--color-acento); /* borde más fino */
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--color-texto-claro);
+    transition: box-shadow 0.2s ease;
+    padding: 6px 8px; /* reduce altura visual */
+    height: 40px; /* fija altura menor para que se vea más delgado */
+    font-size: 0.95rem;
+}
+
+.input_wrapper:focus-within {
+    box-shadow: 0 0 0 4px rgba(208, 167, 95, 0.4); /* Sombra al enfocar */
+}
+
+.input_icon {
+    /* El ícono (emoji o font-awesome) */
+    padding: 0 12px;
+    font-size: 1.2rem;
+    color: var(--color-acento);
+    
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.input_wrapper input[type="date"],
+.input_wrapper input[type="time"],
+.input_wrapper input[type="number"],
+.input_wrapper input[type="text"],
+.input_wrapper input[type="tel"],
+.input_wrapper input[type="email"],
+.input_wrapper textarea {
+    /* Ajuste de inputs dentro del wrapper */
+    flex-grow: 1;
+    border: none;
+    padding: 12px 15px;
+    color: var(--color-principal-oscuro);
+    background-color: transparent;
+    font-size: 1rem;
+    width: 100%;
+    /* Corrección para textarea (observaciones) */
+    min-height: 100px; 
+    resize: vertical;
+}
+
+.input_wrapper input:focus,
+.input_wrapper textarea:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+/* 27.3.1 Sobrescritura específica para el contenedor del textarea */
+.input_wrapper.textarea_wrapper {
+    /* 1. Anula la altura fija de 40px */
+    height: auto; 
+    
+    /* 2. Permite que el contenedor se estire hasta la altura del textarea */
+    min-height: 120px; /* Dale un mínimo para asegurar el espacio visual */
+    
+    /* 3. Asegura que el contenido del textarea se muestre desde arriba (alineación del ícono) */
+    align-items: flex-start;
+    
+    /* 4. Ajusta el padding si es necesario, ya que el padding afecta la altura total */
+    padding: 8px; 
+}
+
+/* Ajuste del ícono dentro del wrapper del textarea */
+.input_wrapper.textarea_wrapper .input_icon {
+    /* Mantiene el ícono fijo arriba */
+    height: auto;
+    padding-top: 5px; /* Pequeño ajuste visual para que no se pegue al borde */
+}
+
+/* Modificamos la regla del textarea para que rellene el espacio del wrapper */
+.input_wrapper textarea { 
+    /* Esta regla ya existía, solo asegúrate que la altura mínima sea correcta */
+    min-height: 100px; 
+    height: 100%; /* Intenta expandirse para llenar el wrapper */
+    padding: 5px 15px 5px 0; /* Ajusta el padding para que no se vea pegado al borde y respete el ícono */
+}
+
+/* Botón de Reserva */
+.form_actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: right;
+}
+
+.btn_reservar {
+    /* Estilo botón de reserva: debe ser el botón dorado principal */
+    background-color: var(--color-acento);
+    color: var(--color-principal-oscuro);
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.2s ease;
+}
+
+.btn_reservar:hover {
+    background-color: #B88E4B;
+    transform: translateY(-1px);
+}
+
+/* Responsive para formularios de reserva */
+@media (max-width: 700px) {
+    .form_row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form_card {
+        padding: 25px 20px;
+    }
+}
+
+/* custom.css - Complemento para Resumen de Salón/Reserva (Resumen Tarjeta) */
+
+/* Estilos de la tarjeta de resumen (lado izquierdo) */
+.resumen_tarjeta {
+        /* Ya está definida en la Sección 18.2 */
+        background-color: var(--color-texto-claro);
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 30px; 
+}
+
+/* =============================
+     AJUSTE RESPONSIVE: Cotizar Evento
+     Evita que la tarjeta de resumen tape el formulario en móviles
+     ============================= */
+@media (max-width: 900px) {
+    .panel_reserva_contenido {
+        flex-direction: column !important; /* Cambia a columna en móvil */
+        gap: 20px;
+    }
+    .resumen_tarjeta {
+        position: static !important; /* Quita sticky en móvil */
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 20px;
+    }
+    .formulario_reserva {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+.resumen_tarjeta h2 {
+    font-size: 1.5rem;
+    color: var(--color-principal-oscuro);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--color-fondo-gris); /* Línea de separación bajo el título */
+    padding-bottom: 10px;
+}
+
+.resumen_tarjeta h3 {
+    /* Para "Detalles del Salón" */
+    color: var(--color-principal-oscuro); /* Que no sea dorado como los H3 globales */
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+}
+
+.resumen_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Separación tenue entre items */
+}
+
+.resumen_item p:last-child {
+    font-weight: 600;
+}
+
+.resumen_tarjeta hr {
+    margin: 15px 0;
+    border-color: var(--color-fondo-gris);
+}
+
+.alerta-info {
+    background-color: #e6f7ff; /* Fondo celeste suave */
+    border: 1px solid #b3e6ff;
+    color: #004085;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 0.95rem;
+    text-align: left;
+}
+.alerta-info i {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+/* ========================================================= */
+/* 28 - ESTILOS FORMULARIO RESERVA HABITACIONES (Multi-Paso) */
+/* ========================================================= */
+
+/* Contenedor del Formulario */
+.form_card_reserva {
+    /* CLAVE: Fondo blanco y sombra para darle estética de tarjeta */
+    
+    padding: 30px;
+    border-radius: 12px;
+    
+    flex: 1; /* Permite que ocupe el espacio restante en el flex del panel_reserva_contenido */
+}
+
+/* 28.1 Indicadores de Paso */
+
+.pasos_indicador {
+    /* Añadimos un fondo muy tenue para darle más presencia */
+    background-color: var(--color-fondo-claro); 
+    border-radius: 8px 8px 0 0; 
+    border: 1px solid var(--color-fondo-gris);
+    border-bottom: none;
+}
+
+.paso_item {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.paso_item.activo {
+    color: var(--color-principal-oscuro);
+}
+
+.paso_item.activo::after {
+    /* Refuerzo visual del paso activo */
+    height: 4px;
+    bottom: -3px;
+    background-color: var(--color-acento);
+}
+
+
+/* 28.2 Campo de Formulario (para que se vea más pulcro) */
+.campo_reserva {
+    /* Estilo para los campos dentro del formulario_grid */
+    margin-bottom: 0; 
+}
+
+.campo_reserva input[type="text"],
+.campo_reserva input[type="email"],
+.campo_reserva input[type="tel"],
+.campo_reserva input[type="number"],
+.campo_reserva input[type="date"],
+.campo_reserva select {
+    /* Estilo para un input más limpio y centrado */
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--input-border-color);
+    width: 100%;
+    font-size: 1rem;
+    background-color: var(--color-fondo-claro);
+    transition: border-color 0.3s ease;
+}
+
+.campo_reserva input:focus,
+.campo_reserva select:focus {
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 3px rgb(208 167 95 / 30%);
+}
+
+/* 28.3 Ajuste de Títulos de Sección y Leyendas */
+
+.form__section legend {
+    /* Aseguramos que se lea bien en el fondo blanco */
+    color: var(--color-acento);
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 0 10px;
+}
+
+/* 28.4 Estilos de Resumen de Pago (dentro del formulario) */
+
+.total {
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-align: right;
+    margin-top: 15px;
+}
+
+.acciones_formulario {
+    /* Aseguramos que los botones sigan siendo flex */
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ========================================================= */
+/* 29 - ESTILOS PÁGINA DE CONTACTO (contacto.html) */
+/* ========================================================= */
+
+.hero_contacto {
+    /* Usamos la misma imagen que eventos/reservas para consistencia, o una nueva */
+    background-image: url('../images/lobby.png'); 
+}
+
+/* Layout de dos columnas para contacto */
+.contacto_container {
+    display: flex;
+    gap: 40px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    align-items: flex-start;
+    text-align: center;
+    /* Alinea las columnas arriba */
+}
+
+/* Columna de Información (Fondo claro) */
+.informacion_contacto {
+    flex: 1;
+    background-color: var(--color-texto-claro);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+}
+
+.informacion_contacto h2 {
+    color: var(--color-principal-oscuro);
+    font-size: 2rem;
+    margin-bottom: 20px;
+
+}
+
+.contacto_detalles {
+    margin-top: 25px;
+    border-top: 1px solid var(--color-fondo-gris);
+    padding-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.contacto_item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 760px;
+}
+
+.contacto_item i {
+    font-size: 1.5rem;
+    margin-top: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contacto_item p {
+    color: var(--color-principal-oscuro);
+    line-height: 1.4;
+    margin: 0;
+    text-align: left; /* keep multi-line text readable when side-by-side */
+}
+
+/* En pantallas pequeñas apilar icono + texto y centrar todo */
+@media (max-width: 600px) {
+    .contacto_item {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .contacto_item p {
+        text-align: center;
+    }
+}
+
+/* Estilo para el formulario (Tarjeta oscura) */
+.form_card_contacto {
+    flex: 1.5; /* Hacemos que la tarjeta del formulario sea un poco más grande */
+}
+
+/* Redes Sociales */
+.social_links {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.social_links a {
+    color: var(--color-principal-oscuro);
+    font-size: 1.8rem;
+    transition: color 0.2s ease;
+    text-align: center;
+}
+
+.social_links a:hover {
+    color: var(--color-acento);
+}
+
+/* Responsive para Contacto */
+@media (max-width: 800px) {
+    .contacto_container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .form_card_contacto {
+        order: -1; /* Mover el formulario arriba en móvil */
+    }
+}
+
+/* ==============================================
+   1. GRID RESPONSIVE PARA TARJETAS (.rooms-grid)
+   ============================================== */
+
+.panel_habitaciones.rooms-grid {
+    /* Auto-fit asegura que se apilen si no hay espacio para el ancho mínimo (300px) */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--espaciado-large); /* Espacio entre las tarjetas */
+}
+
+.rooms-grid .habitacion_tarjeta {
+    border-radius: 22px;
+    padding-bottom: 12px;
+    overflow: hidden; /* Se cambia a hidden para contener la imagen */
+    background: linear-gradient(180deg,#fff,#f7f7f7);
+}
+
+.rooms-grid .habitacion_tarjeta .imagen_habitacion {
+    border-radius: 8px;
+    height: 300px; 
+    object-fit: cover;
+    margin: 18px auto 18px; 
+    display: block; 
+    width: calc(100% - 36px); 
+}
+
+/* ==============================================
+   2. ESTILOS DE BOTONES (Flexbox)
+   ============================================== */
+
+.rooms-grid .botones_tarjeta {
+    display: flex;
+    justify-content: space-between; /* Botones uno al lado del otro */
+    gap: 12px;
+    margin-top: 15px;
+    padding: 0 18px 18px; 
+}
+
+.rooms-grid .boton-detalles,
+.rooms-grid .boton-reservar {
+    flex: 1; /* Ambos botones ocupan el mismo ancho */
+    padding: 12px 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 10px; 
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+/* Estilos específicos de color para Ver Detalles (Gris Claro) */
+.rooms-grid .boton-detalles {
+    color: var(--color-principal-oscuro); 
+    background: #e9e9ea; 
+    border: 2px solid #e9e9ea;
+}
+.rooms-grid .boton-detalles:hover {
+    background: #d4d4d4;
+    border-color: #d4d4d4;
+}
+
+/* Estilos específicos de color para Reservar Ahora (Dorado) */
+.rooms-grid .boton-reservar {
+    color: var(--color-principal-oscuro);
+    background-color: var(--color-acento);
+    border: 2px solid var(--color-acento);
+}
+.rooms-grid .boton-reservar:hover {
+    background-color: hsl(37, 43%, 51%); 
+    border-color: rgb(184, 142, 75);
+}
+
+/* ==============================================
+   3. MEDIA QUERY PARA BOTONES (Apilamiento en Móvil)
+   ============================================== */
+
+@media (max-width: 450px) {
+    /* Hace que los botones pasen a estar uno debajo del otro */
+    .rooms-grid .botones_tarjeta {
+        flex-direction: column; 
+    }
+    
+    .rooms-grid .boton-reservar,
+    .rooms-grid .boton-detalles {
+         width: 100%; /* Ocupan todo el ancho de la tarjeta */
+         margin-top: 8px; /* Espacio vertical entre ellos */
+    }
+}
+
+.select-hora-reserva{
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid var(--color-acento);
+    font-size: 1rem;
+    
+    transition: border-color 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

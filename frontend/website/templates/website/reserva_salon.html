@@ -1,0 +1,141 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Cotización de Evento{% endblock %}
+
+{% block content %}
+
+<section class="seccion_busqueda hero_eventos" role="banner">
+    <div class="contenedor_busqueda">
+        <h1>Cotiza Tu Próximo Evento</h1>
+        <p class="subtitulo">Ingresa los detalles de tu evento y te contactaremos a la brevedad.</p>
+    </div>
+</section>
+
+<section class="seccion_reserva">
+    <div class="contenedor panel_reserva_contenido contenedor_cotizacion"> 
+        
+        <aside class="resumen_tarjeta" data-aos="fade-right">
+            <h2>Salón Seleccionado: Gran Majestic</h2>
+            
+            <div class="resumen_item">
+                <p><strong>Capacidad Máxima:</strong></p>
+                <p>300 personas</p>
+            </div>
+            
+            <div class="resumen_item">
+                <p><strong>Precio Base (Hora):</strong></p>
+                <p class="color-acento">$120 USD</p>
+            </div>
+            <hr>
+            <h3>Detalles del Salón</h3>
+            <p>El salón más grande y elegante del hotel, perfecto para bodas y galas. Incluye servicio de catering personalizable.</p>
+            
+            <div class="alerta alerta-info">
+                <i class="fas fa-info-circle"></i> Los horarios y el total se calcularán al enviar el formulario.
+            </div>
+        </aside>
+        
+<div class="formulario_reserva gold-reservation-card" data-aos="fade-left">
+    <form id="cotizacionForm">
+        <h2>Detalles del Evento</h2>
+        
+        <fieldset class="form__section">
+            <legend>Fechas y Horarios del Evento</legend>
+            <div class="form_row">
+<div class="form_group">
+    <label for="fecha_evento">Fecha del Evento</label>
+    <div class="input_wrapper">
+        <span class="input_icon"><i class="fas fa-calendar-alt"></i></span>
+        <input 
+            type="date" 
+            id="fecha_evento" 
+            name="fecha_evento" 
+            required
+            
+            {# 💥 Lógica para impedir fechas pasadas 💥 #}
+            min="{% now 'Y-m-d' %}"
+        >
+    </div>
+</div>
+                <div class="form_group">
+                    <label for="tipo_evento">Tipo de Evento</label>
+                    <div class="input_wrapper">
+                        <span class="input_icon"><i class="fas fa-glass-cheers"></i></span>
+                        <select id="tipo_evento" name="tipo_evento" class= "select-hora-reserva" required>
+                            <option value="" disabled selected>Seleccione</option>
+                            <option value="boda">Boda / Gala</option>
+                            <option value="conferencia">Conferencia / Taller</option>
+                            <option value="social">Reunión Social / Fiesta</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form_row">
+                <div class="form_group">
+                    <label for="hora_inicio">Hora de Inicio</label>
+                    <div class="input_wrapper">
+                        <span class="input_icon"><i class="far fa-clock"></i></span>
+                        <input type="time" id="hora_inicio" name="hora_inicio" required>
+                    </div>
+                </div>
+                <div class="form_group">
+                    <label for="hora_fin">Hora de Finalización</label>
+                    <div class="input_wrapper">
+                        <span class="input_icon"><i class="fas fa-hourglass-end"></i></span>
+                        <input type="time" id="hora_fin" name="hora_fin" required>
+                    </div>
+                </div>
+            </div>
+            <div class="form_group full-width">
+                <label for="numero_personas">Número de Invitados (número_personas)</label>
+                <div class="input_wrapper">
+                    <span class="input_icon"><i class="fas fa-users"></i></span>
+                    <input type="number" id="numero_personas" name="numero_personas" min="1" max="300" placeholder="Máx. 300" required>
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset class="form__section">
+            <legend>Información de Contacto</legend>
+            <div class="form_group full-width">
+                <label for="nombre_contacto">Nombre del Organizador</label>
+                <div class="input_wrapper">
+                    <span class="input_icon"><i class="fas fa-user"></i></span>
+                    <input type="text" id="nombre_contacto" name="nombre_contacto"  placeholder="Su nombre, por favor"required>
+                </div>
+            </div>
+            <div class="form_group full-width">
+                <label for="email_contacto">Correo Electrónico</label>
+                <div class="input_wrapper">
+                    <span class="input_icon"><i class="fas fa-envelope"></i></span>
+                    <input type="email" id="email_contacto" name="email_contacto" placeholder="Para enviar la cotización" required>
+                </div>
+            </div>
+<div class="form_group full-width">
+    <label for="telefono_contacto">Teléfono</label>
+    <div class="input_wrapper">
+        <span class="input_icon"><i class="fas fa-phone"></i></span>
+        <input 
+            type="tel" 
+            id="telefono_contacto" 
+            name="telefono_contacto" 
+            placeholder="Concretar detalles" 
+            required
+            
+            /* 💥 Atributos añadidos para la restricción 💥 */
+            pattern="[0-9\+\-\(\)\s]*" 
+            title="Solo se permiten números, espacios y guiones (+-())."
+        >
+    </div>
+</div>
+        </fieldset>
+        
+        <div class="card__buttons">
+            <button type="submit" class="card__button--details">Enviar Solicitud de Cotización</button>
+        </div>
+    </form>
+</div>
+</section>
+
+{% endblock content %}

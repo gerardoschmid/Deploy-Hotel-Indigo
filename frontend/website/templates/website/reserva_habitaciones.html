@@ -1,0 +1,608 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* =========================================
+       VARIABLES Y CONFIGURACIÓN BASE
+       ========================================= */
+    :root {
+        --header-height-django: 80px; 
+        --bar-height-initial: 90px; /* Aumentamos para que quepa el texto */
+        --bar-height-scrolled: 65px;
+        --card-radius: 12px;
+        --color-iconos: #999;
+        /* Hereda --color-acento y --color-principal-oscuro de base.css */
+    }
+
+    .reserva-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: calc(var(--header-height-django) ) 20px 80px;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    /* -------------------------------------------
+       1. BARRA DE PROGRESO SEGMENTADA (FIX DEFINITIVO)
+       ------------------------------------------- */
+    .progress-container {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        height: var(--bar-height-initial);
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        backdrop-filter: blur(8px);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: flex-start; /* Alinea al inicio */
+        padding-top: 15px;      /* Empuja un poco hacia abajo para centrar el conjunto */
+        justify-content: center;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .progress-container.shrunk {
+        height: var(--bar-height-scrolled);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* EL TRACK AHORA ES UN FLEXBOX CONTINUO */
+    .progress-track {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Distribuye elementos */
+        padding: 0 20px;
+    }
+
+    /* CÍRCULOS (NODOS) */
+    .step-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2; /* Encima de las líneas */
+        flex-shrink: 0; /* No se aplastan */
+    }
+
+    .step-circle {
+        width: 34px; height: 34px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        color: #aaa;
+        background: #fff;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.9rem;
+        transition: all 0.3s;
+    }
+
+    .step-text {
+        position: absolute;
+        top: 38px; /* Debajo del círculo */
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #aaa;
+        white-space: nowrap;
+        transition: all 0.3s;
+    }
+
+    /* CONECTORES (SEGMENTOS INDIVIDUALES) */
+    .connector {
+        flex-grow: 1; /* Ocupa todo el espacio entre círculos */
+        height: 4px;
+        background: #e0e0e0;
+        margin: 0 10px; /* Separación para no tocar el borde del círculo */
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden; /* Clave: lo que se llene no sale de aquí */
+    }
+
+    .connector-fill {
+        position: absolute;
+        top: 0; left: 0; bottom: 0;
+        width: 0%; /* JS controla esto */
+        background: var(--color-acento);
+        transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* ESTADOS ACTIVOS/COMPLETADOS */
+    .step-item.active .step-circle {
+        border-color: var(--color-acento); color: var(--color-acento);
+        transform: scale(1.15); box-shadow: 0 0 0 4px rgba(208, 167, 95, 0.15);
+    }
+    .step-item.active .step-text { color: var(--color-principal-oscuro); top: 42px; }
+
+    .step-item.completed .step-circle {
+        background: var(--color-acento); border-color: var(--color-acento); color: #fff;
+    }
+
+    /* Shrink Effect */
+    .progress-container.shrunk .step-circle { width: 28px; height: 28px; font-size: 0.8rem; }
+    .progress-container.shrunk .step-text { opacity: 0; } /* Ocultar texto al encoger */
+
+
+    /* -------------------------------------------
+       2. FORMULARIOS & RESPONSIVE FIX
+       ------------------------------------------- */
+    .form-card {
+        background: #fff; padding: 30px;
+        border-radius: var(--card-radius);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        margin-bottom: 25px;
+        border-left: 4px solid transparent;
+        transition: all 0.3s;
+        animation: slideUp 0.5s ease;
+    }
+    @keyframes slideUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
+    .form-card:hover, .form-card:focus-within { border-left-color: var(--color-acento); }
+
+    .form-header {
+        display: flex; align-items: center; gap: 10px;
+        margin-bottom: 25px; padding-bottom: 10px;
+        border-bottom: 1px solid #eee; color: var(--color-principal-oscuro);
+    }
+    .form-header h2 { font-size: 1.4rem; margin: 0; }
+    .form-header i { color: var(--color-acento); font-size: 1.2rem; }
+
+    /* GRID RESPONSIVE MEJORADA */
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .full-width { grid-column: 1 / -1; }
+
+    /* Inputs */
+    .input-wrapper { position: relative; }
+    .input-wrapper i {
+        position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+        color: var(--color-iconos); pointer-events: none; transition: 0.3s;
+    }
+    .input-wrapper input, .input-wrapper select, .input-wrapper textarea {
+        width: 100%; padding: 12px 12px 12px 45px;
+        border: 1px solid #ddd; border-radius: 8px; font-size: 1rem;
+        transition: 0.3s; font-family: inherit; background: #fdfdfd;
+    }
+    .input-wrapper input:focus {
+        border-color: var(--color-acento); background: #fff; outline: none;
+        box-shadow: 0 4px 10px rgba(208, 167, 95, 0.1);
+    }
+    .input-wrapper input:focus + i { color: var(--color-acento); }
+    .input-error { border-color: #e74c3c !important; background: #fff5f5 !important; }
+    label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #444; }
+
+    /* -------------------------------------------
+       3. BOTONES Y SIDEBAR
+       ------------------------------------------- */
+    .btn-gold {
+        background: var(--color-acento); color: var(--color-principal-oscuro);
+        border: none; width: 100%; padding: 16px;
+        border-radius: 8px; font-weight: 800; font-size: 1rem;
+        cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+        transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px;
+        margin-top: 20px;
+    }
+    .btn-gold:hover { background: #b8924f; transform: translateY(-2px); }
+    .btn-outline { background: transparent; border: 2px solid #ddd; color: #666; }
+    .btn-outline:hover { background: #eee; border-color: #ccc; }
+
+    .sidebar-sticky {
+        position: sticky; top: 90px;
+        background: var(--color-principal-oscuro); color: #fff;
+        padding: 25px; border-radius: var(--card-radius);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
+    .total-display { font-size: 1.4rem; color: var(--color-acento); font-weight: bold; margin-top: 20px; text-align: right; }
+
+    /* -------------------------------------------
+       4. UTILES & OTP
+       ------------------------------------------- */
+    .hidden { display: none; }
+    .otp-display { letter-spacing: 15px; text-align: center; font-size: 1.8rem; font-weight: bold; text-transform: uppercase; }
+    
+    .resend-link { color: #888; cursor: not-allowed; pointer-events: none; transition: 0.3s; }
+    .resend-link.active { color: var(--color-acento); cursor: pointer; pointer-events: auto; text-decoration: underline; }
+    .timer-count { font-weight: bold; font-family: monospace; }
+
+    /* -------------------------------------------
+       5. RESPONSIVE
+       ------------------------------------------- */
+    @media (max-width: 900px) {
+        .reserva-wrapper { grid-template-columns: 1fr; padding-top: 30px; }
+        .sidebar-sticky { position: relative; top: 0; order: 2; margin-top: 20px; }
+        /* Móvil: Ocultar conectores y nodos inactivos para limpiar */
+        .step-item:not(.active) { display: none; }
+        .step-item.active { margin: 0 auto; }
+        .connector { display: none; }
+        .step-text { opacity: 1 !important; top: 42px; } /* Mostrar texto activo */
+    }
+
+    @media (max-width: 768px) {
+        /* Solución al desbordamiento de formularios */
+        .form-grid { grid-template-columns: 1fr; gap: 15px; }
+    }
+</style>
+<div class="progress-container" id="progressBar">
+    <div class="progress-track">
+        
+        <div class="step-item active" id="step-node-1">
+            <div class="step-circle">1</div>
+            <span class="step-text">Datos</span>
+        </div>
+
+        <div class="connector">
+            <div class="connector-fill" id="segment-1"></div>
+        </div>
+
+        <div class="step-item" id="step-node-2">
+            <div class="step-circle">2</div>
+            <span class="step-text">Revisión</span>
+        </div>
+
+        <div class="connector">
+            <div class="connector-fill" id="segment-2"></div>
+        </div>
+
+        <div class="step-item" id="step-node-3">
+            <div class="step-circle">3</div>
+            <span class="step-text">Código</span>
+        </div>
+
+        <div class="connector">
+            <div class="connector-fill" id="segment-3"></div>
+        </div>
+
+        <div class="step-item" id="step-node-4">
+            <div class="step-circle"><i class="fas fa-check"></i></div>
+            <span class="step-text">Listo</span>
+        </div>
+
+    </div>
+</div>
+
+<div class="reserva-wrapper">
+    <div class="form-flow">
+        <form id="reservationForm" method="POST" action="/reservar/procesar/">
+    {% csrf_token %}
+    <input type="hidden" name="habitacion_id" id="habitacion_id_input" value="{{ request.GET.habitacion_id }}">
+
+
+            <div id="phase-1" class="phase-container">
+                <div class="form-card">
+                    <div class="form-header"><i class="fas fa-user-circle"></i><h2>Información del Huésped</h2></div>
+                    <div class="form-grid">
+                        <div class="full-width"><label>Nombre Completo</label><div class="input-wrapper"><input type="text" id="nombre" name="nombre" placeholder="Nombre Apellido" required oninput="validateText(this); updateProgress()"><i class="fas fa-user"></i></div></div>
+                        <div><label>Cédula / ID</label><div class="input-wrapper"><input type="text" id="cedula" name="cedula" placeholder="V-12345678" required oninput="validateNumber(this); updateProgress()"><i class="fas fa-id-card"></i></div></div>
+                        <div><label>Teléfono</label><div class="input-wrapper"><input type="tel" id="telefono" name="telefono" placeholder="0412 1234567" required oninput="validateNumber(this); updateProgress()"><i class="fas fa-phone"></i></div></div>
+                        <div class="full-width"><label>Correo Electrónico</label><div class="input-wrapper"><input type="email" id="email" name="email" placeholder="cliente@email.com" required oninput="updateProgress()"><i class="fas fa-envelope"></i></div></div>
+                    </div>
+                </div>
+                <div class="form-card">
+                    <div class="form-header"><i class="fas fa-calendar-alt"></i><h2>Detalles de Estancia</h2></div>
+                    <div class="form-grid">
+                        <div><label>Check-in</label><div class="input-wrapper"><input type="date" id="checkin" name="llegada" required onchange="handleDates(); updateProgress()"></div></div>
+                        <div><label>Check-out</label><div class="input-wrapper"><input type="date" id="checkout" name="salida" required onchange="handleDates(); updateProgress()"></div></div>
+                        <div><label>Huéspedes</label><div class="input-wrapper"><input type="number" id="huespedes" name="huespedes" value="1" min="1" required oninput="updateProgress()"><i class="fas fa-users"></i></div></div>
+                        <div class="full-width"><label>Notas</label><div class="input-wrapper"><textarea id="notas" name="notas" rows="2" placeholder="Opcional..."></textarea><i class="fas fa-pen"></i></div></div>
+                    </div>
+                </div>
+                <button type="button" class="btn-gold" onclick="nextPhase(2)">CONTINUAR <i class="fas fa-arrow-right"></i></button>
+            </div>
+
+            <div id="phase-2" class="phase-container hidden">
+                <div class="form-card">
+                    <div class="form-header"><i class="fas fa-check-double"></i><h2>Confirmar Datos</h2></div>
+                    <p style="color:#666; margin-bottom:20px;">Verifique que la información sea correcta.</p>
+                    <div style="background:#f9f9f9; border-radius:8px; padding:20px; font-size:0.95rem;">
+                        <div class="form-grid">
+                            <div><small style="color:#888;">Nombre:</small><br><strong id="rev-name"></strong></div>
+                            <div><small style="color:#888;">Cédula:</small><br><strong id="rev-id"></strong></div>
+                            <div><small style="color:#888;">Email:</small><br><strong id="rev-mail"></strong></div>
+                            <div><small style="color:#888;">Teléfono:</small><br><strong id="rev-phone"></strong></div>
+                            <div><small style="color:#888;">Entrada:</small><br><strong id="rev-in"></strong></div>
+                            <div><small style="color:#888;">Salida:</small><br><strong id="rev-out"></strong></div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-gold" onclick="nextPhase(3)">ENVIAR CÓDIGO</button>
+                    <button type="button" class="btn-gold btn-outline" onclick="nextPhase(1)"><i class="fas fa-edit"></i> EDITAR</button>
+                </div>
+            </div>
+
+            <div id="phase-3" class="phase-container hidden">
+                <div class="form-card" style="text-align:center;">
+                    <div class="form-header" style="justify-content:center; border:none;"><h2><i class="fas fa-shield-alt" style="color:var(--color-acento);"></i> Verificación</h2></div>
+                    {% if codigo_enviado %}
+                        <p>Hemos enviado un código de 6 dígitos a <strong>{{ email_destino }}</strong></p>
+                        {% if codigo_demo %}
+                            <div style="background: #e8f5e8; border: 2px solid #4caf50; border-radius: 8px; padding: 15px; margin: 20px 0;">
+                                <p style="color: #2e7d32; font-weight: bold; margin: 0;">Código de desarrollo:</p>
+                                <p style="font-size: 24px; font-weight: bold; color: #1b5e20; margin: 5px 0; letter-spacing: 3px;">{{ codigo_demo }}</p>
+                                <small style="color: #388e3c;">Usa este código para completar la reserva</small>
+                            </div>
+                        {% endif %}
+                        <p>Ingresa el código para confirmar tu reserva:</p>
+                        <form method="POST" action="{% url 'procesar_reserva' %}">
+                            {% csrf_token %}
+                            <div style="margin: 30px auto; max-width: 280px;">
+                                <div class="input-wrapper">
+                                    <input type="text" name="otp_code" class="otp-display" maxlength="6" placeholder="______" required>
+                                    <i class="fas fa-key" style="left:15px;"></i>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-gold">CONFIRMAR RESERVA</button>
+                        </form>
+                        
+                        <p style="margin-top:20px; font-size:0.9rem; color:#888;">
+                            ¿No recibiste el código? 
+                            <a href="{% url 'reenviar_otp' %}" class="resend-link active">
+                                Reenviar código
+                            </a>
+                        </p>
+                    {% else %}
+                        <p>Ingrese el código de 6 dígitos enviado a su correo.</p>
+                        <div style="margin: 30px auto; max-width: 280px;">
+                            <div class="input-wrapper"><input type="text" id="otp-input" class="otp-display" maxlength="6" placeholder="______" oninput="validateNumber(this); updateProgress()"><i class="fas fa-key" style="left:15px;"></i></div>
+                        </div>
+                        <button type="submit" class="btn-gold">CONFIRMAR RESERVA</button>
+                        
+                        <p style="margin-top:20px; font-size:0.9rem; color:#888;">
+                            ¿No recibió el código? 
+                            <a id="resend-link" class="resend-link" onclick="resendCodeAction()">
+                                Reenviar en <span id="timer-count" class="timer-count">1:30</span>
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="phase-4" class="phase-container hidden">
+                <div class="form-card" style="text-align:center; padding:50px 20px;">
+                    <div style="width:80px; height:80px; background:#2ecc71; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;"><i class="fas fa-check" style="color:white; font-size:40px;"></i></div>
+                    <h1 style="color:var(--color-principal-oscuro);">¡Reserva Exitosa!</h1>
+                    <p style="font-size:1.1rem; margin:15px 0;">Gracias por elegirnos.</p>
+                    <a href="/" class="btn-gold" style="max-width:200px; margin:20px auto; text-decoration:none;">Volver al Inicio</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<aside class="sidebar-sticky">
+    <h3 style="color:var(--color-acento); border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:15px; margin-bottom:20px;">Resumen</h3>
+    <div class="summary-row"><span>Habitación</span><strong id="resumen-nombre">Cargando...</strong></div>
+    <div class="summary-row"><span>Noches</span><span id="sum-nights">0</span></div>
+    <div class="summary-row"><span>Precio Base</span><span id="resumen-precio-unitario">$0 / Noche</span></div>
+    <div class="summary-row"><span>Impuestos (16%)</span><span id="sum-tax">$0</span></div>
+    <div class="total-display"><small style="font-size:0.9rem; color:#ccc; font-weight:normal;">Total Estimado:</small><br><span id="sum-total">$0 USD</span></div>
+    <div style="margin-top:20px; background:rgba(255,255,255,0.1); padding:10px; border-radius:6px; font-size:0.8rem; text-align:center;"><i class="fas fa-wallet"></i> Pago en mostrador</div>
+</aside>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. CAPTURA DE ID Y LLAMADA A LA API
+    const urlParams = new URLSearchParams(window.location.search);
+    const habId = urlParams.get('habitacion_id');
+
+    // Variable global para el precio (empezamos en 0 hasta que cargue la API)
+    window.pricePerNight = 0;
+    const taxRate = 0.16;
+    let currentPhase = 1;
+    let resendInterval;
+
+    if (habId) {
+        // La URL con doble "habitaciones" que confirmamos que funciona
+        fetch(`http://127.0.0.1:8000/api/habitaciones/habitaciones/${habId}/`)
+            .then(response => response.json())
+            .then(data => {
+                // --- FORMATEO DE NOMBRE (Ej: Queen Estandar) ---
+                const capitalize = (word) => {
+                    if (!word) return "";
+                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                };
+
+                const cama = capitalize(data.tamaño_cama || data.tamano_cama);
+                const categoria = capitalize(data.categoria);
+
+                const nombreHab = document.getElementById('resumen-nombre');
+                if(nombreHab) nombreHab.innerText = `${cama} ${categoria}`;
+
+                // --- ACTUALIZACIÓN DE PRECIO ---
+                const precioReal = parseFloat(data.precio_base);
+                window.pricePerNight = precioReal;
+
+                const precioEtiqueta = document.getElementById('resumen-precio-unitario');
+                if (precioEtiqueta) {
+                    precioEtiqueta.innerText = `$${precioReal.toFixed(2)} / Noche`;
+                }
+
+                // Recalcular si ya hay fechas puestas
+                handleDates();
+                console.log("Datos cargados: ", cama, categoria, "Precio:", precioReal);
+            })
+            .catch(err => console.error("Error al conectar con el backend:", err));
+    }
+
+    // --- LÓGICA DE LA BARRA DE PROGRESO ---
+    window.updateProgress = function() {
+        const seg1 = document.getElementById('segment-1');
+        const seg2 = document.getElementById('segment-2');
+        const seg3 = document.getElementById('segment-3');
+        
+        for(let i=1; i<=4; i++){
+            const node = document.getElementById(`step-node-${i}`);
+            if(node){
+                node.classList.remove('active', 'completed');
+                if(i < currentPhase) node.classList.add('completed');
+                if(i === currentPhase) node.classList.add('active');
+            }
+        }
+
+        if (currentPhase === 1) {
+            const inputs = document.querySelectorAll('#phase-1 input[required]');
+            let filled = 0; inputs.forEach(i => { if(i.value.trim() !== '') filled++; });
+            seg1.style.width = (filled / inputs.length * 100) + '%';
+            seg2.style.width = '0%'; seg3.style.width = '0%';
+        } else if (currentPhase === 2) {
+            seg1.style.width = '100%'; seg2.style.width = '50%'; seg3.style.width = '0%';
+        } else if (currentPhase === 3) {
+            seg1.style.width = '100%'; seg2.style.width = '100%';
+            const otpLen = document.getElementById('otp-input').value.length;
+            seg3.style.width = (otpLen / 6 * 100) + '%';
+        } else if (currentPhase === 4) {
+            seg1.style.width = '100%'; seg2.style.width = '100%'; seg3.style.width = '100%';
+        }
+    };
+
+    // --- NAVEGACIÓN ---
+    window.nextPhase = function(target) {
+        // Si vamos a la revisión, validamos
+        if (currentPhase === 1 && target === 2) {
+            if (!validateForm('phase-1')) return;
+            populateReview();
+        }
+        
+        // Si vamos a la fase del código, intentamos arrancar el timer
+        if (target === 3) {
+            if (typeof startTimer === 'function') {
+                startTimer();
+            } else {
+                console.warn("Función startTimer no encontrada, pero avanzando de fase...");
+            }
+        }
+
+        // CAMBIO DE VISIBILIDAD (Lo que hace que se vea la siguiente tarjeta)
+        document.querySelectorAll('.phase-container').forEach(el => el.classList.add('hidden'));
+        const nextTarget = document.getElementById(`phase-${target}`);
+        if (nextTarget) {
+            nextTarget.classList.remove('hidden');
+            currentPhase = target;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            updateProgress();
+        }
+    };
+
+    // AÑADE ESTA FUNCIÓN si no la tienes, para que el paso 3 no falle
+    function startTimer() {
+        let timeLeft = 90;
+        const display = document.getElementById('timer-count');
+        const link = document.getElementById('resend-link');
+        
+        if(!display) return;
+
+        clearInterval(resendInterval);
+        resendInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60);
+            let s = timeLeft % 60;
+            display.innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+            
+            if (timeLeft <= 0) {
+                clearInterval(resendInterval);
+                if(link) {
+                    link.innerHTML = `<i class="fas fa-sync"></i> Reenviar Código`;
+                    link.classList.add('active');
+                }
+            }
+        }, 1000);
+    }
+    // --- CÁLCULO DE FECHAS Y TOTALES ---
+    const checkin = document.getElementById('checkin');
+    if(checkin) checkin.min = new Date().toISOString().split('T')[0];
+
+    const checkinInput = document.getElementById('checkin');
+    const checkoutInput = document.getElementById('checkout');
+
+    // Establecer fecha mínima de HOY para el check-in
+    if(checkinInput) checkinInput.min = new Date().toISOString().split('T')[0];
+
+    window.handleDates = function() {
+        if (!checkinInput.value) return;
+
+        // 1. Calcular la fecha mínima de salida (Check-in + 1 día)
+        const fechaIn = new Date(checkinInput.value);
+        const fechaMinOut = new Date(fechaIn);
+        fechaMinOut.setDate(fechaMinOut.getDate() + 1);
+        
+        const minOutStr = fechaMinOut.toISOString().split('T')[0];
+        
+        // 2. Aplicar restricción al calendario de salida
+        checkoutInput.min = minOutStr;
+
+        // 3. Si la fecha de salida actual es menor o igual a la de entrada, corregirla automáticamente
+        if (!checkoutInput.value || checkoutInput.value < minOutStr) {
+            checkoutInput.value = minOutStr;
+        }
+
+        // 4. Calcular noches y precios
+        const d1 = new Date(checkinInput.value);
+        const d2 = new Date(checkoutInput.value);
+        
+        if (d2 > d1) {
+            const nights = Math.ceil((d2 - d1) / (1000 * 60 * 60 * 24));
+            const subtotal = nights * window.pricePerNight;
+            const totalTax = subtotal * taxRate;
+            const finalTotal = subtotal + totalTax;
+
+            document.getElementById('sum-nights').innerText = nights;
+            document.getElementById('sum-tax').innerText = `$${totalTax.toFixed(2)}`;
+            document.getElementById('sum-total').innerText = `$${finalTotal.toFixed(2)} USD`;
+        }
+        
+        // Actualizar la barra de progreso
+        if (typeof updateProgress === 'function') updateProgress();
+    };
+
+    // --- UTILIDADES ---
+    function validateForm(id) {
+        let valid = true;
+        document.querySelectorAll(`#${id} input[required]`).forEach(i => {
+            if(!i.value){ i.classList.add('input-error'); valid=false; } 
+            else { i.classList.remove('input-error'); }
+        });
+        if(!valid) alert("Complete los campos obligatorios");
+        return valid;
+    }
+
+    function populateReview() {
+        const ids = {nombre:'rev-name', cedula:'rev-id', telefono:'rev-phone', email:'rev-mail', checkin:'rev-in', checkout:'rev-out'};
+        for (const [src, dest] of Object.entries(ids)) {
+            const val = document.getElementById(src).value;
+            document.getElementById(dest).innerText = val;
+        }
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    {% if reserva_exitosa %}
+        nextPhase(4); // Salta directamente a la pantalla de éxito
+    {% elif codigo_enviado %}
+        nextPhase(3); // Salta a la fase de verificación OTP
+    {% endif %}
+});
+</script>
+{% endblock content %}

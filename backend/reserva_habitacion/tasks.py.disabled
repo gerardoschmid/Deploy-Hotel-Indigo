@@ -1,0 +1,167 @@
+from celery import shared_task
+from celery.utils.log import get_task_logger
+from django.core.mail import send_mail
+from reserva_habitacion.models import ReservaHabitacion
+from django.conf import settings
+from django.utils import timezone
+import time
+
+logger = get_task_logger(__name__)
+
+@shared_task(bind=True)
+def enviar_email_confirmacion(self, id_reserva, codigo_otp):
+    """
+    Tarea asíncrona que envía el código OTP por email.
+    """
+    logger.info(f"--- [CELERY] Iniciando envío de OTP para reserva ID: {id_reserva} ---")
+    
+    try:
+        # 1. Obtener la reserva
+        reserva = ReservaHabitacion.objects.select_related('usuario', 'habitacion').get(pk=id_reserva)
+        
+        # 2. Validar email
+        email_cliente = reserva.usuario.email if (reserva.usuario and reserva.usuario.email) else None
+        
+        if not email_cliente:
+            logger.warning(f"Usuario sin email en reserva {id_reserva}")
+            return f"Fallo: Usuario sin email"
+
+        # 3. Preparar mensaje
+        nombre_persona = reserva.usuario.first_name if reserva.usuario.first_name else reserva.usuario.username
+        
+        asunto = f"Código de Confirmación - Reserva #{reserva.codigo_confirmacion}"
+        
+        mensaje = (
+            f"Hola {nombre_persona},\n\n"
+            f"Tu código de confirmación es: {codigo_otp}\n\n"
+            f"Este código expira en 10 minutos.\n\n"
+            f"Reserva: {reserva.codigo_confirmacion}\n"
+            f"Total: ${reserva.total}\n\n"
+            f"Hotel Indigo"
+        )
+
+        # 4. Enviar email
+        send_mail(
+            asunto,
+            mensaje,
+            settings.DEFAULT_FROM_EMAIL,
+            [email_cliente],
+            fail_silently=False,
+        )
+
+        logger.info(f"Email con OTP {codigo_otp} enviado a {email_cliente}")
+        return f"Email enviado exitosamente"
+
+    except ReservaHabitacion.DoesNotExist:
+        logger.error(f"Reserva {id_reserva} no encontrada")
+        return f"Error: Reserva no encontrada"
+    
+    except Exception as exc:
+        logger.error(f"Error enviando email: {exc}")
+        return f"Error: {str(exc)}"
+
+@shared_task(bind=True)
+def enviar_ticket_confirmacion(self, id_reserva):
+    """
+    Tarea asíncrona que envía el ticket completo de reservación confirmada.
+    """
+    logger.info(f"--- [CELERY] Enviando ticket de confirmación para reserva ID: {id_reserva} ---")
+    
+    try:
+        # 1. Obtener la reserva
+        reserva = ReservaHabitacion.objects.select_related('usuario', 'habitacion').get(pk=id_reserva)
+        
+        # 2. Validar email
+        email_cliente = reserva.usuario.email if (reserva.usuario and reserva.usuario.email) else None
+        
+        if not email_cliente:
+            logger.warning(f"Usuario sin email en reserva {id_reserva}")
+            return f"Fallo: Usuario sin email"
+
+        # 3. Calcular noches
+        if reserva.fecha_checkin and reserva.fecha_checkout:
+            diferencia = reserva.fecha_checkout - reserva.fecha_checkin
+            noches = diferencia.days
+        else:
+            noches = 0
+
+        # 4. Preparar información de la habitación
+        habitacion_info = "Habitación no especificada"
+        if reserva.habitacion:
+            habitacion_info = f"Habitación {reserva.habitacion.numero_habitacion} - {getattr(reserva.habitacion, 'categoria', 'Estándar')}"
+
+        # 5. Preparar mensaje del ticket
+        nombre_persona = reserva.usuario.first_name if reserva.usuario.first_name else reserva.usuario.username
+        
+        asunto = f"✅ Reserva Confirmada - Hotel Indigo #{reserva.codigo_confirmacion}"
+        
+        mensaje = f"""
+¡Hola {nombre_persona}!
+
+🎉 ¡Tu reserva ha sido confirmada exitosamente!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+                    TICKET DE RESERVACIÓN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 INFORMACIÓN DE LA RESERVA:
+   • Código de Confirmación: {reserva.codigo_confirmacion}
+   • Estado: CONFIRMADA ✅
+   • Fecha de Reserva: {reserva.fecha_creacion.strftime('%d/%m/%Y %H:%M') if reserva.fecha_creacion else 'N/A'}
+
+🏨 DETALLES DEL HOSPEDAJE:
+   • {habitacion_info}
+   • Check-in: {reserva.fecha_checkin.strftime('%d/%m/%Y') if reserva.fecha_checkin else 'N/A'}
+   • Check-out: {reserva.fecha_checkout.strftime('%d/%m/%Y') if reserva.fecha_checkout else 'N/A'}
+   • Noches: {noches}
+   • Huéspedes: {reserva.huespedes}
+
+👤 INFORMACIÓN DEL HUÉSPED:
+   • Nombre: {nombre_persona}
+   • Email: {email_cliente}
+   • Usuario: {reserva.usuario.username}
+
+💰 RESUMEN FINANCIERO:
+   • Total de la Reserva: ${reserva.total}
+   • Estado de Pago: Pendiente (Pago en mostrador)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📍 INFORMACIÓN IMPORTANTE:
+   • Presenta este código al llegar: {reserva.codigo_confirmacion}
+   • Check-in disponible desde las 15:00 hrs
+   • Check-out hasta las 12:00 hrs
+   • El pago se realiza directamente en el hotel
+
+📞 ¿Necesitas ayuda?
+   • Teléfono: +58 XXX-XXXXXXX
+   • Email: info@hotelindigo.com
+   • Sitio web: www.hotelindigo.com
+
+¡Esperamos recibirte pronto en Hotel Indigo!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Este es un email automático, por favor no responder.
+Hotel Indigo - {timezone.now().strftime('%Y')}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        """
+
+        # 6. Enviar email
+        send_mail(
+            asunto,
+            mensaje,
+            settings.DEFAULT_FROM_EMAIL,
+            [email_cliente],
+            fail_silently=False,
+        )
+
+        logger.info(f"Ticket de confirmación enviado a {email_cliente}")
+        return f"Ticket enviado exitosamente"
+
+    except ReservaHabitacion.DoesNotExist:
+        logger.error(f"Reserva {id_reserva} no encontrada")
+        return f"Error: Reserva no encontrada"
+    
+    except Exception as exc:
+        logger.error(f"Error enviando ticket: {exc}")
+        return f"Error: {str(exc)}"

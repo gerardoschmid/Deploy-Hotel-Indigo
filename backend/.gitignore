@@ -1,0 +1,39 @@
+# Entornos virtuales
+venv/
+env/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+*.log
+
+# Archivos de configuración local
+.env
+.local.env
+
+# Pero mantener las migraciones de todas las apps
+!/backend/*/migrations/
+!/backend/*/migrations/*.py
+!/backend/*/migrations/__init__.py
+
+# Mantener el requirements.txt
+!requirements.txt
+
+# Mantener manage.py (si lo quieres incluir, si no, déjalo excluido)
+# !manage.py

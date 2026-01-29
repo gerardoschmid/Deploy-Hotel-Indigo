@@ -1,0 +1,88 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Detalle Habitación King Deluxe{% endblock %}
+
+{% block content %}
+
+<section class="seccion_busqueda hero_detalle_habitacion" role="banner">
+    <div class="contenedor_busqueda">
+        <h1>Habitación King Deluxe</h1>
+        <p class="subtitulo">La cúspide del lujo y el descanso en Hotel Indigo.</p>
+    </div>
+</section>
+
+<section class="seccion_detalle">
+    <div class="contenedor contenedor_detalle">
+        
+        <div class="detalle_columna_principal">
+            
+            <figure class="galeria_habitacion">
+                {# En la vida real, usaríamos un carrusel. Aquí usamos una imagen grande. #}
+                <img src="{% static 'images/habitacion_king.jpeg' %}" alt="Interior de la Habitación King Deluxe" class="imagen_principal_detalle">
+            </figure>
+            
+            <article class="detalle_info">
+                <h2>Acerca de la King Deluxe</h2>
+                <p>
+                    Experimente el confort y la elegancia sin igual en nuestra suite King Deluxe. Diseñada pensando en el viajero moderno, esta habitación ofrece vistas panorámicas de la ciudad y está equipada con tecnología de punta y mobiliario exclusivo. Es el espacio perfecto para una escapada romántica o un viaje de negocios que requiere un toque de sofisticación.
+                </p>
+                <p>
+                    Su diseño insonorizado garantiza un descanso placentero, mientras que el amplio baño con ducha de lluvia y productos orgánicos completa una experiencia de lujo total.
+                </p>
+            </article>
+
+            <article class="detalle_servicios">
+                <h3>Comodidades Clave</h3>
+                <ul class="lista_caracteristicas">
+                    <li><i class="fas fa-bed"></i> Cama King Size de Lujo (tamano_cama)</li>
+                    <li><i class="fas fa-wifi"></i> WiFi Fibra Óptica Gratuito</li>
+                    <li><i class="fas fa-tv"></i> Smart TV 55" con Streaming</li>
+                    <li><i class="fas fa-shower"></i> Baño con Ducha de Lluvia</li>
+                    <li><i class="fas fa-thermometer-half"></i> Climatización Individual</li>
+                    <li><i class="fas fa-coffee"></i> Máquina de Café Nespresso</li>
+                </ul>
+            </article>
+
+            {# Sección para mostrar SERVICIOS ADICIONALES (Referencia a la tabla SERVICIO_ADICIONAL) #}
+            <article class="detalle_servicios">
+                <h3>Servicios Adicionales Disponibles</h3>
+                <ul class="lista_servicios_adicionales">
+                    <li><i class="fas fa-glass-cheers"></i> Minibar Premium</li>
+                    <li><i class="fas fa-bell"></i> Servicio a la Habitación 24h</li>
+                    <li><i class="fas fa-spa"></i> Acceso Diario al Spa</li>
+                </ul>
+            </article>
+        </div>
+        
+        <aside class="detalle_columna_reserva" data-aos="fade-left">
+            <div class="panel_habitaciones">
+                
+                <h2>Reservar Esta Habitación</h2>
+                
+                <div class="precio_actual">
+                    <span class="monto_grande color-acento">$280</span> 
+                    <span class="periodo_noche">USD / Noche</span>
+                </div>
+                
+                <hr>
+                
+                <ul class="lista_detalles_rapidos">
+                    <li><i class="fas fa-user-friends"></i> Ocupación: Doble (tipo_ocupacion)</li>
+                    <li><i class="fas fa-layer-group"></i> Categoría: Premium (categoria)</li>
+                    <li><i class="fas fa-ruler-combined"></i> Tamaño: 45m²</li>
+                    <li><i class="fas fa-binoculars"></i> Vista: Panorámica</li>
+                </ul>
+                
+                {# El botón lleva al formulario de reserva de habitaciones #}
+                            <div class="botones_tarjeta">
+                                <a href="{% url 'habitaciones' %}" class="boton_principal boton_dark boton-detalles">Volver</a>
+                                <a href="{% url 'reserva' %}" class="boton_principal boton_gold boton-reservar">Reservar</a>
+                                
+                            </div>
+            </div>
+        </aside>
+        
+    </div>
+</section>
+
+{% endblock content %}

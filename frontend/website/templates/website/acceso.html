@@ -1,0 +1,41 @@
+{% extends "website/base.html" %} 
+
+{% load static %}
+
+{% block title %}Acceso Administradores{% endblock %}
+
+{% block content %}
+    
+    <main>
+      <section class="seccion_acceso hero_acceso">
+        <div class="overlay"></div>
+        <div class="contenedor_acceso">
+          <div class="logo_big">
+            {# Ruta de imagen corregida #}
+            <img src="{% static 'images/logo_indigo.png' %}" alt="Logo" />
+            <h1>Hotel Indigo</h1>
+          </div>
+
+          <div class="login_card gold-reservation-card">
+            <h2 id="acceso_title">ACCESO PARA ADMINISTRADORES</h2>
+            
+            {# IMPORTANTE: Para cualquier formulario que use POST, Django requiere {% csrf_token %} #}
+            <form class="form_acceso" action="#" method="post" role="form" aria-labelledby="acceso_title">
+              {% csrf_token %} 
+              
+              <label class="sr-only" for="usuario">Usuario o email:</label>
+              <input id="usuario" name="usuario" type="text" placeholder="Usuario o email:" required autocomplete="username" aria-required="true" />
+
+              <label class="sr-only" for="contrasena">Contraseña:</label>
+              <input id="contrasena" name="contrasena" type="password" placeholder="Contraseña:" required autocomplete="current-password" aria-required="true" />
+
+              <button class="boton_oro" type="submit">Iniciar Sesión</button>
+            </form>
+
+            <a class="olvido" href="#">¿Olvidó la Contraseña?</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+{% endblock content %}

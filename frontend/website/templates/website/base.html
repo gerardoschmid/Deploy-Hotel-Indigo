@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hotel Indigo | {% block title %}Inicio{% endblock %}</title>
+
+{# Cargar la librería estática de Django #}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{# Rutas CSS corregidas con la etiqueta {% static %} #}
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+<style>
+    /* Estilos para el botón flotante de WhatsApp */
+    .whatsapp-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 30px; /* Posición desde abajo */
+        right: 30px; /* Posición desde la derecha */
+        background-color: #25D366; /* Color verde de WhatsApp */
+        color: #FFF;
+        border-radius: 50%; /* Circular */
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+        z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: transform 0.2s;
+    }
+
+    .whatsapp-float:hover {
+        transform: scale(1.1); /* Efecto al pasar el ratón */
+    }
+
+    /* Adaptación para dispositivos móviles (un poco más pequeño y menos margen) */
+    @media (max-width: 768px) {
+        .whatsapp-float {
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            bottom: 20px;
+            right: 20px;
+        }
+    }
+</style>
+
+
+</head>
+<body>
+
+{# Incluye el encabezado de la web #}
+{% include 'website/includes/header.html' %} 
+
+<main>
+    {# Este es el bloque que cada página individual llenará #}
+    {% block content %}
+    {% endblock content %}
+</main>
+
+{# Incluye el pie de página de la web #}
+{% include 'website/includes/footer.html' %} 
+
+{# Botón flotante de WhatsApp #}
+{# **IMPORTANTE:** Reemplaza '1234567890' con el número de teléfono de tu hotel y ajusta el texto. #}
+<a href="https://wa.me/04145070100?text=Hola!%20Me%20gustaría%20saber%20más%20sobre%20Hotel%20Indigo."
+    target="_blank"
+    class="whatsapp-float"
+    title="Contactar por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+{# Scripts JS #}
+<script src="{% static 'js/animations.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+
+
+</body>
+</html>

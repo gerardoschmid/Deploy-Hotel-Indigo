@@ -1,0 +1,525 @@
+/* 00 - Base y variables */
+
+:root {
+    /* Colores Principales */
+    --color-acento: #D0A75F; /* Dorado */
+    --color-principal-oscuro: #000000; /* Marrón Oscuro */
+    --color-texto-claro: #F8F9FA; /* Blanco Roto */
+
+    /* Colores Secundarios */
+    --color-fondo-claro: #EFEFEF;
+    --color-fondo-gris: #D3D3D3;
+    --color-fondo-oscuro: #212529;
+
+    /* Bordes y Sombras */
+    --input-border-color: #CED4DA;
+    --input-border-alt: #ADB5BD;
+
+    /* Espaciado */
+    --espaciado-xsmall: 4px;
+    --espaciado-small: 8px;
+    --espaciado-medium: 16px;
+    --espaciado-large: 32px;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 100%;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+    
+}
+
+body {
+    font-family: "arial", Times, serif; /* CAMBIO AQUÍ */
+    line-height: 1.6;
+    color: var(--color-principal-oscuro);
+    background-color: var(--color-fondo-claro);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* 01 - Tipografía y enlaces */
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: var(--espaciado-medium);
+    font-weight: 700;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    color: var(--color-principal-oscuro);
+}
+
+h3 {
+    font-size: 1.75rem;
+    color: var(--color-acento);
+}
+
+p {
+    margin-bottom: var(--espaciado-medium);
+    font-size: 1rem;
+}
+
+/* Helper: hidden visually but available to screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+a {
+    color: var(--color-principal-oscuro);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-acento);
+}
+
+/* 02 - Layout y contenedores */
+
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--espaciado-large); /* 32px */
+}
+
+/* 03 - Header y navegación */
+
+.header_principal {
+    background-color: var(--color-principal-oscuro);
+    padding: var(--espaciado-small) 0;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
+}
+
+/* AJUSTE PARA ALINEAR LOGO IZQUIERDA Y CONTENIDO DERECHA */
+
+.contenedor_header {
+    /* El contenedor ahora maneja la distribución Logo | Contenido Derecha */
+    display: flex;
+    justify-content: space-between; /* Mueve el logo a la izquierda y el contenido derecho a la derecha */
+    align-items: center;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    padding: 8px 15px; /* Mantiene padding uniforme */
+}
+
+/* El nuevo contenedor que agrupa Nav y Idioma */
+.header_derecha {
+    display: flex;
+    align-items: center;
+    gap: 200px; /* Espacio entre la barra nav y el selector de idioma */
+}
+
+/* Ajuste para el candado y texto de acceso */
+.boton_acceso {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el icono y el texto */
+    padding: 10px 15px !important; /* Ajusta padding para que el botón se vea mejor */
+    border-radius: 8px; /* Borde más redondeado para el botón */
+}
+
+/* Responsividad: Ocultar el texto en móvil para ahorrar espacio */
+@media (max-width: 900px) {
+    /* Asegúrate de que el contenedor derecho se ajuste correctamente */
+    .header_derecha {
+        gap: 10px; 
+    }
+    
+    .header_navbar {
+      
+        display: none; 
+    }
+    
+    /* Mostrar solo el icono del candado */
+    .boton_acceso span {
+        display: none; 
+    }
+}
+
+
+.logo_hotel a {
+    display: flex;
+    align-items: center;
+    color: var(--color-texto-claro);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo_hotel a:hover {
+    color: var(--color-acento);
+}
+
+.imagen_logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+}
+
+.header_navbar {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.lista_nav {
+    list-style: none;
+    display: inline-flex;
+    padding: 0;
+    margin: 0;
+}
+
+.item_nav {
+    margin: 0 15px;
+}
+
+.item_nav a {
+    color: var(--color-texto-claro);
+    padding: 10px 0;
+    display: block;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.item_nav a:hover,
+.item_nav a:focus {
+    color: var(--color-acento);
+    border-bottom: 2px solid var(--color-acento);
+}
+
+/* Selector del idioma */
+.idioma {
+    display: flex;
+    align-items: center;
+    color: var(--color-texto-claro);
+    font-size: 0.9rem;
+}
+
+.icon_globe {
+    width: 16px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.idioma_text {
+    font-weight: 600;
+}
+
+/* 04 - Sección de búsqueda (hero) */
+
+.seccion_busqueda {
+    background-color: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+    padding: 100px 0 60px;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.seccion_busqueda::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgb(0 0 0 / 40%);
+    z-index: 2;
+}
+
+.contenedor_busqueda {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    /* Usa vmin para que el espaciado se adapte al ancho/alto más pequeño */
+    padding: 2vmin; 
+}
+
+.contenedor_busqueda h2 {
+    color: var(--color-texto-claro);
+    /* Usa vw para que el tamaño de la fuente se haga más pequeño 
+       a medida que el ancho de la pantalla disminuye */
+    font-size: 4vw; 
+    margin-bottom: 0;
+    line-height: 1.1;
+}
+
+/* Para navegadores grandes, puedes necesitar un límite superior para la fuente: */
+/* Estilos Específicos para Móvil (Pantallas <= 600px) */
+@media (max-width: 600px) {
+    /* * .contenedor_busqueda 
+     * Reducimos el padding horizontal y vertical para que ocupe menos espacio.
+    */
+    .contenedor_busqueda {
+        padding: 20px 10px; /* Menos padding alrededor */
+        /* Podemos incluso reducir el max-width si es necesario */
+        max-width: 90%; 
+    }
+
+    /* * .contenedor_busqueda h2
+     * Reducimos drásticamente el tamaño del texto para que quepa bien en una línea,
+     * o se ajuste a dos sin ser exageradamente alto.
+    */
+    .contenedor_busqueda h2 {
+        font-size: 1.5rem; /* De 3rem a 1.5rem para móvil */
+        margin-bottom: 10px; /* Reducir el espacio inferior */
+    }
+}
+/* 05 - Estilos de formularios (comunes) */
+
+.formulario_busqueda {
+    display: flex; /* Para que los inputs estén en una fila en escritorio */
+    flex-wrap: wrap; /* Para que puedan saltar a la siguiente línea si es necesario */
+    background-color: var(--color-texto-claro);
+    border-radius: 8px;
+    padding: var(--espaciado-large);
+    box-shadow: 0 4px 15px rgb(0 0 0 / 10%);
+    margin-top: 30px;
+}
+/* Continuación de la Media Query para Móvil */
+@media (max-width: 600px) {
+    /* **1. Hacemos que los campos se apilen verticalmente** */
+    .formulario_busqueda {
+        flex-direction: column; 
+        /* Reducir el padding alrededor de todo el formulario */
+        padding: 10px; 
+    }
+    
+    /* **2. Reducir el título** (Ya lo tenías, pero es clave) */
+    .contenedor_busqueda h2 {
+        font-size: 1.5rem; 
+        margin-bottom: 10px;
+    }
+    
+    /* **3. Reducir el padding y margen de cada campo individual** */
+    /* Este selector asume que cada campo es un div o tiene una clase interna.
+       Si cada campo es un DIV, úsalo. */
+    .formulario_busqueda > div {
+        width: 100%;
+        margin-bottom: 8px; /* Espacio vertical entre campos */
+        padding: 0; /* Eliminar padding innecesario */
+    }
+
+    /* **4. Reducir el padding de los INPUTS reales dentro de los campos** */
+    /* Este es el cambio más importante para reducir la altura de los campos.
+       Asume que tus inputs y selects están directamente dentro del formulario o los divs. */
+    .formulario_busqueda input,
+    .formulario_busqueda select {
+        padding: 10px; /* Reducir el padding interno (ej: de 15px a 10px) */
+        height: 40px; /* O forzar una altura fija más pequeña */
+        box-sizing: border-box; /* Asegura que el padding no aumente el ancho */
+    }
+}
+
+.campo_formulario {
+    margin-bottom: var(--espaciado-medium);
+}
+
+.campo_formulario label {
+    display: block;
+    margin-bottom: var(--espaciado-small);
+    font-weight: 600;
+    color: var(--color-principal-oscuro);
+}
+
+.campo_formulario input[type="text"],
+.campo_formulario input[type="date"],
+.campo_formulario input[type="number"],
+.campo_formulario select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--input-border-color);
+    border-radius: 6px;
+    font-size: 12 rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.campo_formulario input:focus,
+.campo_formulario select:focus {
+    border-color: var(--color-acento);
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(208 167 95 / 30%);
+}
+
+/* 06 - Botones (comunes) */
+
+.boton_principal {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.1s ease;
+}
+
+.boton_gold {
+    background-color: var(--color-acento);
+    color: var(--color-principal-oscuro);
+}
+
+.boton_gold:hover {
+    background-color: #B88E4B; 
+    transform: translateY(-1px);
+}
+
+.boton_dark {
+    background-color: var(--color-principal-oscuro);
+    color: var(--color-texto-claro);
+}
+
+.boton_dark:hover {
+    background-color: #1A1C23; 
+}
+
+/* 07 - Footer (común) */
+
+.site_footer {
+    background-color: var(--color-fondo-oscuro);
+    color: var(--color-texto-claro);
+    padding-top: var(--espaciado-large);
+    font-size: 0.9rem;
+}
+
+.footer_inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--espaciado-large);
+    display: flex;
+    justify-content: space-between;
+    gap: var(--espaciado-large);
+    flex-wrap: wrap;
+    padding-bottom: var(--espaciado-large);
+}
+
+.footer_col {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer_col h5 {
+    color: var(--color-acento);
+    margin-bottom: var(--espaciado-medium);
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.footer_col ul {
+    list-style: none;
+}
+
+.footer_col ul li {
+    margin-bottom: var(--espaciado-small);
+}
+
+.footer_col ul a {
+    color: var(--color-texto-claro);
+}
+
+.footer_col ul a:hover {
+    color: var(--color-acento);
+}
+
+.footer_logo_wrapper {
+    text-align: center;
+    margin-bottom: var(--espaciado-medium);
+}
+
+.footer_logo_img {
+    width: 60px;
+    height: 60px;
+}
+
+.social_icons {
+    display: flex;
+    gap: var(--espaciado-medium);
+}
+
+.social_icons img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease;
+}
+
+.social_icons a:hover img {
+    transform: scale(1.1);
+}
+
+.footer_bottom {
+    background-color: #1A1C20;
+    text-align: center;
+    padding: var(--espaciado-medium) 0;
+    font-size: 0.8rem;
+    border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+/* 08 - Responsive base */
+
+@media (max-width: 900px) {
+    .header_top {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header_navbar {
+        margin: var(--espaciado-medium) 0;
+    }
+
+    .lista_nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item_nav {
+        margin: 5px 0;
+    }
+
+    .idioma {
+        margin-top: var(--espaciado-small);
+    }
+}
+
+@media (max-width: 600px) {
+.contenedor {
+        /* Reducir el padding horizontal para ganar espacio en móvil */
+        padding: var(--espaciado-medium); /* 16px vertical y horizontal */
+    }
+
+    .footer_inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 0 var(--espaciado-medium);
+    }
+
+    .footer_col {
+        min-width: 100%;
+        margin-bottom: var(--espaciado-large);
+    }
+
+    .social_icons {
+        justify-content: center;
+    }
+}

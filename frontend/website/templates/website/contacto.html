@@ -1,0 +1,63 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Contacto | Hotel Indigo{% endblock %}
+
+{% block content %}
+
+<section class="seccion_busqueda hero_contacto" role="banner">
+    <div class="overlay"></div>
+    <div class="contenedor_busqueda">
+        <h1>Contáctanos</h1>
+        <p class="subtitulo">Estamos listos para atender todas tus dudas.</p>
+    </div>
+</section>
+
+<main>
+<section class="seccion_mapa" id="mapa-ubicacion" aria-label="Mapa de ubicación">
+    <div class="map_wrapper">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.7542970898276!2d-70.23670612499252!3d8.619571395263515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e7b582c10279961%3A0x8eae95fa1b3b02ef!2sHotel%20Varyna%20Inn!5e0!3m2!1ses-419!2sve!4v1764787017170!5m2!1ses-419!2sve" width="100%" height="360" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</section>
+
+    <section class="reservar_form_section">
+        <div class="contenedor contacto_container">
+            
+            <div class="informacion_contacto" data-aos="fade-right">
+                <h2>¿Dónde encontrarnos?</h2>
+                <p>Nuestro equipo está disponible 24/7 para asistirte con reservas, cotizaciones y cualquier solicitud especial.</p>
+                
+                <div class="contacto_detalles">
+                    <div class="contacto_item">
+                        <i class="fas fa-map-marker-alt color-acento"></i>
+                        <p><strong>Ubicación:</strong> Av. 23 de Enero con 2da Transversal Edificio Hotel Montana Planta Baja Local Parcela 187, Barinas 5201, Barinas</p>
+                    </div>
+                    <div class="contacto_item">
+                        <i class="fas fa-phone-alt color-acento"></i>
+                        <p><strong>Reservas:</strong> +58 414 5070100</p>
+                    </div>
+                    <div class="contacto_item">
+                        <i class="fas fa-envelope color-acento"></i>
+                        <p><strong>Email:</strong> hotelvaryna54@gmail.com</p>
+                    </div>
+                    <div class="contacto_item">
+                        <i class="fas fa-clock color-acento"></i>
+                        <p><strong>Horario:</strong> Abierto 24 horas.</p>
+                    </div>
+                </div>
+
+                <div class="social_links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+
+            </div>
+
+            
+
+            
+        </div>
+    </section>
+</main>
+
+{% endblock content %}

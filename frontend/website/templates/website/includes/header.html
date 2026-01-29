@@ -1,0 +1,70 @@
+{% load static %}
+<header class="header_principal" role="banner">
+    <div class="contenedor_header">
+        
+        {# 1. LOGO Y TÍTULO (A la izquierda) #}
+        <h1 class="logo_hotel">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'images/logo_indigo.png' %}" alt="Logo Hotel Indigo" class="imagen_logo">
+                <span class="nombre_hotel">Hotel Indigo</span>
+            </a>
+        </h1>
+
+        {# 2. CONTENEDOR DERECHO (Agrupa navegación, idioma y hamburguesa) #}
+        <div class="header_derecha"> 
+            
+            {# BOTÓN HAMBURGUESA (SIEMPRE VISIBLE EN MÓVIL) #}
+            <button class="menu-toggle" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            {# CONTENEDOR DE NAVEGACIÓN (SE MUEVE EN MÓVIL) #}
+            <div class="nav-wrapper" id="main-nav"> 
+                
+                <nav class="header_navbar" role="navigation" aria-label="Navegación principal">
+                    <ul class="lista_nav">
+                        
+                        <li class="item_nav"><a href="{% url 'home' %}">Inicio</a></li>
+                        <li class="item_nav"><a href="{% url 'habitaciones' %}">Habitaciones</a></li>
+                        
+                        {# MENÚ DESPLEGABLE: SERVICIOS Y EVENTOS #}
+                        <li class="item_nav menu_dropdown">
+                            <a href="#" class="dropdown-trigger">Servicios <i class="fas fa-caret-down"></i></a>
+                            <ul class="dropdown_menu">
+                                <li><a href="{% url 'restaurante_menu' %}">Restaurant</a></li>
+                                <li><a href="{% url 'eventos' %}">Eventos y Salones</a></li>
+                                <li><a href="{% url 'servicios' %}">Servicios Adicionales</a></li>
+                            </ul>
+                        </li>
+                        
+                        {# MENÚ DESPLEGABLE: SOBRE NOSOTROS #}
+                        <li class="item_nav menu_dropdown">
+                            <a href="{% url 'nosotros' %}" class="dropdown-trigger">Nosotros <i class="fas fa-caret-down"></i></a>
+                            <ul class="dropdown_menu">
+                                <li><a href="{% url 'nosotros' %}">Historia</a></li>
+                                <li class="item_nav"><a href="{% url 'home' %}#mapa-ubicacion">Ubicación</a></li>
+                                <li class="item_nav"><a href="{% url 'contacto' %}">Contacto</a></li>
+                                <li><a href="{% url 'galeria' %}">Galeria</a></li>
+                            </ul>
+                        </li>
+                        
+<li class="item_nav item_acceso_desktop">
+    <a href="{% url 'acceso' %}" class="boton_acceso">
+        <i class="fas fa-lock"></i> Acceso
+    </a>
+</li>
+                    </ul>
+                </nav>
+
+            </div>
+            
+            {# IDIOMA (SE MANTIENE APARTE) #}
+            <div class="idioma" aria-label="Idioma del sitio">
+                <img src="{% static 'images/iconoidioma.png' %}" alt="Icono idioma" class="icon_globe" aria-hidden="true">
+                <span class="idioma_text">Español</span>
+            </div>
+            
+        </div>
+        
+    </div>
+</header>

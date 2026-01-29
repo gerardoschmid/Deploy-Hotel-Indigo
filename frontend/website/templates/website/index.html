@@ -1,0 +1,156 @@
+{# website/templates/website/index.html #}
+
+{# Indica que esta plantilla extiende la plantilla base #}
+{% extends "website/base.html" %}
+{% load static %}
+
+{# Define el título específico de esta página #}
+{% block title %}Inicio{% endblock %}
+
+{# Define el contenido principal de la página, reemplazando el bloque content de base.html #}
+{% block content %}
+
+<section class="seccion_busqueda hero_home">
+    
+<div class="carousel-container">
+    <div class="carousel">
+        <div class="carousel-slide">
+            <img src="{% static 'images/fachada sin cables.jpeg' %}" alt="Banner 1">
+        </div>
+        <div class="carousel-slide">
+            <img src="{% static 'images/restaurante3.png' %}" alt="Banner 2">
+        </div>
+        <div class="carousel-slide">
+            <img src="{% static 'images/hotel_fondo.png' %}" alt="Banner 3">
+        </div>
+        </div>
+</div>
+    <section class="contenedor_busqueda">
+        <h2>Experimenta el Lujo Urbano</h2>
+
+        <div class="cta_reserva">
+            <a href="{% url 'reserva' %}" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+        </div>
+    </section>
+</section>
+
+<div class="after_hero">
+
+        <section class="seccion_habitaciones section-to-animate" aria-label="Habitaciones Destacadas">
+            <div class="contenedor">
+                <div class="titulo_seccion_home">
+                    <h2>Habitaciones Destacadas</h2>
+                    <p>Elige el lujo y el confort que mereces.</p>
+                </div>
+
+                <div class="rooms-grid">
+                    <article class="habitacion_tarjeta section-to-animate">
+                        {# Ruta de imagen corregida #}
+                        <img src="{% static 'images/habitacion_king.jpeg' %}" alt="Habitación King Deluxe" class="imagen_habitacion">
+                        <div class="contenido_tarjeta">
+                            <h3>King</h3>
+                            <p>Una habitación espaciosa con cama king size y vistas a la ciudad.</p>
+                            <p class="precio_noche">Desde $50/ Noche</p>
+                            <div class="botones_tarjeta">
+                                <a href="#" class="boton_principal boton_dark boton-detalles">Ver Detalles</a>
+                                <a href="#" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+                                
+                            </div>
+                        </div>
+                        
+                    </article>
+
+                    <article class="habitacion_tarjeta">
+                         {# Ruta de imagen corregida #}
+                        <img src="{% static 'images/hotel_fondo.jpeg' %}" alt="Habitación Queen Superior" class="imagen_habitacion">
+                        <div class="contenido_tarjeta">
+                            <h3>Queen</h3>
+                            <p>Doble comodidad con dos camas queen y un diseño moderno.</p>
+                            
+                            <p class="precio_noche" >Desde $50/ Noche (Desayuno incluido)</p>
+                            <div class="botones_tarjeta">
+                                <a href="#" class="boton_principal boton_dark boton-detalles">Ver Detalles</a>
+                                <a href="#" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="habitacion_tarjeta">
+                         {# Ruta de imagen corregida #}
+                        <img src="{% static 'images/camarosa.jpeg' %}" alt="Habitación Queen Superior" class="imagen_habitacion">
+                        <div class="contenido_tarjeta">
+                            <h3>King Master Suite</h3>
+                            <p>Gran comodidad con una cama y ambiente premium</p>
+                            
+                            <p class="precio_noche" >Desde $60/ Noche (Desayuno incluido)</p>
+                            <div class="botones_tarjeta">
+                                <a href="#" class="boton_principal boton_dark boton-detalles">Ver Detalles</a>
+                                <a href="#" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+                            </div>
+                        </div>
+                    </article>                    
+                    </div>
+            </div>
+        </section>
+
+<section class="seccion_servicios" aria-label="Servicios del hotel">
+    <div class="contenedor_servicios">
+
+        <div class="titulo_seccion_home">
+            <h2>Conoce Nuestros Servicios</h2>
+            <p>Todos los servicios que disfrutaras en nuestro hermoso hotel.</p>
+        </div>
+
+        <div class="menu-carousel" data-category="servicios"> 
+            
+            <button class="carousel-btn carousel-btn-left" aria-label="Servicio anterior">‹</button>
+            
+            <div class="carousel-track"> 
+                
+                <div class="service_item" role="listitem">
+                    <img src="{% static 'images/restaurante.jpeg' %}" alt="Restaurante" />
+                    <span class="titulo_servicios">RESTAURANTE</span>
+                    <p class="servicios_descripcion">Más que un restaurante, somos tu rincón de felicidad casera. Cada plato es una carta de amor, cocinado a fuego lento y con el toque secreto de la abuela. Ven y déjate envolver por un ambiente cálido y acogedor, donde cada cena se siente como un abrazo y cada bocado te transporta a los recuerdos más dulces. Aquí, el ingrediente principal es el corazón.</p>
+                </div>
+                
+                <div class="service_item" role="listitem">
+                    <img src="{% static 'images/terraza.jpeg' %}" alt="Terraza" />
+                    <span class="titulo_servicios">TERRAZA</span>
+                    <p class="servicios_descripcion">La terraza es un espacio exterior perfecto para hacer una pausa. Es un lugar tranquilo donde puedes sentarte un rato al aire libre. Tienes la opción de relajarte con el sol o buscar una sombra, y si lo deseas, pedir algo ligero y refrescante. Un momento ideal para desconectar de la rutina y dedicar unos minutos a la calma.</p>
+                </div>
+
+                <div class="service_item" role="listitem">
+                    <img src="{% static 'images/proximamente2.png' %}" alt="Salón de Eventos" /> 
+                    <span class="titulo_servicios">SALÓN DE EVENTOS</span>
+                    
+                    <p class="servicios_descripcion">Tu evento soñado cobra vida en nuestro elegante salón. Con capacidad flexible y un equipo de planificación dedicado, ofrecemos el ambiente perfecto para bodas, conferencias o reuniones corporativas. Contamos con tecnología de punta y servicios de catering personalizados para garantizar que cada detalle sea impecable, dejando una impresión duradera en tus invitados.</p>
+                
+                
+                </div>
+                
+                <div class="service_item" role="listitem">
+                    <img src="{% static 'images/serv_taxi.jpg' %}" alt="Servicio de Taxi" /> 
+                    <span class="titulo_servicios">TAXI</span>
+                    <p class="servicios_descripcion">Asegura tu tranquilidad y puntualidad con nuestro servicio de taxi. Te garantizamos traslados seguros, cómodos y rápidos desde y hacia el aeropuerto, estaciones o cualquier punto de la ciudad. Nuestro servicio está disponible las 24 horas del día, los 7 días de la semana, para que tu única preocupación sea disfrutar de tu estancia.</p>
+                </div>
+
+            </div>
+            
+            <button class="carousel-btn carousel-btn-right" aria-label="Siguiente servicio">›</button>
+
+        </div> 
+        </div>
+</section>
+
+{# Sección para "Conoce Barinas" #}
+
+<section class="seccion_mapa" id="mapa-ubicacion" aria-label="Mapa de ubicación">
+    <div class="map_wrapper">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.7542970898276!2d-70.23670612499252!3d8.619571395263515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e7b582c10279961%3A0x8eae95fa1b3b02ef!2sHotel%20Varyna%20Inn!5e0!3m2!1ses-419!2sve!4v1764787017170!5m2!1ses-419!2sve" width="100%" height="360" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</section>
+
+
+    </div>
+    
+{% endblock content %}

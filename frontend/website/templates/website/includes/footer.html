@@ -1,0 +1,56 @@
+{% load static %}
+<footer class="site_footer" role="contentinfo">
+    <div class="footer_inner">
+        
+        {# === COLUMNA EXPLORA === #}
+        <div class="footer_col footer_explora">
+            <h5>EXPLORA</h5>
+            <ul>
+                {# Enlace a la página principal #}
+                <li><a href="{% url 'home' %}">Inicio</a></li>
+                {# Enlace a la página de Habitaciones #}
+                <li><a href="{% url 'habitaciones' %}">Habitaciones</a></li>
+                {# Enlace al ancla de Ubicación en la Home #}
+                <li><a href="{% url 'home' %}#mapa-ubicacion">Ubicación</a></li>
+                {# Enlace a la página de Galería #}
+                <li><a href="{% url 'galeria' %}">Galería</a></li>
+            </ul>
+        </div>
+
+        {# === COLUMNA COMPAÑÍA === #}
+        <div class="footer_col footer_compania">
+            <div class="footer_logo_wrapper"> 
+                {# Ruta de imagen corregida #}
+                <img src="{% static 'images/logo_indigo.png' %}" alt="Logo Hotel Indigo" class="footer_logo_img">
+            </div>
+            <h5>COMPAÑÍA</h5>
+            <ul>
+                {# Enlace a la página Nosotros (Historia) #}
+                <li><a href="{% url 'nosotros' %}">Historia</a></li>
+                {# Enlace a la página de Contacto #}
+                <li><a href="{% url 'contacto' %}">Contacto</a></li>
+                {# Enlace a la página de Servicios (Usado como Legal/Términos por defecto) #}
+                
+                <li><a href="{% url 'empleo' %}">Empleo</a></li>
+            </ul>
+        </div>
+
+        {# === COLUMNA SOCIAL === #}
+        <div class="footer_col footer_social">
+            <h5>SOCIAL</h5>
+            <div class="social_icons">
+                {# Los enlaces sociales suelen ser a URLs externas y pueden dejarse con # si son placeholders #}
+                <a href="#" aria-label="Facebook">
+                    <img src="{% static 'images/logofacebook.png' %}" alt="Facebook" class="social_icon_img">
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <img src="{% static 'images/logoinstagram.png' %}" alt="Instagram" class="social_icon_img">
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <img src="{% static 'images/logotwitter.png' %}" alt="Twitter" class="social_icon_img">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="footer_bottom">© 2025 Hotel Indigo. Todos los derechos reservados. (Realizada por estudiantes 8vo semestre de ingeniería en informática UNELLEZ-VPDS)</div>
+</footer>

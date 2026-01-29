@@ -1,0 +1,532 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Menú | Restaurant Indigo{% endblock %}
+
+{% block content %}
+
+    <main>
+
+<section class="seccion_busqueda hero_menu" role="banner">
+    {% load static %}
+
+    <div class="overlay"></div>
+    <div class="contenedor_busqueda">
+        <h1 class="menu_title">Menú</h1>
+        <p class="subtitulo">Restaurant Indigo</p>
+        <div class="menu_button_container">
+            {# URL a la reserva de mesa #}
+            <a class="boton_principal boton_gold boton_reserva" href="{% url 'reserva_restaurante' %}">Reservar Mesa</a>
+            <p class="menu_hours"><span class="icono_reloj">🕒</span> 7:00 AM - 10:00 PM</p>
+        </div>
+    </div>
+</section>
+
+      <section class="menu_nav">
+        <div class="contenedor">
+          <ul class="menu_tabs">
+            <li class="menu-tab-btn active" data-category="desayunos">DESAYUNOS</li>
+            <li class="menu-tab-btn" data-category="platos-fuertes">PLATOS FUERTES</li>
+            <li class="menu-tab-btn" data-category="postres">POSTRES</li>
+            <li class="menu-tab-btn" data-category="bebidas">BEBIDAS</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="menu-section" aria-labelledby="menu-section-title">
+        <div class="menu-container contenedor">
+          <h2 id="menu-section-title" class="sr-only">Menú del restaurante</h2>
+
+          <div class="menu-carousels">
+
+            <div class="menu-carousel" data-category="desayunos">
+              <button class="carousel-btn carousel-btn-left" aria-label="Anterior desayuno">‹</button>
+              <div class="carousel-track">
+                
+                <article class="menu-card" data-category="desayunos" data-title="Arepa Criolla" data-usd="10.00" data-desc="Arepa tradicional con queso" data-ingredients="Harina de maíz, queso">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/arepa.jpg' %}" alt="Arepa Criolla" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div> 
+                      <h3 class="card-title">Arepa Criolla</h3>
+                      <p class="card-description">Arepa rellena con queso fresco y mantequilla.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="10.00">
+                            <span class="price-usd">$10.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="desayunos" data-title="Cachapa" data-usd="8.50" data-desc="Cachapa con queso" data-ingredients="Harina de maíz dulce, queso">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/cachapa.jpg' %}" alt="Cachapa" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div> 
+                      <h3 class="card-title">Cachapa</h3>
+                      <p class="card-description">Cachapa tradicional con queso de mano.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="8.50">
+                            <span class="price-usd">$8.50</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="desayunos" data-title="Huevos Rancheros" data-usd="9.00" data-desc="Huevos estrellados con salsa casera y tortillas." data-ingredients="Huevos, salsa, tortillas">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/huevos.jpg' %}" alt="Huevos Rancheros" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div> 
+                      <h3 class="card-title">Huevos Rancheros</h3>
+                      <p class="card-description">Huevos estrellados con salsa casera y tortillas.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="9.00">
+                            <span class="price-usd">$9.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="desayunos" data-title="Omelette de Jamón" data-usd="7.50" data-desc="Omelette relleno de jamón y queso" data-ingredients="Huevos, jamón, queso">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/omelet.jpg' %}" alt="Omelette de Jamón" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div> 
+                      <h3 class="card-title">Omelette de Jamón</h3>
+                      <p class="card-description">Omelette relleno de jamón y queso.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="7.50">
+                            <span class="price-usd">$7.50</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="desayunos" data-title="Pancakes" data-usd="8.00" data-desc="Pancakes con miel y frutas" data-ingredients="Harina, huevo, leche, miel, frutas">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/pancakes.jpg' %}" alt="Pancakes" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div> 
+                      <h3 class="card-title">Pancakes</h3>
+                      <p class="card-description">Pancakes con miel y frutas frescas.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="8.00">
+                            <span class="price-usd">$8.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+              </div>
+              <button class="carousel-btn carousel-btn-right" aria-label="Siguiente desayuno">›</button>
+            </div>
+
+            <div class="menu-carousel" data-category="platos-fuertes" style="display: none;">
+              <button class="carousel-btn carousel-btn-left" aria-label="Anterior plato fuerte">‹</button>
+              <div class="carousel-track">
+                
+                <article class="menu-card" data-category="platos-fuertes" data-title="Parrilla Mixta" data-usd="18.00" data-desc="Carne, pollo y chorizo a la parrilla" data-ingredients="Carne, pollo, chorizo, papas">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/churrasco (1).png' %}" alt="Parrilla Mixta" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Parrilla Mixta</h3>
+                      <p class="card-description">Carne, pollo y chorizo a la parrilla con guarnición.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="18.00">
+                            <span class="price-usd">$18.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="platos-fuertes" data-title="Pasta Alfredo" data-usd="14.00" data-desc="Pasta con salsa Alfredo y pollo" data-ingredients="Pasta, pollo, salsa Alfredo">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/pasta.png' %}" alt="Pasta Alfredo" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Pasta Alfredo</h3>
+                      <p class="card-description">Pasta con salsa Alfredo y pollo a la plancha.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="14.00">
+                            <span class="price-usd">$14.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="platos-fuertes" data-title="Salmón Grillado" data-usd="16.00" data-desc="Salmón a la plancha con vegetales" data-ingredients="Salmón, vegetales, limón">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/salmon (1).png' %}" alt="Salmón Grillado" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Salmón Grillado</h3>
+                      <p class="card-description">Salmón a la plancha con vegetales salteados.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="16.00">
+                            <span class="price-usd">$16.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+
+                
+                <article class="menu-card" data-category="platos-fuertes" data-title="Risotto de Mariscos" data-usd="17.00" data-desc="Arroz cremoso con mariscos frescos" data-ingredients="Arroz, mariscos, vino blanco">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/marisqueria.png' %}" alt="Risotto de Mariscos" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Risotto de Mariscos</h3>
+                      <p class="card-description">Arroz cremoso con mariscos frescos y vino blanco.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="17.00">
+                            <span class="price-usd">$17.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+              </div>
+              <button class="carousel-btn carousel-btn-right" aria-label="Siguiente plato fuerte">›</button>
+            </div>
+
+            <div class="menu-carousel" data-category="postres" style="display: none;">
+              <button class="carousel-btn carousel-btn-left" aria-label="Anterior postre">‹</button>
+              <div class="carousel-track">
+                
+                <article class="menu-card" data-category="postres" data-title="Torta de Chocolate" data-usd="6.00" data-desc="Bizcocho húmedo de chocolate" data-ingredients="Chocolate, harina, huevo">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/torta retveltve.png' %}" alt="Torta de Chocolate" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Torta de Chocolate</h3>
+                      <p class="card-description">Bizcocho húmedo de chocolate con cobertura.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="6.00">
+                            <span class="price-usd">$6.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="postres" data-title="Cheesecake" data-usd="7.00" data-desc="Tarta de queso con frutos rojos" data-ingredients="Queso crema, frutos rojos, galleta">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/postre.png' %}" alt="Cheesecake" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Cheesecake</h3>
+                      <p class="card-description">Tarta de queso con frutos rojos frescos.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="7.00">
+                            <span class="price-usd">$7.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+
+                <article class="menu-card" data-category="postres" data-title="Brownie" data-usd="5.50" data-desc="Brownie de chocolate con nueces" data-ingredients="Chocolate, nueces, harina">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/brownie.jpg' %}" alt="Brownie" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Brownie</h3>
+                      <p class="card-description">Brownie de chocolate con nueces y helado opcional.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="5.50">
+                            <span class="price-usd">$5.50</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="postres" data-title="Helado Artesanal" data-usd="4.00" data-desc="Helado de vainilla y chocolate" data-ingredients="Leche, vainilla, chocolate">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/helado artesanal.jpg' %}" alt="Helado Artesanal" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Helado Artesanal</h3>
+                      <p class="card-description">Helado de vainilla y chocolate artesanal.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="4.00">
+                            <span class="price-usd">$4.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+              </div>
+              <button class="carousel-btn carousel-btn-right" aria-label="Siguiente postre">›</button>
+            </div>
+
+            <div class="menu-carousel" data-category="bebidas" style="display: none;">
+              <button class="carousel-btn carousel-btn-left" aria-label="Anterior bebida">‹</button>
+              <div class="carousel-track">
+                
+                <article class="menu-card" data-category="bebidas" data-title="Jugo Natural" data-usd="3.00" data-desc="Jugo de frutas natural" data-ingredients="Frutas frescas, agua">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/jugo.png' %}" alt="Jugo Natural" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Jugo Natural</h3>
+                      <p class="card-description">Jugo de frutas natural (naranja, fresa, piña, etc.).</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="3.00">
+                            <span class="price-usd">$3.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="bebidas" data-title="Café Americano" data-usd="2.50" data-desc="Café filtrado tradicional" data-ingredients="Café, agua">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/latte.png' %}" alt="Café Americano" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Café Americano</h3>
+                      <p class="card-description">Café filtrado tradicional.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="2.50">
+                            <span class="price-usd">$2.50</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="bebidas" data-title="Té Verde" data-usd="2.00" data-desc="Té verde natural" data-ingredients="Té verde, agua">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/coctel.png' %}" alt="Té Verde" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Coctel</h3>
+                      <p class="card-description">Coctel natural y refrescante.</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="2.00">
+                            <span class="price-usd">$2.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="bebidas" data-title="Limonada" data-usd="2.50" data-desc="Limonada fresca" data-ingredients="Limón, agua, azúcar">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/vino.png' %}" alt="Limonada" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Vino</h3>
+                      <p class="card-description">Buen vino traido de los mejores viñedos</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="2.50">
+                            <span class="price-usd">$2.50</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+                
+                <article class="menu-card" data-category="bebidas" data-title="Refresco" data-usd="2.00" data-desc="Refresco de cola o naranja" data-ingredients="Agua, azúcar, saborizantes">
+                  <div class="card-image-wrapper">
+                    <img src="{% static 'images/whiskey.png' %}" alt="Refresco" class="card-image">
+                  </div>
+                  <div class="card-details">
+                    <div>
+                      <h3 class="card-title">Whiskey</h3>
+                      <p class="card-description">La máxima calidad en nuestros Whiskeys</p>
+                    </div>
+                    <div class="card-price-container">
+                        <div class="card-price-bs-toggle" data-usd="2.00">
+                            <span class="price-usd">$2.00</span> 
+                            <span class="price-bs-link">| Ver Bs</span>
+                            <span class="tooltip-bs" style="display:none;"></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn-details" role="button">Detalles</a>
+                  </div>
+                </article>
+              </div>
+              <button class="carousel-btn carousel-btn-right" aria-label="Siguiente bebida">›</button>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      <div class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-dish-title" aria-describedby="modal-dish-desc">
+          <div class="modal-content">
+              <button class="modal-close-btn" aria-label="Cerrar">×</button>
+
+              <div class="modal-body">
+                  <div class="modal-image">
+                      <img src="{% static 'images/serv_restaurante.jpg' %}" alt="Imagen del plato" />
+                  </div>
+
+                  <div class="modal-details">
+                      <h3 id="modal-dish-title" class="detail-title">Arepa Criolla</h3>
+                      <div class="detail-price">Precio: $10.00</div>
+                      <p id="modal-dish-desc" class="detail-description">Aquí va la descripción del plato.</p>
+
+                      <h4 class="detail-ingredients-title">Ingredientes:</h4>
+                      <p class="detail-ingredients-text">Harina de maíz, queso fresco, mantequilla, sal y acompañamientos al gusto.</p>
+
+                      <div class="modal-actions">
+                          <button class="btn-cancel">Cancelar</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    </main>
+
+{% endblock content %}
+
+{# 💡 SCRIPT DE CÁLCULO DE BOLÍVARES (SE COLOCA EN UN BLOQUE SEPARADO) #}
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tasa de cambio de ejemplo: 1 USD = 36.00 BS (IMPORTANTE: ¡ACTUALIZA ESTA TASA CON EL VALOR ACTUAL!)
+        const exchangeRate = 36.00; 
+
+        document.querySelectorAll('.menu-card').forEach(function(card) {
+            const priceToggle = card.querySelector('.card-price-bs-toggle');
+            
+            if (!priceToggle) return;
+
+            const usdPriceText = priceToggle.getAttribute('data-usd');
+            const usdPrice = parseFloat(usdPriceText);
+            
+            if (isNaN(usdPrice)) return; 
+
+            const bsPrice = (usdPrice * exchangeRate).toFixed(2);
+            const tooltip = priceToggle.querySelector('.tooltip-bs');
+            const link = priceToggle.querySelector('.price-bs-link');
+
+            // 1. Establecer el contenido del tooltip
+            tooltip.textContent = `Bs. ${bsPrice}`;
+
+            // 2. Agregar evento de clic al enlace "Ver Bs"
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                e.stopPropagation(); 
+
+                // Ocultar todos los tooltips de otras tarjetas
+                document.querySelectorAll('.tooltip-bs').forEach(t => {
+                    if (t !== tooltip) {
+                        t.style.display = 'none';
+                    }
+                });
+
+                // Alternar la visibilidad de este tooltip
+                const isHidden = tooltip.style.display === 'none' || tooltip.style.display === '';
+                tooltip.style.display = isHidden ? 'block' : 'none';
+            });
+            
+            // 3. Ocultar el tooltip al hacer clic en cualquier otro lugar
+            document.addEventListener('click', function(e) {
+                if (!priceToggle.contains(e.target) && tooltip.style.display === 'block') {
+                    tooltip.style.display = 'none';
+                }
+            });
+        });
+        
+        // Inicializar el script de tabs (Si aún no está en otro lugar)
+        document.querySelectorAll('.menu-tab-btn').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+
+                // Mostrar/Ocultar carruseles
+                document.querySelectorAll('.menu-carousel').forEach(carousel => {
+                    carousel.style.display = carousel.getAttribute('data-category') === category ? 'block' : 'none';
+                });
+
+                // Activar/Desactivar tabs
+                document.querySelectorAll('.menu-tab-btn').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+    });
+</script>
+{% endblock extra_js %}

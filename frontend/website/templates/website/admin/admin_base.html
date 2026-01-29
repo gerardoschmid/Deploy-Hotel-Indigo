@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    {# El bloque title se llena con el título de cada página del panel #}
+    <title>Administración | {% block title %}Dashboard{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}"> 
+    
+    {# CSS ESPECÍFICO DEL PANEL (admin.css) #}
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}"> 
+    
+    {# Font Awesome para los iconos de la barra lateral #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+</head>
+<body class="admin-body">
+
+    {# ========================================================= #}
+    {# 1. HEADER / BARRA SUPERIOR #}
+    {# ========================================================= #}
+    <header class="admin-header">
+        <div class="logo_hotel">
+            <a href="{% url 'home' %}">
+                <span class="nombre_hotel">Hotel Indigo</span> Admin
+            </a>
+        </div>
+        <div class="admin-user-info">
+            <i class="fas fa-user-circle"></i> Usuario: Administrador
+            <a href="{% url 'acceso' %}" class="logout-link"><i class="fas fa-sign-out-alt"></i> Salir</a>
+        </div>
+    </header>
+
+    {# ========================================================= #}
+    {# 2. LAYOUT PRINCIPAL: SIDEBAR Y CONTENIDO #}
+    {# ========================================================= #}
+    <div class="admin-wrapper">
+        
+        {# Sidebar/Menú de Navegación del Panel (Basado en el Schema SQL) #}
+        <aside class="admin-sidebar">
+            <nav>
+                <ul class="admin-menu">
+                    <li class="menu-item dashboard"><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    
+                    {# MÓDULO: INVENTARIO (HABITACION, SALON_EVENTOS, PLATO) #}
+                    <li class="menu-header">INVENTARIO Y CONTENIDO</li>
+                    <li class="menu-item" data-table="habitacion"><a href="#"><i class="fas fa-bed"></i> Habitaciones</a></li>
+                    <li class="menu-item" data-table="salon_eventos"><a href="#"><i class="fas fa-calendar-alt"></i> Salones de Eventos</a></li>
+                    <li class="menu-item" data-table="plato"><a href="#"><i class="fas fa-utensils"></i> Menú y Platos</a></li>
+
+                    {# MÓDULO: TRANSACCIONES (RESERVA_HABITACION, RESERVA_SALON, RESERVA_RESTAURANTE) #}
+                    <li class="menu-header">TRANSACCIONES</li>
+                    <li class="menu-item" data-table="reserva_habitacion"><a href="#"><i class="fas fa-book"></i> Reservas Habitación</a></li>
+                    <li class="menu-item" data-table="reserva_restaurante"><a href="#"><i class="fas fa-chair"></i> Reservas de Mesa</a></li>
+                    <li class="menu-item" data-table="reserva_salon"><a href="#"><i class="fas fa-handshake"></i> Cotizaciones Eventos</a></li>
+                    
+                    {# MÓDULO: CONFIGURACIÓN (USUARIO) #}
+                    <li class="menu-header">USUARIOS Y SISTEMA</li>
+                    <li class="menu-item" data-table="usuario"><a href="#"><i class="fas fa-users"></i> Gestión de Usuarios</a></li>
+                    <li class="menu-item"><a href="/admin/"><i class="fas fa-cog"></i> Panel Django Defecto</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        {# Contenido Principal: Aquí se inyecta el contenido de cada página #}
+        <main class="admin-content">
+            {% block content %}
+                {# Contenido por defecto del Dashboard #}
+                <div class="default-dashboard-content">
+                    <h1>Bienvenido al Panel de Administración</h1>
+                    <p>Utiliza el menú lateral para gestionar los recursos del Hotel Indigo.</p>
+                </div>
+            {% endblock content %}
+        </main>
+    </div>
+
+    {# 3. FOOTER Y SCRIPTS #}
+    <footer class="admin-footer">
+        © 2024 Hotel Indigo Administración
+    </footer>
+    
+    {# Scripts comunes del Admin #}
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* ========================================================= */
+/* ADMIN.CSS - Estilos Específicos del Panel de Administración */
+/* ========================================================= */
+
+:root {
+    --admin-bg-dark: #2c3e50; /* Azul Oscuro */
+    --admin-sidebar-width: 240px;
+    --admin-text-light: #ecf0f1;
+    --admin-accent: #3498db; /* Azul de acento */
+}
+
+/* 1. LAYOUT PRINCIPAL */
+.admin-body {
+    background-color: #f4f7f6; /* Fondo suave para el contenido */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 2. HEADER */
+.admin-header {
+    background-color: var(--admin-bg-dark);
+    color: var(--admin-text-light);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.admin-header a {
+    color: var(--admin-text-light);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* 3. BARRA LATERAL (ASIDE) */
+.admin-sidebar {
+    width: var(--admin-sidebar-width);
+    background-color: #34495e; /* Un tono un poco más claro que el header */
+    color: var(--admin-text-light);
+    padding-top: 70px; /* Espacio para el header fijo */
+    position: fixed;
+    height: 100%;
+    left: 0;
+    overflow-y: auto;
+    z-index: 40;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.menu-header {
+    color: #bdc3c7; /* Gris claro para las secciones */
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.menu-item a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--admin-text-light);
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.menu-item a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: var(--admin-accent);
+}
+
+.menu-item a:hover,
+.menu-item.active a {
+    background-color: #2c3e50;
+}
+
+/* 4. CONTENIDO PRINCIPAL */
+.admin-content-wrapper {
+    /* CLAVE: Empuja el contenido principal a la derecha del sidebar */
+    margin-left: var(--admin-sidebar-width);
+    padding: 85px 20px 20px 20px; /* Espacio para header y padding */
+    width: 100%;
+}
+
+.admin-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    min-height: calc(100vh - 105px); /* Ajuste de altura */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.admin-content h1 {
+    color: var(--admin-bg-dark);
+    margin-bottom: 20px;
+}

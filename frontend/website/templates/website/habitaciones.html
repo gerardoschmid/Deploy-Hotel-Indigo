@@ -1,0 +1,105 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Habitaciones Disponibles | Hotel Indigo{% endblock %}
+
+{% block content %}
+
+<section class="seccion_busqueda hero--rooms hero_reserva" role="banner">
+
+    <div class="contenedor_busqueda">
+        <h1>Explora nuestras exclusivas habitaciones</h1>
+        <p class="subtitulo">Comodidad y Lujo diseñados para tu descanso perfecto.</p>
+    </div>
+</section>
+<section class="seccion_habitaciones">
+    <div class="contenedor">
+        <div class="titulo_seccion_home">
+            <h2>Todas las opciones</h2>
+            <p>Elige la categoría que mejor se adapte a tu experiencia.</p>
+        </div>
+        
+        <div class="rooms-grid">
+            
+            <div class="card card--room" data-aos="fade-up">
+                <div class="card__image">
+                    <img src="{% static 'images/habitacion_king.jpeg' %}" alt="Habitación King Deluxe" loading="lazy">
+                    
+                </div>
+                <div class="card__content">
+                    <h3 class="card__title">King</h3>
+                    <p class="room-description">
+                        Lujosa habitación con cama King Size. Disfrute de nuestro minibar premium y escritorio ejecutivo. 
+                    </p>
+                    <div class="card__features">
+                        <span><i class="fas fa-bed"></i> Cama: King Size</span>
+                        <span><i class="fas fa-shower"></i> Características: Ducha de Lluvia</span>
+                        <span><i class="fas fa-layer-group"></i> Categoría: Estándar</span>
+                    </div>
+                    <div class="card__price">
+                        <span class="amount">$60</span>
+                        <span class="period">precio base / noche (Desayuno incluido)</span>
+                    </div>
+                    <div class="botones_tarjeta">
+                        {# Usar URLs con IDs de ejemplo o placeholders #}
+                        <a href="{% url 'detalle_habitacion' 1 %}" class="boton_principal boton_dark boton-detalles">Ver Detalles</a>
+                        <a href="{% url 'reserva' %}?habitacion_id=1" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card card--room" data-aos="fade-up" data-aos-delay="100">
+                <div class="card__image">
+                    <img src="{% static 'images/hotel_fondo.jpeg' %}" alt="Habitación Queen Superior" loading="lazy">
+                    
+                </div>
+                <div class="card__content">
+                    <h3 class="card__title">Queen</h3>
+                    <p class="room-description">
+                        Perfecta para viajes de negocios. Equipada con wifi de alta velocidad y un diseño moderno.
+                    </p>
+                    <div class="card__features">
+                        <span><i class="fas fa-bed"></i> Cama: Queen Size</span>
+                        <span><i class="fas fa-window-maximize"></i> Características: Ventana Aislada</span>
+                        <span><i class="fas fa-layer-group"></i> Categoría: Estándar</span>
+                    </div>
+                    <div class="card__price">
+                        <span class="amount">$50</span>
+                        <span class="period">precio base / noche (Desayuno incluido)</span>
+                    </div>
+                    <div class="botones_tarjeta">
+                        <a href="{% url 'detalle_habitacion' 2 %}" class="boton_principal boton_dark boton-detalles">Ver Detalles</a>
+                        <a href="{% url 'reserva'%}" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+                    </div>
+                </div>
+            </div>
+                        <div class="card card--room" data-aos="fade-up" data-aos-delay="100">
+                <div class="card__image">
+                    <img src="{% static 'images/camarosa.jpeg' %}" alt="Habitación Queen Superior" loading="lazy">
+                    
+                </div>
+                <div class="card__content">
+                    <h3 class="card__title">King Master Suite</h3>
+                    <p class="room-description">
+                        Comodidad de una cama King Size con todas las comodidades de una Suite.
+                    </p>
+                    <div class="card__features">
+                        <span><i class="fas fa-bed"></i> Cama: Queen Size</span>
+                        <span><i class="fas fa-window-maximize"></i> Características: Ventana Aislada</span>
+                        <span><i class="fas fa-layer-group"></i> Categoría: Suite</span>
+                    </div>
+                    <div class="card__price">
+                        <span class="amount">$60</span>
+                        <span class="period">precio base / noche (Desayuno incluido)</span>
+                    </div>
+                    <div class="botones_tarjeta">
+                        <a href="{% url 'detalle_habitacion' 2 %}" class="boton_principal boton_dark boton-detalles">Ver Detalles</a>
+                        <a href="{% url 'reserva'%}" class="boton_principal boton_gold boton-reservar">Reservar Ahora</a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

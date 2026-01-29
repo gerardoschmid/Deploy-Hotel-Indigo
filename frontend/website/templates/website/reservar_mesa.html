@@ -1,0 +1,137 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Reservar Mesa | Restaurant Indigo{% endblock %}
+
+{% block content %}
+
+<section class="seccion_busqueda hero_reservar" role="banner">
+    <div class="overlay"></div>
+    <div class="contenedor_busqueda">
+        <div class="reservar_hero_inner">
+            <h1 class="reservar_title">Reservar Mesa</h1>
+           
+        </div>
+    </div>
+</section>
+<main>
+    <section class="reservar_form_section">
+        <div class="contenedor reservar_form_container">
+            <div class="form_card halo-only">
+                
+                <div class="form_header">
+                    <h2 class="form_title">Reserva tu Mesa</h2>
+                </div>
+
+                <form class="reservar_form" id="formReserva" method="post">
+                    {% csrf_token %}
+
+                    <div class="form_section">
+                        <h3 class="section_title">Detalles de la Reserva</h3>
+                        
+                        <div class="form_row">
+                            <div class="form_group">
+                                <label for="fecha">Fecha:</label>
+                                <div class="input_wrapper">
+                                    <span class="input_icon"><i class="fas fa-calendar-alt"></i></span>
+                                    <input type="date" id="fecha" name="fecha_reserva" required>
+                                </div>
+                            </div>
+<div class="form_group">
+    <label for="hora">Hora:</label>
+    <div class="input_wrapper">
+        <span class="input_icon"><i class="far fa-clock"></i></span>
+        
+        <select id="hora" name="hora_reserva" class="select-hora-reserva" required>
+            <option value="" disabled selected>-- : --</option>
+            <option value="07:00">07:00 AM</option>
+            <option value="08:00">08:00 AM</option>
+            <option value="09:00">09:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+            <option value="12:00">12:00 PM</option>
+            <option value="13:00">01:00 PM</option>
+            <option value="14:00">02:00 PM</option>
+            <option value="15:00">03:00 PM</option>
+            <option value="16:00">04:00 PM</option>
+            <option value="17:00">05:00 PM</option>
+            <option value="18:00">06:00 PM</option>
+            <option value="19:00">07:00 PM</option>
+            <option value="20:00">08:00 PM</option>
+            <option value="21:00">09:00 PM</option>
+            <option value="22:00">10:00 PM</option>
+        </select>
+        </div>
+</div>
+                            <div class="form_group">
+                                <label for="comensales">Comensales:</label>
+                                <div class="input_wrapper">
+                                    <span class="input_icon"><i class="fas fa-users"></i></span>
+                                    <input type="number" id="comensales" name="numero_personas" min="1" max="20" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_section">
+                        <h3 class="section_title">Información Personal de Contacto</h3>
+                        
+                        <div class="form_row">
+                            <div class="form_group">
+                                <label for="nombre">Nombre Completo:</label>
+                                <div class="input_wrapper">
+                                    <span class="input_icon"><i class="fas fa-user"></i></span>
+                                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                                </div>
+                            </div>
+<div class="form_group">
+    <label for="telefono">Teléfono:</label>
+    <div class="input_wrapper">
+        <span class="input_icon"><i class="fas fa-phone"></i></span>
+        <input 
+            type="tel" 
+            id="telefono" 
+            name="telefono" 
+            placeholder="Tu teléfono" 
+            required 
+            pattern="[0-9\+\-\(\)\s]*" 
+            title="Solo se permiten números, espacios y guiones (+-())."
+        >
+    </div>
+</div>
+                        </div>
+
+                        <div class="form_row">
+                            <div class="form_group full-width">
+                                <label for="email">Correo Electrónico:</label>
+                                <div class="input_wrapper">
+                                    <span class="input_icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_section">
+                        <h3 class="section_title">Observaciones</h3>
+                        
+                        <div class="form_row">
+                            <div class="form_group full-width">
+                                <label for="observaciones">Notas o preferencias especiales (Opcional):</label>
+                                <div class="input_wrapper textarea_wrapper">
+                                    <span class="input_icon"><i class="fas fa-pencil-alt"></i></span>
+                                    <textarea id="observaciones" name="preferencias" rows="4" placeholder="Cuéntanos si tienes alguna preferencia especial..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form_actions">
+                        <button type="submit" class="btn_reservar">Reservar Mesa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock content %}
