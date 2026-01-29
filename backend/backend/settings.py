@@ -137,12 +137,15 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "https://hote-frontend-production.up.railway.app",
+    "https://frontend-production-5f03.up.railway.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "https://hote-frontend-production.up.railway.app",
     "https://hotel-reserva-test-production.up.railway.app",
+    "https://deploy-hotel-indigo-production.up.railway.app",
+    "https://frontend-production-5f03.up.railway.app",
 ]
 
 # Configuración de Cookies para Producción
