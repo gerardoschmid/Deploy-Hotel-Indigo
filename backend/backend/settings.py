@@ -1,6 +1,5 @@
 """
 Django settings for backend project.
-Optimizado para Lisandro Corro - Hotel Indigo (Producción en Railway con EmailJS)
 """
 
 from pathlib import Path
