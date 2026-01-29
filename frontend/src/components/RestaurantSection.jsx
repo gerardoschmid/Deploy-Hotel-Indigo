@@ -6,7 +6,7 @@ import api from '../api/axios';
 // --- CONFIGURACIÓN DE LA URL DE IMÁGENES ---
 // Forzamos la URL de tu backend en Railway para que el frontend sepa dónde buscar las fotos. 
 // Ajusta esta URL si cambian de hosting o dominio.
-const API_BASE_URL = 'https://hotel-reserva-test-production.up.railway.app';
+const API_BASE_URL = 'https://deploy-hotel-indigo-production.up.railway.app';
 
 const RestaurantSection = () => {
   const [dishes, setDishes] = useState([]);
