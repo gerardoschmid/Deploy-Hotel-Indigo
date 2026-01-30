@@ -4,7 +4,7 @@ import { UtensilsCrossed, X, Clock, Star, ChevronLeft, ChevronRight } from 'luci
 import api from '../api/axios';
 
 // --- CONFIGURACIÓN DINÁMICA ---
-const API_BASE_URL = 'https://hotel-reserva-test-production.up.railway.app';
+const API_BASE_URL = 'https://deploy-hotel-indigo-production.up.railway.app';
 
 const RestaurantSection = () => {
   const [dishes, setDishes] = useState([]);
