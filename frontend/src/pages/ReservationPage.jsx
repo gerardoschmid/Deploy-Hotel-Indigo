@@ -20,7 +20,7 @@ const ReservationPage = () => {
 
   // --- CONFIGURACIÓN ---
   const TAX_RATE = 0.16; 
-  const SALON_BLOCK_HOURS = 6; // Duración del bloqueo por evento
+  const SALON_BLOCK_HOURS = 6; 
 
   // --- ESTADOS GENERALES ---
   const [activeTab, setActiveTab] = useState('habitacion'); 
@@ -178,7 +178,6 @@ const ReservationPage = () => {
     }
   };
 
-  // --- LÓGICA DE OCUPACIÓN SALÓN (6 HORAS) ---
   const getSalonStatus = (salonId) => {
     if (!salonForm.time || !salonForm.date) return { occupied: false };
     
@@ -207,7 +206,6 @@ const ReservationPage = () => {
     return { occupied: false };
   };
 
-  // --- LÓGICA HABITACIÓN ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'fecha_checkin') {
@@ -369,7 +367,6 @@ const ReservationPage = () => {
     }
   };
 
-  // --- FILTROS Y UI HELPERS ---
   const filteredHabitaciones = habitaciones.filter(h => {
     const matchesSearch = h.numero_habitacion.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           h.categoria.toLowerCase().includes(searchTerm.toLowerCase());
@@ -392,7 +389,6 @@ const ReservationPage = () => {
       return icons[amenity] || Check;
   };
 
-  // --- FIX: DEFINICIÓN DE COMPATIBLE TABLES ---
   const compatibleTables = tables.filter(t => t.capacidad >= restaurantForm.guests);
 
   if (!user) {
@@ -488,7 +484,8 @@ const ReservationPage = () => {
                                                     <span className={`px-3 py-1 rounded-full text-sm font-medium border bg-white/90 backdrop-blur-sm ${getCategoriaColor(habitacion.categoria)}`}>{habitacion.categoria.charAt(0).toUpperCase() + habitacion.categoria.slice(1)}</span>
                                                     <div className="flex items-center gap-1"><Star className="w-4 h-4 text-yellow-400 fill-current"/><span className="text-white text-sm font-bold">4.8</span></div>
                                                 </div>
-                                                <h3 className="text-2xl font-bold text-white mb-2">Habitación {habitacion.numero_habitacion}</h3>
+                                                {/* CAMBIO AQUÍ: Usamos tipo_ocupacion en lugar de numero_habitacion */}
+                                                <h3 className="text-2xl font-bold text-white mb-2 capitalize">Habitación {habitacion.tipo_ocupacion}</h3>
                                             </div>
                                             <div className="text-right"><p className="text-white/90 text-sm">Por noche</p><p className="text-3xl font-bold text-white">${parseFloat(habitacion.precio_base || 0).toFixed(2)}</p></div>
                                         </div>
@@ -514,7 +511,8 @@ const ReservationPage = () => {
                             {habitacionSeleccionada.imagen ? <img src={habitacionSeleccionada.imagen} alt="" className="absolute inset-0 w-full h-full object-cover"/> : <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80"></div>}
                             <div className="absolute inset-0 bg-black/50"></div>
                             <div className="relative p-6 h-full flex flex-col justify-end text-white">
-                                <h2 className="text-3xl font-bold">Habitación {habitacionSeleccionada.numero_habitacion}</h2>
+                                {/* CAMBIO AQUÍ: Usamos tipo_ocupacion en el formulario también */}
+                                <h2 className="text-3xl font-bold capitalize">Habitación {habitacionSeleccionada.tipo_ocupacion}</h2>
                                 <p className="text-white/90">{habitacionSeleccionada.categoria} - Piso {habitacionSeleccionada.piso}</p>
                             </div>
                         </div>

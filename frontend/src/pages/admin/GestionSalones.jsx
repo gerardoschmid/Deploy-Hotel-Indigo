@@ -10,7 +10,6 @@ import {
   Crown,
   CheckCircle,
   XCircle,
-  // closeModals FUE ELIMINADO DE AQUÍ PORQUE NO ES UN ICONO
   AlertTriangle,
   Wrench,
   Eye,
@@ -69,7 +68,6 @@ const GestionSalones = () => {
     setAlertModal({ show: true, type, title, message });
   };
 
-  // Definición correcta de closeModals como función local
   const closeModals = () => {
     setShowAddModal(false);
     setShowEditModal(false);
@@ -100,7 +98,7 @@ const GestionSalones = () => {
 
       if (response.status === 200 || response.status === 201) {
         await fetchSalones();
-        closeModals(); // Ahora sí funcionará porque está definida arriba
+        closeModals();
         showAlert('success', '¡Éxito!', showEditModal ? 'Salón actualizado correctamente.' : 'Salón creado correctamente.');
       }
     } catch (error) {
@@ -144,8 +142,30 @@ const GestionSalones = () => {
     }
   };
 
-  const initiateDelete = (salon) => {
-    setDeleteModal({ show: true, id: salon.id, nombre: salon.nombre });
+  const initiateDelete = async (salon) => {
+    try {
+      const response = await api.get('/api/reservas-salon/reservas/');
+      const todasLasReservas = response.data.results || response.data || [];
+      
+      const tieneReservas = todasLasReservas.some(res => 
+        (res.salon === salon.id || res.salon?.id === salon.id) && 
+        (res.estado === 'confirmada' || res.estado === 'pendiente')
+      );
+
+      if (tieneReservas) {
+        showAlert(
+          'error', 
+          'Acción Denegada', 
+          `El salón "${salon.nombre}" tiene reservas activas. No puede ser eliminado.`
+        );
+        return;
+      }
+
+      setDeleteModal({ show: true, id: salon.id, nombre: salon.nombre });
+    } catch (error) {
+      console.error("Error verificando reservas:", error);
+      showAlert('error', 'Error', 'No se pudo verificar el estado de las reservas.');
+    }
   };
 
   const confirmDelete = async () => {
@@ -158,7 +178,7 @@ const GestionSalones = () => {
       }
     } catch (error) {
       setDeleteModal({ show: false, id: null, nombre: '' });
-      showAlert('error', 'No se pudo eliminar', 'Es posible que tenga eventos programados.');
+      showAlert('error', 'No se pudo eliminar', 'Error al procesar la eliminación.');
     }
   };
 
@@ -233,17 +253,15 @@ const GestionSalones = () => {
       {/* Filtros */}
       <div className="bg-white p-4 rounded-lg border border-slate-200">
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
-             <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Buscar salón..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-             </div>
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Buscar salón..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
@@ -310,17 +328,7 @@ const GestionSalones = () => {
                     animate={{ opacity: 1 }}
                     className="hover:bg-slate-50"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-purple-100 rounded-full flex items-center justify-center">
-                          <Crown className="h-5 w-5 text-purple-600" />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-bold text-slate-900">{salon.nombre}</div>
-                          <div className="text-xs text-slate-500 max-w-[200px] truncate">{salon.descripcion || 'Sin descripción'}</div>
-                        </div>
-                      </div>
-                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap font-bold text-slate-900">{salon.nombre}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-full ${getStatusColor(salon.estado)}`}>
                         {getStatusIcon(salon.estado)}
@@ -329,7 +337,7 @@ const GestionSalones = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {salon.imagen_url ? (
-                        <div className="h-10 w-16 rounded-lg overflow-hidden border border-slate-200">
+                        <div className="h-10 w-16 rounded overflow-hidden border border-slate-200">
                             <img src={salon.imagen_url} alt={salon.nombre} className="h-full w-full object-cover" />
                         </div>
                       ) : (
@@ -340,13 +348,13 @@ const GestionSalones = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end gap-2">
-                        <button onClick={() => setSelectedSalon(salon)} className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors" title="Ver Detalles">
+                        <button onClick={() => setSelectedSalon(salon)} className="p-1 text-slate-400 hover:text-blue-600 rounded-full transition-colors" title="Ver Detalles">
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button onClick={() => handleEdit(salon)} className="p-1 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-full transition-colors" title="Editar">
+                        <button onClick={() => handleEdit(salon)} className="p-1 text-slate-400 hover:text-amber-600 rounded-full transition-colors" title="Editar">
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button onClick={() => initiateDelete(salon)} className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors" title="Eliminar">
+                        <button onClick={() => initiateDelete(salon)} className="p-1 text-slate-400 hover:text-red-600 rounded-full transition-colors" title="Eliminar">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -359,20 +367,11 @@ const GestionSalones = () => {
         )}
       </div>
 
-      {/* --- MODAL FORMULARIO (ADD/EDIT) --- */}
+      {/* --- MODAL FORMULARIO (ADD/EDIT) CON MEJORA DE IMAGEN --- */}
       <AnimatePresence>
         {(showAddModal || showEditModal) && (
-          <div 
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-            onClick={closeModals}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-lg p-6 w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto"
-            >
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={closeModals}>
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-lg p-6 w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-slate-900">{showEditModal ? 'Editar Salón' : 'Nuevo Salón'}</h2>
@@ -421,8 +420,9 @@ const GestionSalones = () => {
                         />
                     </div>
 
+                    {/* MEJORA VISUAL DE SUBIDA DE IMAGEN */}
                     <div>
-                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Imagen (Opcional)</label>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Imagen del Salón</label>
                         <div className="mt-1">
                             {!imagePreview ? (
                                 <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors group">
@@ -430,14 +430,19 @@ const GestionSalones = () => {
                                         <div className="p-3 bg-white rounded-full shadow-sm mb-3 group-hover:scale-110 transition-transform">
                                             <Upload className="w-6 h-6 text-slate-400" />
                                         </div>
-                                        <p className="mb-1 text-sm text-slate-500"><span className="font-semibold">Clic para subir</span> imagen</p>
+                                        <p className="mb-1 text-sm text-slate-500 font-medium">Clic para subir imagen</p>
+                                        <p className="text-xs text-slate-400">PNG, JPG o WEBP</p>
                                     </div>
                                     <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                                 </label>
                             ) : (
                                 <div className="relative w-full h-40 rounded-xl overflow-hidden border border-slate-200 shadow-sm group">
                                     <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                        <label className="p-2 bg-white text-slate-900 rounded-full cursor-pointer hover:scale-110 transition-transform shadow-lg">
+                                            <Upload className="w-5 h-5" />
+                                            <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
+                                        </label>
                                         <button
                                             type="button"
                                             onClick={() => { setSelectedImage(null); setImagePreview(null); }}
@@ -464,161 +469,50 @@ const GestionSalones = () => {
         )}
       </AnimatePresence>
 
-      {/* --- MODAL DETALLES (ESTILO TARJETA CENTRADA) --- */}
+      {/* --- MODAL DETALLES --- */}
       <AnimatePresence>
         {selectedSalon && !showEditModal && !deleteModal.show && (
-          <div 
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-            onClick={() => setSelectedSalon(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-lg p-6 w-full max-w-sm shadow-2xl relative"
-            >
-                <button
-                    onClick={() => setSelectedSalon(null)}
-                    className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
-                >
-                    <X className="w-6 h-6" />
-                </button>
-
-                {/* Cabecera Centrada */}
-                <div className="flex flex-col items-center text-center mb-6">
-                    <div className="h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center overflow-hidden mb-3 shadow-sm">
-                        <Crown className="h-8 w-8 text-purple-600" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-slate-900 mb-1">{selectedSalon.nombre}</h2>
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-0.5 text-xs font-bold rounded-full ${getStatusColor(selectedSalon.estado)}`}>
-                       {getStatusIcon(selectedSalon.estado)} <span className="capitalize">{selectedSalon.estado}</span>
-                    </span>
-                </div>
-
-                {/* Imagen */}
-                {selectedSalon.imagen_url && (
-                    <div className="w-full h-48 rounded-xl overflow-hidden mb-6 border border-slate-100 shadow-sm bg-slate-50 flex items-center justify-center">
-                        <img src={selectedSalon.imagen_url} alt={selectedSalon.nombre} className="w-full h-full object-cover" />
-                    </div>
-                )}
-
-                {/* Detalles */}
-                <div className="grid grid-cols-1 gap-y-4 mb-4">
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-400 uppercase">Identificador</span>
-                        <div className="flex items-center gap-2 text-slate-900">
-                            <Maximize2 className="w-4 h-4 text-purple-500" />
-                            <span className="font-bold">#{selectedSalon.id}</span>
-                        </div>
-                    </div>
-
-                    {selectedSalon.descripcion && (
-                        <div className="text-center p-4 bg-slate-50 rounded-xl">
-                            <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-2">Descripción</p>
-                            <p className="text-sm text-slate-600">{selectedSalon.descripcion}</p>
-                        </div>
-                    )}
-                </div>
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setSelectedSalon(null)}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-lg p-6 w-full max-w-sm shadow-2xl relative text-center">
+                <button onClick={() => setSelectedSalon(null)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-full"><X className="w-6 h-6" /></button>
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-600 shadow-sm"><Crown className="h-8 w-8" /></div>
+                <h2 className="text-2xl font-bold text-slate-900">{selectedSalon.nombre}</h2>
+                <span className={`px-3 py-0.5 text-xs font-bold rounded-full ${getStatusColor(selectedSalon.estado)} mt-2`}>{selectedSalon.estado}</span>
+                {selectedSalon.imagen_url && <img src={selectedSalon.imagen_url} className="mt-6 w-full h-40 object-cover rounded-xl border shadow-sm" />}
+                <p className="mt-4 text-sm text-slate-600">{selectedSalon.descripcion}</p>
+                <button onClick={() => setSelectedSalon(null)} className="mt-8 w-full py-2 bg-slate-900 text-white rounded-lg font-bold text-sm">Cerrar</button>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      {/* --- MODAL CONFIRMACIÓN DE BORRADO --- */}
+      {/* --- MODAL ELIMINAR --- */}
       <AnimatePresence>
         {deleteModal.show && (
-            <div 
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
-                onClick={() => setDeleteModal({ show: false, id: null, nombre: '' })}
-            >
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    onClick={(e) => e.stopPropagation()}
-                    className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm border border-slate-100"
-                >
-                    <div className="flex flex-col items-center text-center">
-                        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                            <AlertTriangle className="w-8 h-8 text-red-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">¿Eliminar Salón?</h3>
-                        <p className="text-slate-600 mb-6">
-                            Estás a punto de eliminar el salón <span className="font-bold">{deleteModal.nombre}</span>. 
-                            Esta acción no se puede deshacer.
-                        </p>
-                        <div className="flex gap-3 w-full">
-                            <button 
-                                onClick={() => setDeleteModal({ show: false, id: null, nombre: '' })}
-                                className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-colors"
-                            >
-                                Cancelar
-                            </button>
-                            <button 
-                                onClick={confirmDelete}
-                                className="flex-1 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors shadow-md hover:shadow-lg"
-                            >
-                                Sí, Eliminar
-                            </button>
-                        </div>
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[60]" onClick={() => setDeleteModal({ show: false, id: null, nombre: '' })}>
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center">
+                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600"><AlertTriangle className="w-8 h-8" /></div>
+                    <h3 className="text-xl font-bold text-slate-900">¿Eliminar Salón?</h3>
+                    <p className="text-slate-600 my-4 text-sm">Estás a punto de borrar el salón <span className="font-bold">{deleteModal.nombre}</span>. Esta acción es irreversible.</p>
+                    <div className="flex gap-3">
+                        <button onClick={() => setDeleteModal({ show: false, id: null, nombre: '' })} className="flex-1 py-2 bg-slate-100 rounded-lg transition-colors">Cancelar</button>
+                        <button onClick={confirmDelete} className="flex-1 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all shadow-md">Confirmar</button>
                     </div>
                 </motion.div>
             </div>
         )}
       </AnimatePresence>
 
-      {/* --- MODAL DE ALERTAS/ERRORES --- */}
+      {/* --- MODAL ALERTA --- */}
       <AnimatePresence>
         {alertModal.show && (
-            <div 
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[70]"
-                onClick={() => setAlertModal(prev => ({...prev, show: false}))}
-            >
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    onClick={(e) => e.stopPropagation()}
-                    className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm relative"
-                >
-                    <button 
-                        onClick={() => setAlertModal(prev => ({...prev, show: false}))}
-                        className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
-                    >
-                        <X className="w-5 h-5" />
-                    </button>
-
-                    <div className="flex items-start gap-4">
-                        {alertModal.type === 'error' ? (
-                            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <XCircle className="w-6 h-6 text-red-600" />
-                            </div>
-                        ) : (
-                            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <CheckCircle className="w-6 h-6 text-green-600" />
-                            </div>
-                        )}
-                        <div>
-                            <h3 className={`text-lg font-bold ${alertModal.type === 'error' ? 'text-red-700' : 'text-green-700'} mb-1`}>
-                                {alertModal.title}
-                            </h3>
-                            <p className="text-slate-600 text-sm leading-relaxed">
-                                {alertModal.message}
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div className="mt-6 flex justify-end">
-                        <button 
-                            onClick={() => setAlertModal(prev => ({...prev, show: false}))}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
-                                alertModal.type === 'error' ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
-                            }`}
-                        >
-                            Entendido
-                        </button>
-                    </div>
+            <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[70]" onClick={() => setAlertModal(prev => ({...prev, show: false}))}>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center relative">
+                    <button onClick={() => setAlertModal(prev => ({...prev, show: false}))} className="absolute top-4 right-4 text-slate-400"><X className="w-5 h-5" /></button>
+                    {alertModal.type === 'error' ? <XCircle className="w-12 h-12 text-red-600 mx-auto mb-4" /> : <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />}
+                    <h3 className="text-lg font-bold text-slate-900">{alertModal.title}</h3>
+                    <p className="text-slate-600 text-sm mt-2">{alertModal.message}</p>
+                    <button onClick={() => setAlertModal(prev => ({...prev, show: false}))} className="mt-6 w-full py-2 bg-slate-900 text-white rounded-lg font-bold">Entendido</button>
                 </motion.div>
             </div>
         )}

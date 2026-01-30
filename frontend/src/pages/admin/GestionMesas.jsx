@@ -14,7 +14,8 @@ import {
   AlertTriangle,
   X,
   Eye,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Save
 } from 'lucide-react';
 import api from '../../api/axios';
 
@@ -60,6 +61,13 @@ const GestionMesas = () => {
     setAlertModal({ show: true, type, title, message });
   };
 
+  // --- FUNCIÓN closeModals para evitar el ReferenceError ---
+  const closeModals = () => {
+    setShowAddModal(false);
+    setShowEditModal(false);
+    resetForm();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -75,11 +83,7 @@ const GestionMesas = () => {
         formDataToSend.append('imagen', selectedImage);
       } 
 
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      };
+      const config = { headers: { 'Content-Type': 'multipart/form-data' } };
 
       const response = showEditModal
         ? await api.put(url, formDataToSend, config)
@@ -87,9 +91,7 @@ const GestionMesas = () => {
 
       if (response.status === 200 || response.status === 201) {
         await fetchMesas();
-        setShowAddModal(false);
-        setShowEditModal(false);
-        resetForm();
+        closeModals();
         showAlert('success', '¡Éxito!', showEditModal ? 'Mesa actualizada correctamente.' : 'Mesa creada correctamente.');
       }
     } catch (error) {
@@ -99,28 +101,47 @@ const GestionMesas = () => {
     }
   };
 
-  const initiateDelete = (mesa) => {
-    setDeleteModal({
-        show: true,
-        id: mesa.id,
-        numero: mesa.numero_mesa
-    });
+  // --- LÓGICA DE PROTECCIÓN (FUNCIONALIDAD PEDIDA) ---
+  const initiateDelete = async (mesa) => {
+    try {
+      const response = await api.get('/api/reservas-restaurante/reservas/');
+      const todasLasReservas = response.data.results || response.data || [];
+      
+      const tieneReservas = todasLasReservas.some(res => 
+        (res.mesa === mesa.id || res.mesa?.id === mesa.id) && 
+        (res.estado === 'confirmada' || res.estado === 'pendiente')
+      );
+
+      if (tieneReservas) {
+        showAlert(
+          'error', 
+          'Mesa Comprometida', 
+          `No se puede eliminar la mesa "${mesa.numero_mesa}" porque tiene reservas activas.`
+        );
+        return;
+      }
+
+      setDeleteModal({
+          show: true,
+          id: mesa.id,
+          numero: mesa.numero_mesa
+      });
+    } catch (error) {
+      showAlert('error', 'Error', 'No se pudo verificar la disponibilidad de la mesa.');
+    }
   };
 
   const confirmDelete = async () => {
     try {
       const response = await api.delete(`/api/mesas-restaurante/mesas/${deleteModal.id}/`);
-
       if (response.status === 204 || response.status === 200) {
         await fetchMesas();
         setDeleteModal({ show: false, id: null, numero: '' });
         showAlert('success', 'Eliminado', 'La mesa ha sido eliminada exitosamente.');
       }
     } catch (error) {
-      console.error('Error:', error);
       setDeleteModal({ show: false, id: null, numero: '' });
-      const errorMessage = error.response?.data?.error || 'No se puede eliminar esta mesa. Es posible que tenga reservas activas.';
-      showAlert('error', 'No se pudo eliminar', errorMessage);
+      showAlert('error', 'No se pudo eliminar', 'Es posible que tenga reservas activas en la base de datos.');
     }
   };
 
@@ -151,9 +172,7 @@ const GestionMesas = () => {
     if (file) {
       setSelectedImage(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
+      reader.onloadend = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
     }
   };
@@ -180,10 +199,7 @@ const GestionMesas = () => {
           <p className="text-slate-500 mt-1">Administra las mesas del restaurante</p>
         </div>
         <button
-          onClick={() => {
-            resetForm();
-            setShowAddModal(true);
-          }}
+          onClick={() => { resetForm(); setShowAddModal(true); }}
           className="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus className="w-4 h-4" />
@@ -307,10 +323,10 @@ const GestionMesas = () => {
                     animate={{ opacity: 1 }}
                     className="hover:bg-slate-50"
                   >
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
                       <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                          <UtensilsCrossed className="h-5 w-5 text-blue-600" />
+                        <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                          {mesa.numero_mesa[0]}
                         </div>
                         <div className="ml-4">
                           <div className="text-sm font-medium text-slate-900">{mesa.numero_mesa}</div>
@@ -319,44 +335,30 @@ const GestionMesas = () => {
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center text-sm text-slate-500">
-                        <Users className="w-4 h-4 mr-1" />
+                        <Users className="w-4 h-4 mr-1 text-slate-400" />
                         {mesa.capacidad} personas
                       </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       {mesa.imagen_url ? (
-                        <img 
-                          src={mesa.imagen_url} 
-                          alt={mesa.numero_mesa}
-                          className="h-10 w-10 rounded object-cover"
-                        />
+                        <div className="h-10 w-16 rounded overflow-hidden border border-slate-200">
+                          <img src={mesa.imagen_url} alt={mesa.numero_mesa} className="h-full w-full object-cover" />
+                        </div>
                       ) : (
-                        <div className="h-10 w-10 bg-slate-100 rounded flex items-center justify-center">
-                          <ImageIcon className="w-5 h-5 text-slate-400" />
+                        <div className="h-10 w-10 bg-slate-100 rounded flex items-center justify-center text-slate-400">
+                          <ImageIcon className="w-5 h-5" />
                         </div>
                       )}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setSelectedMesa(mesa)}
-                          className="p-1 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
-                          title="Ver Detalles"
-                        >
+                        <button onClick={() => setSelectedMesa(mesa)} className="p-1 text-slate-400 hover:text-blue-600 transition-colors" title="Ver Detalles">
                           <Eye className="w-4 h-4" />
                         </button>
-                        <button
-                          onClick={() => handleEdit(mesa)}
-                          className="p-1 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-full transition-colors"
-                          title="Editar"
-                        >
+                        <button onClick={() => handleEdit(mesa)} className="p-1 text-slate-400 hover:text-amber-600 transition-colors" title="Editar">
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button
-                          onClick={() => initiateDelete(mesa)}
-                          className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
-                          title="Eliminar"
-                        >
+                        <button onClick={() => initiateDelete(mesa)} className="p-1 text-slate-400 hover:text-red-600 transition-colors" title="Eliminar">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -369,272 +371,79 @@ const GestionMesas = () => {
         )}
       </div>
 
-      {/* --- MODALES INTERACTIVOS Y ESTÉTICOS --- */}
+      {/* --- MODAL AGREGAR / EDITAR --- */}
+      <AnimatePresence>
+        {(showAddModal || showEditModal) && (
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={closeModals}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-lg p-6 w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto">
+              <h2 className="text-xl font-bold mb-4">{showEditModal ? 'Editar Mesa' : 'Nueva Mesa'}</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input type="text" placeholder="Número de mesa" value={formData.numero_mesa} onChange={(e) => setFormData({...formData, numero_mesa: e.target.value})} className="w-full p-2 border rounded-lg" required />
+                <select value={formData.capacidad} onChange={(e) => setFormData({...formData, capacidad: parseInt(e.target.value)})} className="w-full p-2 border rounded-lg">
+                  {[2, 4, 6, 8, 10].map(n => <option key={n} value={n}>{n} personas</option>)}
+                </select>
+                <input type="file" accept="image/*" onChange={handleImageChange} className="w-full text-sm" />
+                {imagePreview && <div className="mt-4 relative"><img src={imagePreview} className="h-32 w-full object-cover rounded-lg border" /><button type="button" onClick={() => { setSelectedImage(null); setImagePreview(null); }} className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"><X className="w-4 h-4" /></button></div>}
+                <div className="flex justify-end gap-2 pt-4 border-t">
+                  <button type="button" onClick={closeModals} className="px-4 py-2 bg-slate-100 rounded-lg">Cancelar</button>
+                  <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2"><Save className="w-4 h-4" /> Guardar</button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
-      {/* 1. Modal de Confirmación de Eliminación */}
+      {/* --- MODAL DETALLES --- */}
+      <AnimatePresence>
+        {selectedMesa && !showEditModal && !deleteModal.show && (
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setSelectedMesa(null)}>
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-lg p-6 w-full max-w-sm shadow-2xl relative text-center">
+                <button onClick={() => setSelectedMesa(null)} className="absolute top-4 right-4 text-slate-400"><X className="w-6 h-6" /></button>
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 shadow-sm"><UtensilsCrossed className="h-8 w-8" /></div>
+                <h2 className="text-2xl font-bold text-slate-900">{selectedMesa.numero_mesa}</h2>
+                <p className="text-slate-500 mb-6 font-semibold uppercase tracking-wider text-xs">Mesa de Restaurante</p>
+                {selectedMesa.imagen_url && <img src={selectedMesa.imagen_url} className="w-full h-48 object-cover rounded-xl mb-6 shadow-sm border" />}
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 flex flex-col items-center">
+                    <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Capacidad Máxima</p>
+                    <p className="text-xl font-black text-slate-800 flex items-center gap-2"><Users className="w-5 h-5 text-slate-600" /> {selectedMesa.capacidad} Personas</p>
+                </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* --- MODAL ELIMINAR --- */}
       <AnimatePresence>
         {deleteModal.show && (
-            <div 
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
-                onClick={() => setDeleteModal({ show: false, id: null, numero: '' })} // Cierre al clic afuera
-            >
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    onClick={(e) => e.stopPropagation()} // Prevenir cierre al clic adentro
-                    className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm border border-slate-100"
-                >
-                    <div className="flex flex-col items-center text-center">
-                        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                            <AlertTriangle className="w-8 h-8 text-red-600" />
-                        </div>
-                        <h3 className="text-xl font-bold text-slate-900 mb-2">¿Eliminar Mesa?</h3>
-                        <p className="text-slate-600 mb-6">
-                            Estás a punto de eliminar la mesa <span className="font-bold">{deleteModal.numero}</span>. 
-                            Esta acción no se puede deshacer.
-                        </p>
-                        <div className="flex gap-3 w-full">
-                            <button 
-                                onClick={() => setDeleteModal({ show: false, id: null, numero: '' })}
-                                className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200 transition-colors"
-                            >
-                                Cancelar
-                            </button>
-                            <button 
-                                onClick={confirmDelete}
-                                className="flex-1 py-2.5 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors shadow-md hover:shadow-lg"
-                            >
-                                Sí, Eliminar
-                            </button>
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[60]" onClick={() => setDeleteModal({ show: false, id: null, numero: '' })}>
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-xl p-6 w-full max-w-sm text-center border border-slate-100 shadow-2xl">
+              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600"><AlertTriangle className="w-8 h-8" /></div>
+              <h3 className="text-xl font-bold text-slate-900">¿Eliminar Mesa?</h3>
+              <p className="text-slate-600 my-4 text-sm leading-relaxed">Estás a punto de borrar la mesa <span className="font-bold">{deleteModal.numero}</span>. Esta acción no se puede deshacer.</p>
+              <div className="flex gap-3">
+                <button onClick={() => setDeleteModal({ show: false, id: null, numero: '' })} className="flex-1 py-2.5 bg-slate-100 text-slate-700 font-medium rounded-lg hover:bg-slate-200">Cancelar</button>
+                <button onClick={confirmDelete} className="flex-1 py-2.5 bg-red-600 text-white font-medium rounded-lg shadow-md hover:bg-red-700">Confirmar</button>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
-      {/* 2. Modal de Alerta / Error Estético */}
+      {/* --- MODAL ALERTA --- */}
       <AnimatePresence>
         {alertModal.show && (
-            <div 
-                className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[70]"
-                onClick={() => setAlertModal(prev => ({...prev, show: false}))}
-            >
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    onClick={(e) => e.stopPropagation()}
-                    className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm relative"
-                >
-                    <button 
-                        onClick={() => setAlertModal(prev => ({...prev, show: false}))}
-                        className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
-                    >
-                        <X className="w-5 h-5" />
-                    </button>
-
-                    <div className="flex items-start gap-4">
-                        {alertModal.type === 'error' ? (
-                            <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <XCircle className="w-6 h-6 text-red-600" />
-                            </div>
-                        ) : (
-                            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <CheckCircle className="w-6 h-6 text-green-600" />
-                            </div>
-                        )}
-                        <div>
-                            <h3 className={`text-lg font-bold ${alertModal.type === 'error' ? 'text-red-700' : 'text-green-700'} mb-1`}>
-                                {alertModal.title}
-                            </h3>
-                            <p className="text-slate-600 text-sm leading-relaxed">
-                                {alertModal.message}
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <div className="mt-6 flex justify-end">
-                        <button 
-                            onClick={() => setAlertModal(prev => ({...prev, show: false}))}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors ${
-                                alertModal.type === 'error' ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
-                            }`}
-                        >
-                            Entendido
-                        </button>
-                    </div>
-                </motion.div>
-            </div>
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-[70]" onClick={() => setAlertModal(prev => ({...prev, show: false}))}>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} onClick={(e) => e.stopPropagation()} className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm text-center relative">
+              <button onClick={() => setAlertModal(prev => ({...prev, show: false}))} className="absolute top-4 right-4 text-slate-400"><X className="w-5 h-5" /></button>
+              {alertModal.type === 'error' ? <XCircle className="w-12 h-12 text-red-600 mx-auto mb-4" /> : <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />}
+              <h3 className="text-lg font-bold text-slate-900">{alertModal.title}</h3>
+              <p className="text-slate-600 text-sm mt-2">{alertModal.message}</p>
+              <button onClick={() => setAlertModal(prev => ({...prev, show: false}))} className={`mt-6 w-full py-2 rounded-lg text-white font-bold transition-colors ${alertModal.type === 'error' ? 'bg-red-600' : 'bg-green-600'}`}>Entendido</button>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
-
-      {/* Modal Agregar/Editar Mesa */}
-      {(showAddModal || showEditModal) && (
-        <div 
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-            onClick={() => {
-                setShowAddModal(false);
-                setShowEditModal(false);
-                resetForm();
-            }}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-lg p-6 w-full max-w-lg shadow-2xl max-h-[90vh] overflow-y-auto" // Added scroll
-          >
-            <h2 className="text-xl font-bold text-slate-900 mb-4">
-              {showEditModal ? 'Editar Mesa' : 'Nueva Mesa'}
-            </h2>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Número de Mesa *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.numero_mesa}
-                  onChange={(e) => setFormData({ ...formData, numero_mesa: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Ej: M1"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Capacidad *
-                </label>
-                <select
-                  required
-                  value={formData.capacidad}
-                  onChange={(e) => setFormData({ ...formData, capacidad: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(cap => (
-                    <option key={cap} value={cap}>{cap} personas</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Imagen de la Mesa
-                </label>
-                <div className="space-y-2">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                  />
-                  {imagePreview && (
-                    <div className="relative w-full h-48 rounded-lg overflow-hidden border border-slate-200">
-                      <img
-                        src={imagePreview}
-                        alt="Previsualización"
-                        className="w-full h-full object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedImage(null);
-                          setImagePreview(null);
-                        }}
-                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowAddModal(false);
-                    setShowEditModal(false);
-                    resetForm();
-                  }}
-                  className="px-4 py-2 border border-slate-200 rounded-lg hover:bg-slate-50"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                >
-                  {showEditModal ? 'Actualizar' : 'Crear'} Mesa
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Modal Ver Detalles */}
-      {selectedMesa && !showEditModal && !deleteModal.show && (
-        <div 
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50"
-            onClick={() => setSelectedMesa(null)}
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-lg p-6 w-full max-w-sm shadow-2xl relative"
-          >
-            {/* Botón Cerrar */}
-            <button
-                onClick={() => setSelectedMesa(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
-            >
-                <X className="w-6 h-6" />
-            </button>
-
-            {/* Cabecera Centrada */}
-            <div className="flex flex-col items-center text-center mb-6">
-                <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center overflow-hidden mb-3 shadow-sm">
-                    <UtensilsCrossed className="h-8 w-8 text-blue-600" />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-900 mb-1">
-                    {selectedMesa.numero_mesa}
-                </h2>
-                <span className="text-sm text-slate-500 uppercase tracking-wider font-semibold">
-                    Mesa de Restaurante
-                </span>
-            </div>
-
-            {/* Imagen Principal (Centrada y contenida) */}
-            {selectedMesa.imagen_url && (
-                <div className="w-full h-48 rounded-xl overflow-hidden mb-6 border border-slate-100 shadow-sm bg-slate-50 flex items-center justify-center">
-                    <img
-                    src={selectedMesa.imagen_url}
-                    alt={`Mesa ${selectedMesa.numero_mesa}`}
-                    className="w-full h-full object-cover"
-                    />
-                </div>
-            )}
-
-            {/* Grilla de Detalles (Centrados) */}
-            <div className="grid grid-cols-1 gap-y-4 mb-4">
-                <div className="text-center p-4 bg-slate-50 rounded-xl">
-                    <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-1">Capacidad Máxima</p>
-                    <div className="flex items-center justify-center gap-2">
-                        <Users className="w-5 h-5 text-slate-600" />
-                        <span className="text-xl font-bold text-slate-800">{selectedMesa.capacidad} Personas</span>
-                    </div>
-                </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
     </div>
   );
 };
