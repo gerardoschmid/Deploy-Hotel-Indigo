@@ -11,7 +11,7 @@ const getApiBaseUrl = () => {
          * En producción, usamos la variable de entorno de Railway o el dominio raíz.
          * IMPORTANTE: No debe terminar en /api/ para evitar duplicados en las peticiones.
          */
-        return import.meta.env.VITE_API_URL || 'https://hotel-reserva-test-production.up.railway.app/';
+        return import.meta.env.VITE_API_URL || 'https://deploy-hotel-indigo-production.up.railway.app/';
     }
 
     // URL para desarrollo local (Django corriendo en tu PC)
